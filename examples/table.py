@@ -45,7 +45,12 @@ def create():
         ],
     ).appendTo(container)
 
-    container.append(ltk.H4("Tip: resize the country column using the orange handle."))
+    container.append(
+        ltk.H4("Tip: resize the country column using the orange handle."),
+        ltk.Link(href="https://github.com/laffra/ltk/blob/main/examples/table.py")
+            .attr("target", "_blank")
+            .text("source")
+    )
 
     return container
 

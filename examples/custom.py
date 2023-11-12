@@ -34,4 +34,7 @@ def create():
         ltk.Text("For clarity, we marked the custom widget orange.")
             .css("margin-top", 20),
         ltk.H4("Tip: drag the card."),
+        ltk.Link(href="https://github.com/laffra/ltk/blob/main/examples/custom.py")
+            .attr("target", "_blank")
+            .text("source")
     ).attr("name", "Custom")

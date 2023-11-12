@@ -57,6 +57,9 @@ def create():
             for row in range(3)
         ),
         ltk.H4("Tip: Click inside the squares."),
+        ltk.Link(href="https://github.com/laffra/ltk/blob/main/examples/tictactoe.py")
+            .attr("target", "_blank")
+            .text("source")
     ).attr("name", "Tic Tac Toe")
 
 ltk.inject(__file__, "tictactoe.css")

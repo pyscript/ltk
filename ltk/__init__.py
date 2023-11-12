@@ -41,6 +41,7 @@ from ltk.widgets import Input
 from ltk.widgets import Button
 from ltk.widgets import Tabs
 from ltk.widgets import File
+from ltk.widgets import Link
 from ltk.widgets import Table
 from ltk.widgets import TableRow
 from ltk.widgets import TableHeader
