@@ -1,0 +1,132 @@
+.ltk-vbox {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    gap: 0;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.ltk-hbox {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    height: 100%;
+    font-size: 14px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.ltk-text {
+    text-align: left;
+    padding: 2px;
+}
+
+.ltk-input {
+    border: 1px solid #e1e1e1;
+    width: 36px;
+    height: 28px;
+}
+
+.ltk-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.ltk-card {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid gray;
+    box-shadow: 0 2px 2px 2px #DDD;
+    padding: 16px;
+}
+
+.ltk-menubar {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    margin-top: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.ltk-menulabel {
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ltk-menulabel:hover {
+    background-color: #e8ebee;
+}
+
+.ltk-menupopup {
+    display: none;
+    position: absolute;
+    top: 32px;
+    border-radius: 4px;
+    padding: 4px;
+    background-color: white;
+    border: 1px solid #DDD;
+    box-shadow: 0 2px 2px 2px #DDD;
+    z-index: 200;
+    font-size: 14px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.ltk-menupopup-open {
+    display: block;
+}
+
+.ltk-menuitem {
+    cursor: pointer;
+    padding: 2px;
+    min-width: 200px;
+}
+
+.ltk-menuitem:hover {
+    background-color: #e8ebee;
+}
+
+.ltk-menuitem-icon {
+    display: inline-block;
+    width: 24px;
+    padding: 0;
+    height: 24px;
+    margin-left: 4px;
+}
+
+.ltk-menuitem-label {
+    display: inline-block;
+    margin-left: 12px;
+    width: 110px;
+    text-overflow: ellipsis;
+    padding: 0;
+    height: 24px;
+}
+
+.ltk-menuitem-shortcut {
+    display: inline-block;
+    width: 58px;
+    padding: 0;
+    height: 24px;
+    margin-right: 4px;
+}
+
+.ltk-table {
+    border-collapse: collapse;
+}
+
+.ltk-th {
+    background-color: rgb(219, 242, 249);
+    border: 0 solid lightgray;
+    border-bottom-width: 1px;
+    padding: 4px 8px;
+}
+
+.ltk-td {
+    border: 0 solid lightgray;
+    border-bottom-width: 1px;
+    padding: 4px 8px;
+}

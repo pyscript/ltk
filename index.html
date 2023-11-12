@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LTK</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- Import PyScript CSS and JS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
+    <script defer type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+
+    <!-- Import LTK and jQuery -->
+    <link rel="stylesheet" href="ltk/ltk.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <!-- Import custom CSS for our examples -->
+    <link rel="stylesheet" href="examples/tictactoe.css" />
+</head>
+<body>
+    <h1>The PyScript LTK Kitchen Sink</h1>
+
+    <!-- Include LTK itself and its examples -->
+    <py-config>
+        [[fetch]]
+        files = [
+            "ltk/__init__.py",
+            "ltk/jquery.py",
+            "ltk/widgets.py",
+            "examples/__init__.py",
+            "examples/tictactoe.py",
+            "examples/custom.py",
+            "examples/table.py",
+        ]
+    </py-config>
+
+    <!-- Create all the examples and add them to the DOM -->
+    <py-script>
+        import ltk, examples
+        ltk.body.append(
+            ltk.Tabs(examples.elements)
+        )
+    </py-script>
+</body>
+</html>
