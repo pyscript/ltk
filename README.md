@@ -1,5 +1,5 @@
 # ltk
-LTK is a little toolkit for writing UIs in PyScript
+LTK is a little toolkit for writing UIs in PyScript. Take a look at the [live preview](https://laffra.github.io/ltk/) now.
 
 LTK is implemented as a declarative Python library and leverages `jQuery` for DOM operations.
 
