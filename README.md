@@ -92,6 +92,9 @@ Card("Buy Now").on("click", ltk.proxy(buy))
 
 See the [LTK Kitchen Sink](https://laffra.github.io/ltk/) or explore the `examples` folder
 
+## Applications built using LTK
+
+- PySheets (more details soon)
 
 ## License
 
