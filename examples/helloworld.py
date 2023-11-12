@@ -5,7 +5,7 @@ import ltk
 
 def create():
     return (
-        ltk.VBox(ltk.Text("Hello World"))
+        ltk.VBox(ltk.Text("Hello World 🎉"))
             .css("padding", 100)
             .css("background-color", "orange")
             .css("font-size", 42)
