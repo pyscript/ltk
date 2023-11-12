@@ -3,6 +3,20 @@ LTK is a little toolkit for writing UIs in PyScript. Take a look at the [LTK Kit
 
 LTK is implemented as a declarative Python library and leverages `jQuery` for DOM operations.
 
+## Installing LTK
+
+Install LTK from pypi:
+```
+python3 -m pip install pyscript-ltk
+```
+## Hello World
+
+```python
+import ltk
+
+ltk.Text("Hello World").appendTo(ltk.body)
+```
+
 ## Widget Specification
 
 New widget types are created by subclassing `ltk.Widget`:
