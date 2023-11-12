@@ -152,7 +152,3 @@ Finally, if the pypi test upload appears to work fine, run:
 ```console
 twine upload dist/*
 ```
-
-# License
-
-_Microlog_ is released under version 1 of the [Server Side Public License (SSPL)](LICENSE).
