@@ -11,7 +11,7 @@ class ImageWithLabel(ltk.VBox):
             # Add two widgets. Styling could be done in external CSS
             ltk.Image(src)
                 # CSS selector would be ".custom .ltk-image"
-                .css("width", 200),
+                .css("width", 196),
             ltk.Text(label)
                 # CSS selector would be ".custom .ltk-text"
                 .css("width", "100%")
