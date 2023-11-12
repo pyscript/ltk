@@ -112,3 +112,30 @@ LTK is covered under the Apache License:
  - The license does not require derived works to adopt the Apache license. Though this is encouraged for consistency.
 
 
+
+## Upload new version to PyPi
+
+First build the package into a source distribution and a Python wheel:
+```console
+python3 -m pip install --user --upgrade setuptools wheel twine build
+python3 -m build
+```
+
+Then verify whether the build works for pypi:
+```console
+twine check dist/*
+```
+
+Then upload to the pypi test environment:
+```console
+twine upload --repository pypitest dist/*
+```
+
+Finally, if the pypi test upload appears to work fine, run:
+```console
+twine upload dist/*
+```
+
+# License
+
+_Microlog_ is released under version 1 of the [Server Side Public License (SSPL)](LICENSE).

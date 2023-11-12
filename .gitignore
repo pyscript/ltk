@@ -1,0 +1,3 @@
+dist/*
+ltk.egg-info/*
+pyscript_ltk.egg-info/*

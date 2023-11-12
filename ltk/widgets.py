@@ -1,6 +1,7 @@
+# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+
 import inspect
 import js # type: ignore
-import pyodide # type: ignore
 
 from ltk.jquery import jQuery
 from ltk.jquery import proxy
@@ -174,6 +175,22 @@ class File(Widget):
 class Table(Widget):
     classes = [ "ltk-table" ]
     tag = "table"
+    
+    def __init__(self, *rows):
+        self.element = (
+            js.table()
+                .addClass(" ".join(self.classes))
+                .append(*self.flatten(rows))
+        )
+
+    def title(self, column, title):
+        js.tableTitle(self.element, column, title)
+    
+    def get(self, column, row):
+        return js.tableGet(self.element, column, row)
+
+    def set(self, column, row, value):
+        js.tableSet(self.element, column, row, value)
     
 
 class TableRow(Widget):

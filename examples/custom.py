@@ -1,3 +1,5 @@
+# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+
 import ltk
 
 # Create a new widget, based on VBox

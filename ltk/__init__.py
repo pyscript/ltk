@@ -1,3 +1,5 @@
+# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+
 from ltk.jquery import find
 from ltk.jquery import create
 from ltk.jquery import find_list
@@ -14,6 +16,7 @@ from ltk.jquery import get_url_parameter
 from ltk.jquery import set_url_parameter
 from ltk.jquery import push_state
 from ltk.jquery import to_js
+from ltk.jquery import inject
 
 
 from ltk.jquery import jQuery
@@ -21,6 +24,7 @@ from ltk.jquery import console
 from ltk.jquery import window
 from ltk.jquery import document
 from ltk.jquery import body
+from ltk.jquery import head
 from ltk.jquery import parse_int
 from ltk.jquery import parse_float
 from ltk.jquery import local_storage
@@ -52,3 +56,5 @@ from ltk.widgets import H1
 from ltk.widgets import H2
 from ltk.widgets import H3
 from ltk.widgets import H4
+
+inject(__file__, "ltk.js", "ltk.css")

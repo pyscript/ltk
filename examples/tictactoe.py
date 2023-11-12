@@ -1,3 +1,5 @@
+# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+
 import ltk
 
 # Tic Tac Toe Game
@@ -56,3 +58,5 @@ def create():
         ),
         ltk.H4("Tip: Click inside the squares."),
     ).attr("name", "Tic Tac Toe")
+
+ltk.inject(__file__, "tictactoe.css")

@@ -1,7 +1,11 @@
+# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+
 import js # type: ignore
 import json
+import os
 import pyodide # type: ignore
 import traceback
+
 
 timers = {}
 
@@ -9,6 +13,7 @@ jQuery = js.jQuery
 console = js.console
 window = jQuery(js.window)
 document = jQuery(js.document)
+head = jQuery("head")
 body = jQuery("body")
 parse_int = js.parseInt
 parse_float = js.parseFloat
@@ -81,3 +86,15 @@ def set_url_parameter(key, value):
 
 def push_state(url):
     js.history.pushState(None, "", url)
+
+def inject(modulepath, *files):
+    types = {
+        ".js": "<script>",
+        ".css": "<style>",
+    }
+    for file in files:
+        _, extension = os.path.splitext(file)
+        tag = types[extension]
+        path = os.path.join(os.path.dirname(modulepath), file)
+        create(tag).text(open(path).read()).appendTo(head)
+        print("injected", tag, path)
