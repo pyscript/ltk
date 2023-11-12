@@ -1,5 +1,5 @@
 # ltk
-LTK is a little toolkit for writing UIs in PyScript. Take a look at the [live preview](https://laffra.github.io/ltk/) now.
+LTK is a little toolkit for writing UIs in PyScript. Take a look at the [LTK Kitchen Sink](https://laffra.github.io/ltk/) now.
 
 LTK is implemented as a declarative Python library and leverages `jQuery` for DOM operations.
 
@@ -90,7 +90,7 @@ Card("Buy Now").on("click", ltk.proxy(buy))
 
 ## Examples
 
-See the `LTK Kitchen Sink` or explore the `examples` folder
+See the [LTK Kitchen Sink](https://laffra.github.io/ltk/) or explore the `examples` folder
 
 
 ## License
