@@ -2,7 +2,12 @@
 
 import ltk
 
-hello = ltk.Text("Hello World")
 
 def create():
-    return hello.attr("name", "Hello World")
+    return (
+        ltk.VBox(ltk.Text("Hello World"))
+            .css("padding", 100)
+            .css("background-color", "orange")
+            .css("font-size", 42)
+            .attr("name", "Hello World")
+    )
