@@ -5,7 +5,7 @@ LTK is implemented as a declarative Python library and leverages `jQuery` for DO
 
 ## Widget Specification
 
-New widget types are created by symply subclassing `ltk.Widget`:
+New widget types are created by subclassing `ltk.Widget`:
 
 ```python
 class HBox(Widget):
