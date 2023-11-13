@@ -19,7 +19,7 @@ ltk.body.append(
                 ltk.VBox(
                     ltk.H2("The source:"),
                     ltk.TextArea(cleanup(example.attr("src")))
-                        .css("height", 400)
+                        .css("height", 500)
                         .css("border-width", 0)
                         .css("font-family", "Courier")
                 )

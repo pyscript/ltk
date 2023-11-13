@@ -16,13 +16,13 @@ def get_averages():
         "Australia": 21.65,
     }
 
-resize_options = ltk.to_js({
-    "handles": "e",
-    "alsoResize": ".country",
-})
-
 
 def create():
+    resize_options = ltk.to_js({
+        "handles": "e",
+        "alsoResize": ".country",
+    })
+
     return (
         ltk.Container(
             ltk.create("<h1>HTML Table created in Python</h1>"),

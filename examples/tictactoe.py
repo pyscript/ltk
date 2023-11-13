@@ -3,23 +3,20 @@
 import inspect
 import ltk
 
-def choose(event):
-    square = ltk.find(event.target)
-    if not square.text():
-        square.append(
-            ltk.Text("X" if ltk.find(".choice").length % 2 else "O")
-                .addClass("choice")
-        )
-
-
-def enter(event):
-    ltk.find(".square").css("background", "white")
-    square = ltk.jQuery(event.target)
-    if not square.text():
-        square.css("background", "lightblue")
-
 
 def create():
+    def choose(event):
+        if not ltk.find(event.target).text():
+            ltk.find(event.target).append(
+                ltk.Text("X" if ltk.find(".choice").length % 2 else "O")
+                    .addClass("choice")
+            )
+
+    def enter(event):
+        ltk.find(".square").css("background", "white")
+        if not ltk.jQuery(event.target).text():
+            ltk.jQuery(event.target).css("background", "lightblue")
+
     return (
         ltk.Div(
             ltk.H2("Tic Tac Toe Game"),
