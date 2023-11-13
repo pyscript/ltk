@@ -23,6 +23,12 @@
     padding: 2px;
 }
 
+.ltk-code {
+    border: 1px solid gray;
+    width: 100%;
+    height: 100%;
+}
+
 .ltk-input {
     border: 1px solid #e1e1e1;
     width: 36px;

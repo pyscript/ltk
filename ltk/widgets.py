@@ -5,9 +5,12 @@ import js # type: ignore
 
 from ltk.jquery import jQuery
 from ltk.jquery import proxy
-from ltk.jquery import body
 from ltk.jquery import find
 from ltk.jquery import document
+from ltk.jquery import schedule
+from ltk.jquery import to_js
+from ltk.jquery import inject_css
+from ltk.jquery import inject_script
 
 timers = {}
 
@@ -46,6 +49,7 @@ class Widget(object):
 
 
 class HBox(Widget):
+    """ HBox is a widget that lays out its child widgets horizontally """
     classes = [ "ltk-hbox" ]
 
 
@@ -157,10 +161,11 @@ class Tabs(Widget):
     
     def add_tab(self, tab):
         tab_id = f"{self.name}-{self.labels.children().length}"
+        print("add tab", tab, tab.attr("name"))
         self.labels.append(
             LI().append(Link(f"#{tab_id}").text(tab.attr("name")))
         )
-        self.append(tab.attr("id", tab_id))
+        self.append(Div(tab).attr("id", tab_id))
 
 
 class File(Widget):
@@ -207,6 +212,29 @@ class TableData(Text):
     classes = [ "ltk-td" ]
     tag = "td"
     
+
+class TextArea(Text):
+    classes = [ "ltk-textarea" ]
+    tag = "textarea"
+
+
+class Code(Widget):
+    classes = [ "ltk-code" ]
+    tag = "textarea"
+
+    def __init__(self, language, code):
+        Widget.__init__(self)
+        inject_script("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js")
+        inject_css("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css")
+        self.element.val(code)
+        schedule(lambda: self.activate(language, code))
+    
+    def activate(self, language, code):
+        js.CodeMirror.fromTextArea(self.element[0], to_js({
+            "value": code,
+            "mode": language,
+        }))
+
     
 class Image(Widget):
     classes = [ "ltk-image" ]

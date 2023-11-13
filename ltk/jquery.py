@@ -87,6 +87,8 @@ def set_url_parameter(key, value):
 def push_state(url):
     js.history.pushState(None, "", url)
 
+injected = set()
+
 def inject(modulepath, *files):
     types = {
         ".js": "<script>",
@@ -96,5 +98,16 @@ def inject(modulepath, *files):
         _, extension = os.path.splitext(file)
         tag = types[extension]
         path = os.path.join(os.path.dirname(modulepath), file)
-        create(tag).text(open(path).read()).appendTo(head)
-        print("injected", tag, path)
+        if not path in injected:
+            create(tag).text(open(path).read()).appendTo(head)
+        injected.add(path)
+
+def inject_script(url, force=False):
+    if force or not url in injected:
+        create("<script>").attr("src", url).appendTo(head)
+        injected.add(url)
+
+def inject_css(url, force=False):
+    if force or not url in injected:
+        create("<link>").attr("rel", "stylesheet").attr("href", url).appendTo(head)
+        injected.add(url)
