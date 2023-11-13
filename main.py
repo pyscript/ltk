@@ -6,7 +6,7 @@ def cleanup(src):
     return "\n".join([
         line
         for line in src.split("\n")[:-2]
-        if not "# only needed for example" in line
+        if not "# example" in line
     ])
 
 
