@@ -5,7 +5,7 @@ import ltk
 def cleanup(src):
     return "\n".join([
         line
-        for line in src.split("\n")[:-2]
+        for line in src.split("\n")
         if not "# example" in line
     ])
 
@@ -28,7 +28,9 @@ ltk.body.append(
                 .css("border-left", "2px solid lightgray"),
             ).attr("name", example.attr("name"))
             for example in examples.elements
-        )
+        ).css("margin-bottom", 24),
+        ltk.Link("https://github.com/laffra/ltk", ltk.Text("source"))
+            .attr("target", "_blank")
     )
     .css("width", 1300)
     .css("margin", "auto")

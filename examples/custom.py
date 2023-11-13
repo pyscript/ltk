@@ -5,7 +5,6 @@ import ltk
 
 
 def create():
-    
     class CustomWidget(ltk.VBox):
         classes = [ "custom Widget" ]
 
