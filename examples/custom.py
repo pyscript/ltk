@@ -7,7 +7,7 @@ import ltk
 def create():
     
     class CustomWidget(ltk.VBox):
-        classes = [ "custom" ]
+        classes = [ "custom Widget" ]
 
         def __init__(self, src, label):
             ltk.VBox.__init__(self, 
@@ -23,7 +23,8 @@ def create():
             ltk.Card(
                 CustomWidget("https://chrislaffra.com/chris.png", "Chris laffra")
             ).css("width", 200).draggable(),
-            ltk.Text("For clarity, we marked the custom widget orange.").css("margin-top", 20),
+            ltk.Text("For clarity, we marked the custom widget orange.")
+                .css("margin-top", 20),
             ltk.H4("Tip: drag the card."),
         )
         .attr("name", "Custom")                 # example
