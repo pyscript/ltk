@@ -6,6 +6,7 @@ import js # type: ignore
 from ltk.jquery import jQuery
 from ltk.jquery import proxy
 from ltk.jquery import find
+from ltk.jquery import body
 from ltk.jquery import document
 from ltk.jquery import schedule
 from ltk.jquery import to_js
@@ -313,16 +314,21 @@ class MenuItem(Widget):
             raise ValueError(f"Cannot capture shortcut {shortcut} as the browser won't allow that")
         if shortcut:
             shortcuts[shortcut] = self
+        self.label = label
         self.selected = selected
     
     def select(self, event):
         close_all_menus()
-        self.selected()
+        self.selected(self)
         event.preventDefault()
          
         
-def close_all_menus():
+def close_all_menus(event=None):
+    if event and jQuery(event.target).hasClass("ltk-menulabel"):
+        return
     find(".ltk-menupopup-open").removeClass("ltk-menupopup-open")
+
+body.on("click", proxy(close_all_menus))
 
 
 def _handle_shortcuts():

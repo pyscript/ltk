@@ -26,6 +26,6 @@ def create():
                 .css("margin-top", 20),
             ltk.H4("Tip: drag the card."),
         )
-        .attr("name", "Custom")                 # example
+        .attr("name", "Custom Widget") # example
         .attr("src", inspect.getsource(create)) # example
     )
