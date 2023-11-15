@@ -4,7 +4,6 @@ import js # type: ignore
 import json
 import os
 import pyodide # type: ignore
-import traceback
 
 
 timers = {}
@@ -31,7 +30,7 @@ def find_list(selector):
     return [ elements.eq(n) for n in range(elements.length) ]
 
 def to_js(dict):
-    pyodide.code.run_js("window.to_js = json => JSON.parse(json);")
+    js.eval("window.to_js = json => JSON.parse(json);")
     return js.to_js(json.dumps(dict))
 
 def time():
@@ -66,17 +65,13 @@ def post(route, data, handler):
     wrapper = proxy(lambda data, status, xhr: handler(js.JSON.stringify(data)))
     return jQuery.post(route, payload, wrapper, "json")
 
-def proxy(function):
+def async_proxy(function):
     async def call_function(*args):
-        try:
-            result = function(*args)
-            try:
-                await result # await async callback when needed
-            except:
-                pass
-        except:
-            traceback.print_exc()
+        return await function(*args)
     return pyodide.ffi.create_proxy(call_function)
+
+def proxy(function):
+    return pyodide.ffi.create_proxy(function)
 
 def get_url_parameter(key):
     return js.URLSearchParams.new(js.document.location.search).get(key)
@@ -91,11 +86,11 @@ injected = set()
 
 def inject(modulepath, *files):
     types = {
-        ".js": "<script>",
-        ".css": "<style>",
+        "js": "<script>",
+        "css": "<style>",
     }
     for file in files:
-        _, extension = os.path.splitext(file)
+        extension = file.split(".")[-1]
         tag = types[extension]
         path = os.path.join(os.path.dirname(modulepath), file)
         if not path in injected:

@@ -37,7 +37,7 @@ class Widget(object):
         for child in children:
             if isinstance(child, Widget):
                 result.append(child.element)
-            elif inspect.isgenerator(child):
+            elif inspect.isgenerator(child) or type(child).__name__ == "generator":
                 result.extend(self.flatten(child))
             elif isinstance(child, list):
                 result.extend(self.flatten(child))
@@ -80,7 +80,7 @@ class Text(Widget):
 
     def __init__(self, html=""):
         Widget.__init__(self)
-        self.element.html(html)
+        self.element.html(str(html))
     
     
 class Input(Widget):
@@ -293,8 +293,8 @@ class MenuPopup(Popup):
         find("#main").css("opacity", 0.3)
         (self
             .appendTo(body)
-            .css("top", element.offset().top + 32)
-            .css("left", min(element.offset().left, body.width() - self.width() - 12))
+            .css("top", element.offset().top + 28)
+            .css("left", min(element.offset().left, body.width() - self.width() - 10))
             .addClass("ltk-menupopup-open")
         )
 

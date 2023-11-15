@@ -1,0 +1,15 @@
+[[fetch]]
+files = [
+    "ltk/__init__.py",
+    "ltk/jquery.py",
+    "ltk/widgets.py",
+    "ltk/ltk.js",
+    "ltk/ltk.css",
+    "examples/__init__.py",
+    "examples/app.py",
+    "examples/helloworld.py",
+    "examples/tictactoe.py",
+    "examples/tictactoe.css",
+    "examples/custom.py",
+    "examples/table.py",
+]
