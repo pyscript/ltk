@@ -1,4 +1,5 @@
 import examples
+import js
 import ltk
 
 
@@ -9,6 +10,7 @@ def cleanup(src):
         if not "# example" in line
     ])
 
+
 def getsource(file):
     def setsource(src):
         src = "\n".join(src.split("\n")[2:])
@@ -17,7 +19,10 @@ def getsource(file):
     ltk.get(file, setsource, "html")
     return file
 
+
 ltk.find("#progress").remove()
+ltk.find("#title").append(f" took {js.startTime() / 1000}s")
+
 
 ltk.body.append(
     ltk.Div(
