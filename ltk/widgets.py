@@ -16,6 +16,7 @@ from ltk.jquery import inject_script
 timers = {}
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
+DEFAULT_CSS = {}
 shortcuts = {}
 
 
@@ -25,17 +26,25 @@ class Widget(object):
     element = None
     tag = "div"
 
-    def __init__(self, *children):
+    def __init__(self, *args):
         self.element = (
             jQuery(f"<{self.tag}>")
                 .addClass(" ".join(self.classes))
-                .append(*self.flatten(children))
+                .append(*self.flatten(args))
         )
+        self.handle_css(args)
+
+    def handle_css(self, args):
+        for arg in filter(lambda arg: isinstance(arg, dict), args):
+            for key, value in arg.items():
+                self.css(key, value)
 
     def flatten(self, children):
         result = []
         for child in children:
-            if isinstance(child, Widget):
+            if isinstance(child, dict):
+                continue
+            elif isinstance(child, Widget):
                 result.append(child.element)
             elif inspect.isgenerator(child) or type(child).__name__ == "generator":
                 result.extend(self.flatten(child))
@@ -78,8 +87,8 @@ class Preformatted(Widget):
 class Text(Widget):
     classes = [ "ltk-text" ]
 
-    def __init__(self, html=""):
-        Widget.__init__(self)
+    def __init__(self, html="", style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         self.element.html(str(html))
     
     
@@ -87,8 +96,8 @@ class Input(Widget):
     classes = [ "ltk-input" ]
     tag = "input"
     
-    def __init__(self, value=""):
-        Widget.__init__(self)
+    def __init__(self, value="", style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         self.element.val(value)
     
     
@@ -96,8 +105,8 @@ class Button(Widget):
     classes = [ "ltk-button" ]
     tag = "button"
     
-    def __init__(self, label, click):
-        Widget.__init__(self)
+    def __init__(self, label, click, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         self.element.text(label).on("click", proxy(click))
     
     
@@ -158,6 +167,7 @@ class Tabs(Widget):
         self.attr("id", self.name)
         for tab in self.flatten(tabs):
             self.add_tab(tab)
+        self.handle_css(tabs)
         self.tabs()
     
     def add_tab(self, tab):
@@ -172,8 +182,8 @@ class File(Widget):
     classes = [ "ltk-file" ]
     tag = "input"
     
-    def __init__(self):
-        Widget.__init__(self)
+    def __init__(self, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         self.element.attr("type", "file")
     
     
@@ -222,8 +232,8 @@ class Code(Widget):
     classes = [ "ltk-code" ]
     tag = "textarea"
 
-    def __init__(self, language, code):
-        Widget.__init__(self)
+    def __init__(self, language, code, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         inject_script("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js")
         inject_css("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css")
         self.element.val(code)
@@ -240,8 +250,8 @@ class Image(Widget):
     classes = [ "ltk-image" ]
     tag = "img"
     
-    def __init__(self, src):
-        Widget.__init__(self)
+    def __init__(self, src, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         self.element.referrerPolicy = "referrer"
         self.element.attr("src", src)
 
@@ -253,18 +263,18 @@ class MenuBar(HBox):
 class MenuLabel(Widget):
     classes = ["ltk-menulabel"]
 
-    def __init__(self, label):
-        Widget.__init__(self)
+    def __init__(self, label, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
         self.element.text(label)
 
 
 class Menu(Widget):
     classes = ["ltk-menu"]
 
-    def __init__(self, label, *items):
+    def __init__(self, label, *items, style=DEFAULT_CSS):
         self.label = MenuLabel(label)
         self.popup = MenuPopup(*items)
-        Widget.__init__(self, self.label, self.popup)
+        Widget.__init__(self, self.label, self.popup, style)
         self.label.on("click", proxy(lambda event: self.show(event)))
         self.on("mouseenter", proxy(lambda event: self.replace_other(event)))
 
@@ -301,11 +311,12 @@ class MenuPopup(Popup):
 class MenuItem(Widget):
     classes = [ "ltk-menuitem" ]
 
-    def __init__(self, icon, label, shortcut, selected):
+    def __init__(self, icon, label, shortcut, selected, style=DEFAULT_CSS):
         Widget.__init__(self,
             Text(icon).addClass("ltk-menuitem-icon"),
             Text(label).addClass("ltk-menuitem-label"),
             Text(shortcut).addClass("ltk-menuitem-shortcut"),
+            style
         )
         self.on("click", proxy(lambda event: self.select(event)))
         self.on("select", proxy(lambda event: self.select(event)))

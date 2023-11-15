@@ -21,7 +21,7 @@ def getsource(file):
 
 
 ltk.find("#progress").remove()
-ltk.find("#title").append(f" took {js.startTime() / 1000}s")
+ltk.find("#title").append(f" took {js.startTime() / 1000}s to load")
 
 
 ltk.body.append(

@@ -5,7 +5,7 @@ import ltk
 def create():
     def handler(item):
         ltk.find("#right").append(ltk.Text(f"Menu item: {item.label}").element)
-        
+
     return (
         ltk.VBox(
             ltk.MenuBar(
@@ -19,17 +19,19 @@ def create():
                 ),
             ).css("background-color", "lightblue"),
             ltk.HBox(
-                ltk.VBox(ltk.Text("Left Panel"))
-                    .attr("id", "left")
-                    .css("border-right", "2px solid lightgray")
-                    .css("padding", "50px 20px")
-                    .css("background-color", "lightyellow")
-                    .css("width", "20%"),
-                ltk.VBox(ltk.Text("Right Panel"))
-                    .attr("id", "right")
-                    .css("padding", "50px 20px")
-                    .css("background-color", "lightgreen")
-                    .css("width", "80%"),
+                ltk.VBox(
+                    ltk.Text("Left Panel"), {
+                        "border-right": "2px solid lightgray",
+                        "padding": "50px 20px",
+                        "background-color": "lightyellow",
+                        "width": "20%",
+                    }).attr("id", "left"),
+                ltk.VBox(
+                    ltk.Text("Right Panel"), {
+                        "padding": "50px 20px",
+                        "background-color": "lightgreen",
+                        "width": "80%",
+                    }).attr("id", "right")
             ).css("border-top", "2px solid lightgray")
         )
         .attr("name", "Application")
