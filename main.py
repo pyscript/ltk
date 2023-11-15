@@ -11,6 +11,7 @@ def cleanup(src):
 
 def getsource(file):
     def setsource(src):
+        src = "\n".join(src.split("\n")[2:])
         ltk.find(f'textarea[file="{file}"]').val(src)
 
     ltk.get(file, setsource, "html")
