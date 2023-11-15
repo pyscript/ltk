@@ -52,12 +52,12 @@ def repeat(function, timeout_seconds=1):
 def repeat(function, timeout_seconds=1.0):
     js.setInterval(proxy(function), timeout_seconds * 1000)
 
-def get(route, handler):
-    wrapper = proxy(lambda data, status, xhr: handler(data.to_py()))
-    return jQuery.get(route, wrapper, "json")
+def get(route, handler, kind="json"):
+    wrapper = proxy(lambda data, *rest: handler(data if isinstance(data, str) else data.to_py()))
+    return jQuery.get(route, wrapper, kind)
 
 def delete(route, handler):
-    wrapper = proxy(lambda data, status, xhr: handler(data.to_py()))
+    wrapper = proxy(lambda data, *rest: handler(data.to_py()))
     return js.ajax(route, "DELETE", wrapper)
 
 def post(route, data, handler):

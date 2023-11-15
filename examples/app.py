@@ -1,9 +1,8 @@
-import inspect
 import ltk
-import js
 
 def create():
-    handler = ltk.proxy(lambda item: js.alert(item.label))
+    def handler(item):
+        ltk.find("#right").append(ltk.Text(f"Menu item: {item.label}").element)
     return (
         ltk.VBox(
             ltk.MenuBar(
@@ -18,16 +17,17 @@ def create():
             ).css("background-color", "lightblue"),
             ltk.HBox(
                 ltk.VBox(ltk.Text("Left Panel"))
+                    .attr("id", "left")
                     .css("border-right", "2px solid lightgray")
                     .css("padding", "50px 20px")
                     .css("background-color", "lightyellow")
                     .css("width", "20%"),
                 ltk.VBox(ltk.Text("Right Panel"))
+                    .attr("id", "right")
                     .css("padding", "50px 20px")
                     .css("background-color", "lightgreen")
                     .css("width", "80%"),
             ).css("border-top", "2px solid lightgray")
         )
-        .attr("name", "Application") # example
-        .attr("src", inspect.getsource(create)) # example
+        .attr("name", "Application")
     )

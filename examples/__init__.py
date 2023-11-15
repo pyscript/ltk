@@ -6,10 +6,10 @@ from examples import helloworld
 from examples import table
 from examples import tictactoe
 
-elements = [
-    helloworld.create(),
-    tictactoe.create(),
-    table.create(),
-    custom.create(),
-    app.create(),
+items = [
+    ("examples/helloworld.py", helloworld.create()),
+    ("examples/tictactoe.py", tictactoe.create()),
+    ("examples/table.py", table.create()),
+    ("examples/custom.py", custom.create()),
+    ("examples/app.py", app.create()),
 ]

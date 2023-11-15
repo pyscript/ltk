@@ -162,7 +162,6 @@ class Tabs(Widget):
     
     def add_tab(self, tab):
         tab_id = f"{self.name}-{self.labels.children().length}"
-        print("add tab", tab, tab.attr("name"))
         self.labels.append(
             LI().append(Link(f"#{tab_id}").text(tab.attr("name")))
         )
@@ -293,8 +292,8 @@ class MenuPopup(Popup):
         find("#main").css("opacity", 0.3)
         (self
             .appendTo(body)
-            .css("top", element.offset().top + 28)
-            .css("left", min(element.offset().left, body.width() - self.width() - 10))
+            .css("top", element.offset().top + 32)
+            .css("left", min(element.offset().left, body.width() - self.width() - 12))
             .addClass("ltk-menupopup-open")
         )
 

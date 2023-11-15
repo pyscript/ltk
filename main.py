@@ -9,6 +9,13 @@ def cleanup(src):
         if not "# example" in line
     ])
 
+def getsource(file):
+    def setsource(src):
+        ltk.find(f'textarea[file="{file}"]').val(src)
+
+    ltk.get(file, setsource, "html")
+    return file
+
 ltk.find("#progress").remove()
 
 ltk.body.append(
@@ -18,8 +25,9 @@ ltk.body.append(
                 example.css("width", "40%"),
                 ltk.VBox(
                     ltk.H2("The source:"),
-                    ltk.TextArea(cleanup(example.attr("src")))
-                        .css("height", 500)
+                    ltk.TextArea(getsource(file))
+                        .attr("file", file)
+                        .css("height", 800)
                         .css("border-width", 0)
                         .css("font-family", "Courier")
                 )
@@ -27,7 +35,7 @@ ltk.body.append(
                 .css("padding-left", 24)
                 .css("border-left", "2px solid lightgray"),
             ).attr("name", example.attr("name"))
-            for example in examples.elements
+            for file, example in examples.items
         ).css("margin-bottom", 24),
         ltk.Link("https://github.com/laffra/ltk", ltk.Text("source"))
             .attr("target", "_blank")

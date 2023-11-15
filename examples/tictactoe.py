@@ -1,8 +1,6 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
-import inspect
 import ltk
-
 
 def create():
     def choose(event):
@@ -32,8 +30,7 @@ def create():
             ),
             ltk.H4("Tip: Click inside the squares."),
         )
-        .attr("name", "Tic Tac Toe") # example
-        .attr("src", inspect.getsource(create)) # example
+        .attr("name", "Tic Tac Toe")
     )
 
 ltk.inject(__file__, "tictactoe.css")

@@ -1,8 +1,6 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
-import inspect
 import ltk
-
 
 def create():
     class CustomWidget(ltk.VBox):
@@ -26,6 +24,5 @@ def create():
                 .css("margin-top", 20),
             ltk.H4("Tip: drag the card."),
         )
-        .attr("name", "Custom Widget") # example
-        .attr("src", inspect.getsource(create)) # example
+        .attr("name", "Custom Widget")
     )

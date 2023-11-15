@@ -1,6 +1,5 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
-import inspect
 import ltk
 
 def get_averages():
@@ -43,6 +42,5 @@ def create():
             ),
             ltk.H4("Tip: resize the country column using the orange handle."),
         )
-        .attr("name", "HTML Tables") # example
-        .attr("src", inspect.getsource(create)) # example
+        .attr("name", "HTML Tables")
     )
