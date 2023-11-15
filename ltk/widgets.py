@@ -292,8 +292,8 @@ class MenuPopup(Popup):
         find("#main").css("opacity", 0.3)
         (self
             .appendTo(body)
-            .css("top", element.offset().top + 32)
-            .css("left", min(element.offset().left, body.width() - self.width() - 12))
+            .css("top", element.offset().top + 28)
+            .css("left", min(element.offset().left + 2, body.width() - self.width() - 12))
             .addClass("ltk-menupopup-open")
         )
 

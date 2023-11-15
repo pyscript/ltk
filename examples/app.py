@@ -5,6 +5,7 @@ import ltk
 def create():
     def handler(item):
         ltk.find("#right").append(ltk.Text(f"Menu item: {item.label}").element)
+        
     return (
         ltk.VBox(
             ltk.MenuBar(
