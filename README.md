@@ -55,7 +55,7 @@ ltk.Table(
 )
 ```
 
-Widgets are added to others by using jQuery's `append` and `appendTo` calls:
+Widgets are added to others by using `jQuery`'s `append` and `appendTo` calls:
 ```python
 ltk.body.append(
     ltk.Table(...)
@@ -69,7 +69,7 @@ ltk.H1("This is a header").appendTo(container)
 
 Widgets can be styled using using three different approaches:
 
-1. Styling with element styles using jQuery's `css` function:
+1. Styling with element styles using `jQuery`'s `css` function:
 ```python
 ltk.Text("Error: Flux capacitor low!")
     .css("background-color", "red")
@@ -77,17 +77,17 @@ ltk.Text("Error: Flux capacitor low!")
     .css("padding", 8)
 ```
 
-2. Styling using a dict to make it easier to share styles:
+2. Styling using a `dict` to make it easier to share styles:
 ```python
 error = {
     "background-color": "red",
     "color": "white",
     "padding": 8,
-})
+}
 ltk.Text("Error: Flux capacitor low!", error)
 ```
 
-4. Styling using CSS classes and an external stylesheet, using jQuery's `addClass` function:
+4. Styling using CSS classes and an external stylesheet, using `jQuery`'s `addClass` function:
 ```python
 ltk.Text("Some text").addClass("my-special-text)
 ```
@@ -107,7 +107,7 @@ ltk.Text("Some text").addClass("my-special-text)
 
 ## Events
 
-Event handlers are attached using jQuery mechanisms. As the functions cross PyOdide and JavaScript namespaces, they need to be wrapped with `pyodide.ffi.create_proxy` calls. We use the shortcut offered by `ltk.proxy`:
+Event handlers are attached using `jQuery` mechanisms. As the functions cross PyOdide and JavaScript namespaces, they need to be wrapped with `pyodide.ffi.create_proxy` calls. We use the shortcut offered by `ltk.proxy`:
 ```python
 def buy(event):
     purchase(...)
