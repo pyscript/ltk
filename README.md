@@ -87,11 +87,11 @@ error = {
 ltk.Text("Error: Flux capacitor low!", error)
 ```
 
-4. Styling using CSS classes and an external stylesheet, using `jQuery`'s `addClass` function:
+3. Styling using CSS classes and an external stylesheet, using `jQuery`'s `addClass` function:
 ```python
 ltk.Text("Some text").addClass("my-special-text)
 ```
-
+The external style sheet should have these rules:
 ```css
 .ltk-text {
     font-family: Arial;
@@ -103,6 +103,11 @@ ltk.Text("Some text").addClass("my-special-text)
     color: white;
     padding: 8px;
 }
+```
+
+External stylesheets can be included in the original `index.html` or injected at runtime from Python using:
+```python
+ltk.inject_style("https://example.org/awesome_styles.css")
 ```
 
 ## Events
