@@ -84,8 +84,8 @@ class Widget(object):
     def __getattr__(self, name):
         try:
             return getattr(self.element, name)
-        except:
-            pass
+        except AttributeError as e:
+            raise AttributeError(f"Cannot find attribute '{name}' in the LTK widget {self}, nor in its jQuery element")
 
 
 class HBox(Widget):
