@@ -15,7 +15,7 @@ def get_method_doc(clazz, name):
             except:
                 doc = ltk.Span(
                     ltk.Span("⚠️ Use "),
-                    ltk.Link("/?runtime=py&tab=5", "Pyodide"),
+                    ltk.Link("?runtime=py&tab=5", "Pyodide"),
                     ltk.Span(" to see doc strings") \
                 ).css("color", "red")
             return ltk.LI(ltk.Text(name), doc)
