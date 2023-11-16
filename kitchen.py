@@ -41,6 +41,7 @@ tabs = ltk.Tabs(
             .css("padding-bottom", 16)
             .css("height", 770)
         )
+        .css("overflow", "hidden")
         .css("width", "60%")
         .css("padding-left", 24)
         .css("border-left", "2px solid lightgray"),
