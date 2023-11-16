@@ -67,15 +67,27 @@ ltk.H1("This is a header").appendTo(container)
 
 ## Styling
 
-Widgets can be styled using element styles:
+Widgets can be styled using using three different approaches:
+
+1. Styling with element styles using jQuery's `css` function:
 ```python
-ltk.Text("Some text")
+ltk.Text("Error: Flux capacitor low!")
     .css("background-color", "red")
     .css("color", "white")
     .css("padding", 8)
 ```
 
-Widgets can also be styled using an external stylesheet:
+2. Styling using a dict to make it easier to share styles:
+```python
+error = {
+    "background-color": "red",
+    "color": "white",
+    "padding": 8,
+})
+ltk.Text("Error: Flux capacitor low!", error)
+```
+
+4. Styling using CSS classes and an external stylesheet, using jQuery's `addClass` function:
 ```python
 ltk.Text("Some text").addClass("my-special-text)
 ```
