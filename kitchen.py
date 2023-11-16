@@ -14,10 +14,10 @@ def cleanup(src):
 def getsource(file):
     def setsource(src):
         src = "\n".join(src.split("\n")[2:])
-        ltk.find(f'textarea[file="{file}"]').val(src)
+        ltk.find(f'code[file="{file}"]').empty().text(src)
 
     ltk.get(file, setsource, "html")
-    return file
+    return f"Loading {file}..."
 
 
 ltk.find("#progress").remove()
@@ -33,12 +33,13 @@ tabs = ltk.Tabs(
         .css("width", "40%")
         .resizable(ltk.to_js({ "handles": "e" })),
         ltk.VBox(
-            ltk.H2("The source:"),
-            ltk.TextArea(getsource(file))
-                .attr("file", file)
-                .css("height", 800)
-                .css("border-width", 0)
-                .css("font-family", "Courier")
+            ltk.Preformatted(
+                ltk.Code("python", getsource(file))
+                    .attr("file", file)
+                    .css("width", "95%")
+            )
+            .css("padding-bottom", 16)
+            .css("height", 770)
         )
         .css("width", "60%")
         .css("padding-left", 24)

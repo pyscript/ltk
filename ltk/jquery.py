@@ -40,6 +40,8 @@ def number(s):
     return js.parseFloat(s)
 
 def schedule(function, timeout_seconds=0.1):
+    if not function:
+        raise ValueError(f"schedule: Expecting a function, not {function}")
     if function in timers:
         js.clearTimeout(timers[function])
     timers[function] = js.setTimeout(proxy(function), timeout_seconds * 1000)
@@ -53,8 +55,9 @@ def repeat(function, timeout_seconds=1.0):
     js.setInterval(proxy(function), timeout_seconds * 1000)
 
 def get(route, handler, kind="json"):
-    wrapper = proxy(lambda data, *rest: handler(data if isinstance(data, str) else data.to_py()))
-    return jQuery.get(route, wrapper, kind)
+    def wrapper(data, *rest):
+        handler(data if isinstance(data, str) else data.to_py())
+    return jQuery.get(route, proxy(wrapper), kind)
 
 def delete(route, handler):
     wrapper = proxy(lambda data, *rest: handler(data.to_py()))

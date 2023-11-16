@@ -310,30 +310,27 @@ class TextArea(Text):
 
 
 class Code(Widget):
-    """ Wraps a CodeMirror instance """
+    """ Wraps a block of code """
     classes = [ "ltk-code" ]
-    tag = "textarea"
+    tag = "code"
 
     def __init__(self, language, code, style=DEFAULT_CSS):
         Widget.__init__(self, style)
-        inject_script("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js")
-        inject_css("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css")
-        self.element.val(code)
-        schedule(lambda: self.activate(language, code))
+        if not hasattr(js, "hljs"):
+            inject_css("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css")
+            inject_script("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
+            inject_script(f"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/{language}.min.js")
+        self.element.text(code).css("opacity", 0)
+        schedule(self.highlight)
+
+    def highlight(self):
+        if hasattr(js, "hljs"):
+            js.hljs.highlightAll()
+            self.element.animate(to_js({ "opacity": 1}))
+        else:
+            schedule(self.highlight, 0.1)
+
     
-    def activate(self, language:str, code:str):
-        """
-        Active this code editor
-
-        Args:
-            language:str: The language to render, such as "Python"
-            code:str: The source to render
-        """
-        js.CodeMirror.fromTextArea(self.element[0], to_js({
-            "value": code,
-            "mode": language,
-        }))
-
     
 class Image(Widget):
     """ Wraps an <img> """
