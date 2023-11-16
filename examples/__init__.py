@@ -2,6 +2,7 @@
 
 from examples import app
 from examples import custom
+from examples import documentation
 from examples import helloworld
 from examples import table
 from examples import tictactoe
@@ -12,4 +13,5 @@ items = [
     ("examples/table.py", table.create()),
     ("examples/custom.py", custom.create()),
     ("examples/app.py", app.create()),
+    ("examples/documentation.py", documentation.create()),
 ]

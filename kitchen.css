@@ -20,3 +20,12 @@ h1 {
     width: 100%;
     text-align: center;
 }
+
+.example {
+    border: 0px solid transparent;
+    border-right-width: 4px;
+}
+
+.example:hover {
+    border-color: lightgray;
+}

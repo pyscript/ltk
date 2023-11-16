@@ -7,6 +7,7 @@ files = [
     "ltk/ltk.css",
     "examples/__init__.py",
     "examples/app.py",
+    "examples/documentation.py",
     "examples/helloworld.py",
     "examples/tictactoe.py",
     "examples/tictactoe.css",

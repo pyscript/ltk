@@ -28,14 +28,23 @@ class Widget(object):
     tag = "div"
 
     def __init__(self, *args):
+        """
+        Initialize a new Widget instance.
+        
+        Args:
+            *args: The content to add to this widget. Can be other widgets, strings, lists, etc.
+        
+        Sets:
+            self.element: The jQuery element representing this widget.
+        """
         self.element = (
             jQuery(f"<{self.tag}>")
                 .addClass(" ".join(self.classes))
-                .append(*self.flatten(args))
+                .append(*self._flatten(args))
         )
-        self.handle_css(args)
+        self._handle_css(args)
 
-    def handle_css(self, args):
+    def _handle_css(self, args):
         """Apply CSS styles passed in the args to the widget.
 
         Iterates through the args and checks for any that are dicts, 
@@ -45,7 +54,7 @@ class Widget(object):
             for key, value in arg.items():
                 self.css(key, value)
 
-    def flatten(self, children):
+    def _flatten(self, children):
         """Flatten a list of child widgets into a flat list.
 
         Arguments:
@@ -65,15 +74,18 @@ class Widget(object):
             elif isinstance(child, Widget):
                 result.append(child.element)
             elif inspect.isgenerator(child) or type(child).__name__ == "generator":
-                result.extend(self.flatten(child))
+                result.extend(self._flatten(child))
             elif isinstance(child, list):
-                result.extend(self.flatten(child))
+                result.extend(self._flatten(child))
             else:
                 result.append(child)
         return result
 
     def __getattr__(self, name):
-        return getattr(self.element, name)
+        try:
+            return getattr(self.element, name)
+        except:
+            pass
 
 
 class HBox(Widget):
@@ -111,9 +123,9 @@ class Text(Widget):
     """ A <div> to hold text """
     classes = [ "ltk-text" ]
 
-    def __init__(self, html="", style=DEFAULT_CSS):
+    def __init__(self, text="", style=DEFAULT_CSS):
         Widget.__init__(self, style)
-        self.element.html(str(html))
+        self.element.text(str(text))
     
     
 class Input(Widget):
@@ -127,11 +139,19 @@ class Input(Widget):
     
     
 class Button(Widget):
-    """ Wraps <button> """
+    """ Wraps an HTML <button> element """
     classes = [ "ltk-button" ]
     tag = "button"
     
-    def __init__(self, label, click, style=DEFAULT_CSS):
+    def __init__(self, label:str, click, style=DEFAULT_CSS):
+        """
+        Initialize a new Button instance.
+        
+        Args:
+            label:str: The label for the button
+            click:function(event): The event handler for this button
+            style:dict [optional] CSS values to set on the element
+        """
         Widget.__init__(self, style)
         self.element.text(label).on("click", proxy(click))
     
@@ -170,22 +190,28 @@ class H4(Text):
     tag = "h4"
 
     
-class OL(Widget):
+class OL(Container):
     """ Wraps an <ol> """
     classes = [ "ltk-ol" ]
     tag = "ol"
 
     
-class UL(Widget):
+class UL(Container):
     """ Wraps a <ul> """
     classes = [ "ltk-ul" ]
     tag = "ul"
 
     
-class LI(Widget):
+class LI(Container):
     """ Wraps a <li> """
     classes = [ "ltk-li" ]
     tag = "li"
+ 
+
+class Span(Widget):
+    """ Wraps a <span> """
+    classes = [ "ltk-span" ]
+    tag = "span"
 
     
 class Tabs(Widget):
@@ -200,9 +226,9 @@ class Tabs(Widget):
         self.labels = UL()
         Widget.__init__(self, self.labels)
         self.attr("id", self.name)
-        for tab in self.flatten(tabs):
+        for tab in self._flatten(tabs):
             self.add_tab(tab)
-        self.handle_css(tabs)
+        self._handle_css(tabs)
         self.tabs()
     
     def add_tab(self, tab):
@@ -245,7 +271,7 @@ class Table(Widget):
         self.element = (
             js.table()
                 .addClass(" ".join(self.classes))
-                .append(*self.flatten(rows))
+                .append(*self._flatten(rows))
         )
 
     def title(self, column, title):
@@ -295,7 +321,14 @@ class Code(Widget):
         self.element.val(code)
         schedule(lambda: self.activate(language, code))
     
-    def activate(self, language, code):
+    def activate(self, language:str, code:str):
+        """
+        Active this code editor
+
+        Args:
+            language:str: The language to render, such as "Python"
+            code:str: The source to render
+        """
         js.CodeMirror.fromTextArea(self.element[0], to_js({
             "value": code,
             "mode": language,

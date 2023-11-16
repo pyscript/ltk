@@ -26,7 +26,12 @@ ltk.find("#title").append(f" took {js.startTime() / 1000}s to load")
 
 tabs = ltk.Tabs(
     ltk.HBox(
-        example.css("width", "40%"),
+        ltk.Container(
+            example
+        )
+        .addClass("example")
+        .css("width", "40%")
+        .resizable(ltk.to_js({ "handles": "e" })),
         ltk.VBox(
             ltk.H2("The source:"),
             ltk.TextArea(getsource(file))
