@@ -166,6 +166,24 @@ class Link(Text):
         self.attr("href", href)
 
 
+class Strong(Text):
+    """ Wraps an <strong> """
+    classes = [ "ltk-strong" ]
+    tag = "strong"
+
+    
+class Bold(Text):
+    """ Wraps an <b> """
+    classes = [ "ltk-b" ]
+    tag = "b"
+
+    
+class Italic(Text):
+    """ Wraps an <i> """
+    classes = [ "ltk-i" ]
+    tag = "i"
+
+    
 class H1(Text):
     """ Wraps an <h1> """
     classes = [ "ltk-h1" ]
