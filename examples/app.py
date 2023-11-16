@@ -4,7 +4,10 @@ import ltk
 
 def create():
     def handler(item):
-        ltk.find("#right").append(ltk.Bold(f"Selected menu item: {item.label}").element)
+        ltk.find("#feedback").append(
+            ltk.LI(
+                ltk.Bold(f"Selected menu item: {item.label}")
+                    .css("margin", 10)))
 
     left_css = {
         "border-right": "2px solid lightgray",
@@ -24,17 +27,19 @@ def create():
             ltk.MenuBar(
                 ltk.Menu("File",
                     ltk.MenuItem("➕", "New", "", handler),
-                    ltk.MenuItem("📂", "Open", "Cmd+O", handler),
-                ),
+                    ltk.MenuItem("📂", "Open", "Cmd+O", handler)),
                 ltk.Menu("Edit",
                     ltk.MenuItem("✂️", "Copy", "Cmd+C", handler),
-                    ltk.MenuItem("📋", "Paste", "Cmd+V", handler),
-                ),
+                    ltk.MenuItem("📋", "Paste", "Cmd+V", handler)),
             ).css("background-color", "lightblue"),
             ltk.HBox(
-                ltk.VBox(ltk.Text("Left Panel"), left_css),
-                ltk.VBox(ltk.Text("Right Panel"), right_css).attr("id", "right")
+                ltk.VBox(
+                    ltk.Text("Left Panel"),
+                    left_css),
+                ltk.VBox(
+                    ltk.Text("Right Panel"),
+                    ltk.UL().attr("id", "feedback"),
+                    right_css)
             ).css("border-top", "2px solid lightgray")
         )
-        .attr("name", "Application")
-    )
+        .attr("name", "Application"))
