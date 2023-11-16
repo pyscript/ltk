@@ -76,11 +76,18 @@ def proxy(function):
 def get_url_parameter(key):
     return js.URLSearchParams.new(js.document.location.search).get(key)
 
-def set_url_parameter(key, value):
-    js.document.location = f"?{key}={value}"
+def set_url_parameter(key, value, reload=True):
+    search = js.URLSearchParams.new(js.window.location.search)
+    search.set(key, value)
+    url = f"{js.window.location.href.split('?')[0]}?{search.toString()}"
+    if reload:
+        js.document.location = url
+    else:
+        push_state(url)
 
 def push_state(url):
     js.history.pushState(None, "", url)
+
 
 injected = set()
 

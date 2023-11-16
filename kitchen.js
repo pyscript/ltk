@@ -1,14 +1,19 @@
-const runtime = document.location.hash == "#py" ? "py" : "mpy";
+const search = new URLSearchParams(window.location.search);
+const runtime = search.get("runtime") || "mpy";
 const start = new Date().getTime();
 
 function setupRuntime() {
-    document.location.hash = runtime;
+    search.set("runtime", runtime);
     document.write(`<script type="${runtime}" src="kitchen.py" config="kitchen.toml"></script>`)
 }
 
 function toggleRuntime() {
-    document.location.hash = runtime == "mpy" ?  "py" : "mpy";
-    document.location.reload()
+    setSearchParameter("runtime", runtime == "mpy" ?  "py" : "mpy");
+}
+
+function setSearchParameter(key, value) {
+    search.set(key, value)
+    window.location.search = search.toString();
 }
 
 function setupToggle() {
