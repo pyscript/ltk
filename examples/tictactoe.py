@@ -33,4 +33,4 @@ def create():
         .attr("name", "Tic Tac Toe")
     )
 
-ltk.inject(__file__, "tictactoe.css")
+ltk.inject_css("/examplex/tictactoe.css")
