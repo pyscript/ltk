@@ -3,4 +3,5 @@
 from ltk.jquery import *
 from ltk.widgets import *
 
-inject(__file__, "ltk.js", "ltk.css")
+inject_script("/ltk/ltk.js")
+inject_css("/ltk/ltk.css")
