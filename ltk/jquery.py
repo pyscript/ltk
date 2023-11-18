@@ -33,8 +33,11 @@ def to_js(dict):
     js.eval("window.to_js = json => JSON.parse(json);")
     return js.to_js(json.dumps(dict))
 
-def time():
-    return js.time()
+def to_py(jsobj):
+    try:
+        return jsobj.to_py()
+    except:
+        return json.loads(js.JSON.stringify(jsobj)) # Micropython has no built-in to_py
 
 def number(s):
     return js.parseFloat(s)
@@ -56,12 +59,16 @@ def repeat(function, timeout_seconds=1.0):
 
 def get(route, handler, kind="json"):
     def wrapper(data, *rest):
-        handler(data if isinstance(data, str) else data.to_py())
+        handler(data) if isinstance(data, str) else to_py(data)
     return jQuery.get(route, proxy(wrapper), kind)
 
 def delete(route, handler):
-    wrapper = proxy(lambda data, *rest: handler(data.to_py()))
+    wrapper = proxy(lambda data, *rest: handler(to_py(data)))
     return js.ajax(route, "DELETE", wrapper)
+
+def time():
+    return js.time()
+
 
 def post(route, data, handler):
     payload = js.encodeURIComponent(json.dumps(data))
@@ -92,27 +99,9 @@ def push_state(url):
     js.history.pushState(None, "", url)
 
 
-injected = set()
+def inject_script(url):
+    create("<script>").attr("src", url).appendTo(head)
 
-def inject(modulepath, *files):
-    types = {
-        "js": "<script>",
-        "css": "<style>",
-    }
-    for file in files:
-        extension = file.split(".")[-1]
-        tag = types[extension]
-        path = os.path.join(os.path.dirname(modulepath), file)
-        if not path in injected:
-            create(tag).text(open(path).read()).appendTo(head)
-        injected.add(path)
 
-def inject_script(url, force=False):
-    if force or not url in injected:
-        create("<script>").attr("src", url).appendTo(head)
-        injected.add(url)
-
-def inject_css(url, force=False):
-    if force or not url in injected:
-        create("<link>").attr("rel", "stylesheet").attr("href", url).appendTo(head)
-        injected.add(url)
+def inject_css(url):
+    create("<link>").attr("rel", "stylesheet").attr("href", url).appendTo(head)
