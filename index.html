@@ -2,27 +2,32 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>LTK</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <!-- Import PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
-    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
+    <head>
+        <title>LTK</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <!-- Import jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <!-- Import PyScript - see kitchensink.js for activation -->
+        <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
 
-    <!-- Import Styles for the kitchen sink demo -->
-    <link rel="stylesheet" href="kitchen.css">
-</head>
-<body>
-    <!-- Add a progress animation. This will be removed by main.py -->
-    <div id="progress"><img src="progress_line.gif"></div>
-    <h1 id="title">The LTK Kitchen Sink for PyScript running</h1>
-    <script src="kitchen.js"></script>
-</body>
+        <!-- Import jQuery - used in ltk/jquery.py -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+        <!-- Import Styles for the kitchensink demo -->
+        <link rel="stylesheet" href="kitchensink.css">
+    </head>
+
+    <body>
+        <!-- Add a progress animation. This will be removed by main.py -->
+        <div id="progress"><img src="progress_line.gif"></div>
+        <h1 id="title">The LTK Kitchensink for PyScript running</h1>
+
+        <!-- Load JavaScript logic to choose the Python runtime -->
+        <script src="kitchensink.js"></script>
+    </body>
+    
 </html>

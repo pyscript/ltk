@@ -4,7 +4,7 @@ const start = new Date().getTime();
 
 function setupRuntime() {
     search.set("runtime", runtime);
-    document.write(`<script type="${runtime}" src="kitchen.py" config="kitchen.toml"></script>`)
+    document.write(`<script type="${runtime}" src="kitchensink.py" config="kitchensink.toml"></script>`)
 }
 
 function toggleRuntime() {
