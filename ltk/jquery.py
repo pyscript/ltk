@@ -59,7 +59,7 @@ def repeat(function, timeout_seconds=1.0):
 
 def get(route, handler, kind="json"):
     def wrapper(data, *rest):
-        handler(data) if isinstance(data, str) else to_py(data)
+        handler(data if isinstance(data, str) else to_py(data))
     return jQuery.get(route, proxy(wrapper), kind)
 
 def delete(route, handler):
@@ -68,7 +68,6 @@ def delete(route, handler):
 
 def time():
     return js.time()
-
 
 def post(route, data, handler):
     payload = js.encodeURIComponent(json.dumps(data))
