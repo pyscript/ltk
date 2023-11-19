@@ -47,15 +47,10 @@ def schedule(function, timeout_seconds=0.1):
         raise ValueError(f"schedule: Expecting a function, not {function}")
     if function in timers:
         js.clearTimeout(timers[function])
-    timers[function] = js.setTimeout(proxy(function), timeout_seconds * 1000)
+    timers[function] = js.setTimeout(proxy(function), int(timeout_seconds * 1000))
 
 def repeat(function, timeout_seconds=1):
-    if function in timers:
-        js.clearTimeout(timers[function])
-    timers[function] = js.setInterval(proxy(function), timeout_seconds * 1000)
-
-def repeat(function, timeout_seconds=1.0):
-    js.setInterval(proxy(function), timeout_seconds * 1000)
+    js.setInterval(proxy(function), int(timeout_seconds * 1000))
 
 def get(route, handler, kind="json"):
     def wrapper(data, *rest):
