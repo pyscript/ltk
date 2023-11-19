@@ -1,7 +1,7 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
 import inspect
-import js # type: ignore
+from pyscript import window as js # type: ignore
 
 from ltk.jquery import jQuery
 from ltk.jquery import proxy

@@ -1,5 +1,5 @@
 import examples
-import js
+from pyscript import window as js # type: ignore
 import ltk
 
 
