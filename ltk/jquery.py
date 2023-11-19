@@ -1,12 +1,12 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
-import js # type: ignore
 import json
-import os
 import pyodide # type: ignore
-
+import pyscript # type: ignore
 
 timers = {}
+
+js = pyscript.window
 
 jQuery = js.jQuery
 console = js.console
@@ -62,7 +62,7 @@ def delete(route, handler):
     return js.ajax(route, "DELETE", wrapper)
 
 def time():
-    return js.time()
+    return js.time() / 1000
 
 def post(route, data, handler):
     payload = js.encodeURIComponent(json.dumps(data))
