@@ -1,15 +1,23 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
 import inspect
+import logging
+import json
+import time
+
 from pyscript import window as js # type: ignore
 
 from ltk.jquery import jQuery
+from ltk.jquery import console
 from ltk.jquery import proxy
 from ltk.jquery import find
+from ltk.jquery import find_list
+from ltk.jquery import create
 from ltk.jquery import body
 from ltk.jquery import document
 from ltk.jquery import schedule
 from ltk.jquery import to_js
+from ltk.jquery import to_py
 from ltk.jquery import inject_css
 from ltk.jquery import inject_script
 
@@ -137,7 +145,13 @@ class Input(Widget):
         Widget.__init__(self, style)
         self.element.val(value)
     
-    
+       
+class Label(Text):
+    """ Wraps a <label> """
+    classes = [ "ltk-label" ]
+    tag = "label"
+
+
 class Button(Widget):
     """ Wraps an HTML <button> element """
     classes = [ "ltk-button" ]
@@ -331,6 +345,7 @@ class Code(Widget):
     """ Wraps a block of code """
     classes = [ "ltk-code" ]
     tag = "code"
+    highlighted = False
 
     def __init__(self, language, code, style=DEFAULT_CSS):
         Widget.__init__(self, style)
@@ -342,9 +357,12 @@ class Code(Widget):
         schedule(self.highlight)
 
     def highlight(self):
+        if self.highlighted:
+            return
         if hasattr(js, "hljs"):
-            js.hljs.highlightAll()
+            js.hljs.highlightElement(self.element[0])
             self.element.animate(to_js({ "opacity": 1}))
+            self.highlighted = True
         else:
             schedule(self.highlight, 0.1)
 
@@ -443,15 +461,177 @@ class MenuItem(Widget):
         close_all_menus()
         self.selected(self)
         event.preventDefault()
-         
-        
+          
+
+class Select(Widget):
+    """ Wraps a <select> """
+    classes = [ "ltk-select" ]
+    tag = "select"
+
+    def __init__(self, options, handler):
+        Widget.__init__(self, 
+            [
+                Option(text).prop("selected", "selected" if selected else "")
+                for text, selected in options
+            ]
+        )
+        self.handler = handler
+        self.element.on("change", proxy(lambda event: schedule(self.changed)))
+
+    def changed(self):
+        selectedIndex = self.element.prop("selectedIndex")
+        option = self.element.find("option").eq(selectedIndex)
+        self.handler(selectedIndex, option)
+    
+    
+class Option(Text):
+    """ Wraps an <option> """
+    classes = [ "ltk-option" ]
+    tag = "option"
+    
+
+
+class Logger(Widget):
+    classes = [ "ltk-log-container"]
+    level = logging.INFO
+    messages = []
+    icons = { 
+        logging.CRITICAL : '💥',
+        logging.ERROR    : '🔥️',
+        logging.WARNING  : '🤔',
+        logging.INFO     : 'ⓘ',
+        logging.DEBUG    : '🐞',
+        logging.NOTSET   : '❓', 
+    }
+    levels = dict((value, key) for key, value in icons.items())
+
+    def __init__(self):
+        Widget.__init__(self)
+        self.element.resizable(to_js({ "handles": "n" }))
+        self.add_table()
+        self.setup_logger()
+        self.setup_console()
+        self.filter_rows()
+
+    def add_table(self):
+        self.selector = find('#ltk-log-level')
+        self.element.append(
+            Table(
+                TableRow(
+                    TableHeader().attr("width", 30).text("When"),
+                    TableHeader().attr("width", 30).text("Level"),
+                    TableHeader().text("Message"),
+                ).attr("id", "ltk-log-header")
+            ).css("width", "100vw"),
+            Container(
+                Select(
+                    [
+                        (name, level == self.level)
+                        for name, level in sorted(self.levels.items(), key=lambda item: item[1])
+                    ],
+                    lambda _, option: self.set_level(option.text()),
+                ).attr("id", "ltk-log-level"),
+                Button("clear", lambda event: self.clear()),
+                Button("x", lambda event: self.element.css("display", "none")),
+            )
+            .css("position", "absolute")
+            .css("top", 3)
+            .css("right", 15)
+            .css("width", "fit")
+            .css("z-index", 1000)
+        )
+
+    def set_level(self, selected):
+        self.level = self.levels[selected]
+        self.filter_rows()
+
+    def filter_rows(self):
+        for row in find_list(".ltk-log-row"):
+            level = int(row.attr("level"))
+            row.css("display", "none" if level < self.level else "table-row")
+
+    def clear(self):
+        find(".ltk-log-row").remove()
+
+    def setup_logger(self):
+        this = self
+
+        class Handler(logging.StreamHandler):
+            level = Logger.level
+            formatter = logging.Formatter(fmt=' %(name)s :: %(levelname)-8s :: %(message)s')
+
+            def emit(self, record):
+                if record.levelno >= self.level:
+                    this.add(record.levelno, record.message)
+
+        logger = logging.getLogger('root')
+        logger.setLevel(Logger.level)
+        logger.addHandler(Handler())
+
+    def add(self, level, *args, **argv):
+        try:
+            python_timestamp = time.time()
+            message = " ".join(map(str, args))
+            self.messages.append(message)
+            find("#ltk-log-header").after(
+                TableRow(
+                    TableData().text(f"{python_timestamp:.2f}"),
+                    TableData().text(Logger.icons[level]),
+                    TableData().append(
+                        Preformatted().text(message)
+                    ),
+                ).addClass("ltk-log-row").attr("level", level)
+            )
+            if level == logging.ERROR:
+                console.orig_error(*args)
+            else:
+                console.orig_log(*args)
+            self.filter_rows()
+        except Exception as e:
+            print("Log error:", e)
+
+    def setup_console(self):
+        console.orig_log = console.log
+        console.orig_warn = console.warn
+        console.orig_error = console.error
+        console.log = self.console_log
+        console.warn = self.console_log
+        console.error = self.console_log
+        try:
+            import warnings
+            warnings.warn = self.console_log
+        except:
+            pass # Micropython
+
+    def console_log(self, *args, **argv):
+        try:
+            if not args:
+                return
+            kind = args[0]
+
+            def format(arg):
+                if not arg in ["ERROR", "DEBUG", "WARN", "INFO"]:
+                    if arg.__class__.__name__ == "jsobj":
+                        try:
+                            return json.dumps(to_py(arg))
+                        except:
+                            return str(arg)
+                    return str(arg)
+
+            message = " ".join(filter(None, [format(arg) for arg in args]))
+            level = logging.ERROR if kind == "ERROR" or "Traceback" in message else logging.DEBUG if "js_callable_proxy" in message else logging.INFO
+            self.add(level, message)
+        except Exception as e:
+            print(e)
+
+
+
 def close_all_menus(event=None):
     if event and jQuery(event.target).hasClass("ltk-menulabel"):
         return
     find(".ltk-menupopup-open").removeClass("ltk-menupopup-open")
 
 body.on("click", proxy(close_all_menus))
-
 
 def _handle_shortcuts():
     def handle_keydown(event):

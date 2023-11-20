@@ -7,6 +7,23 @@
         return (new Date().getTime() - start)
     }
 
+    window.to_js = json => {
+        return JSON.parse(json)
+    }
+
+    window.to_py = obj => {
+        try {
+            return JSON.stringify(obj, null, 4)
+        } catch {
+            // handle cycles in obj
+            copy = {}
+            for (const key of Object.keys(obj)) {
+                copy[key] = `${obj[key]}`;
+            }
+            return JSON.stringify(copy, null, 4);
+        }
+    }
+
     window.table = () => {
         return $("<table>").addClass("ltk-table");
     }
@@ -51,4 +68,38 @@
     window.tableSet = (table, column, row, value) => {
         tableCell(table, column, row).text(value)
     }
+})()
+
+(function vislog() {
+
+    KB = 1024
+    MB = KB * KB
+    GB = MB * MB
+
+    function toHuman(byteCount) {
+        if (byteCount > GB) return `${(byteCount / GB).toFixed()}GB`;
+        if (byteCount > MB) return `${(byteCount / MB).toFixed()}MB`;
+        if (byteCount > KB) return `${(byteCount / KB).toFixed()}KB`;
+        return byteCount
+    }
+
+    new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+            const type = entry.initiatorType[0].toUpperCase() + entry.initiatorType.slice(1);
+            const log = entry.decodedBodySize === 0 ? console.error : console.log
+            const kind = entry.decodedBodySize === 0 ? "ERROR" : "INFO"
+            log(
+                kind,
+                type,
+                toHuman(entry.encodedBodySize),
+                toHuman(entry.decodedBodySize),
+                `${entry.duration.toFixed()}ms`,
+                entry.name
+            )
+        }
+    }).observe({
+        type: "resource",
+        buffered: true,
+    });
+
 })()

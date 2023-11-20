@@ -30,14 +30,16 @@ def find_list(selector):
     return [ elements.eq(n) for n in range(elements.length) ]
 
 def to_js(dict):
-    js.eval("window.to_js = json => JSON.parse(json);")
     return js.to_js(json.dumps(dict))
 
 def to_py(jsobj):
     try:
         return jsobj.to_py()
     except:
-        return json.loads(js.JSON.stringify(jsobj)) # Micropython has no built-in to_py
+        try:
+            return json.loads(js.to_py(jsobj)) # Micropython has no built-in to_py
+        except:
+            return str(jsobj)
 
 def number(s):
     return js.parseFloat(s)
@@ -66,7 +68,7 @@ def time():
 
 def post(route, data, handler):
     payload = js.encodeURIComponent(json.dumps(data))
-    wrapper = proxy(lambda data, status, xhr: handler(js.JSON.stringify(data)))
+    wrapper = proxy(lambda data, *rest: handler(js.JSON.stringify(data)))
     return jQuery.post(route, payload, wrapper, "json")
 
 def async_proxy(function):

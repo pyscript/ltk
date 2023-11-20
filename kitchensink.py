@@ -1,6 +1,10 @@
+import ltk  # Load early on MicroPython, before logging
+
 import examples
 from pyscript import window as js # type: ignore
-import ltk
+import logging
+
+logger = logging.getLogger("kitchensink")
 
 
 def cleanup(src):
@@ -53,10 +57,12 @@ tabs = ltk.Tabs(
 def activate_tab(event, ui=None):
     index = tabs.active()
     ltk.set_url_parameter("tab", index, False)
+    logger.info("Switched to tab %s", index)
 
 tabs.activate(ltk.get_url_parameter("tab") or 0)
 
 ltk.body.append(
+    ltk.Logger().element,
     ltk.Div(
         tabs.css("margin-bottom", 24)
             .attr("id", "examples")
@@ -73,3 +79,4 @@ ltk.body.append(
     .css("margin", "auto")
 )
 
+logger.info("Kitchensink Ready")

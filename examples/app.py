@@ -4,10 +4,10 @@ import ltk
 
 def create():
     def handler(item):
-        ltk.find("#feedback").append(
-            ltk.LI(
-                ltk.Bold(f"Selected menu item: {item.label}")
-                    .css("margin", 10)))
+        ltk.LI(
+            ltk.Bold(f"Selected menu item: {item.label}")
+                .css("margin", 10)
+        ).appendTo(ltk.find("#feedback"))
 
     left_css = {
         "border-right": "2px solid lightgray",
@@ -40,6 +40,7 @@ def create():
                     ltk.Text("Right Panel"),
                     ltk.UL().attr("id", "feedback"),
                     right_css)
-            ).css("border-top", "2px solid lightgray")
+            ).css("height", "100%")
         )
+        .css("height", "100%")
         .attr("name", "Application"))

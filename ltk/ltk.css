@@ -37,7 +37,6 @@
 .ltk-container {
     margin: 0;
     padding: 0;
-    width: 100%;
 }
 
 .ltk-card {
@@ -135,4 +134,50 @@
     border: 0 solid lightgray;
     border-bottom-width: 1px;
     padding: 4px 8px;
+}
+
+.ltk-log-container {
+    position: fixed;
+    bottom: 3px;
+    width: 100vw;
+    height: 250px;
+    z-index: 1000;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.ltk-log {
+    padding: 4px;
+    border-collapse: collapse;
+    border: 1px solid rgb(81, 81, 251);
+    background-color: rgb(225, 246, 253);
+    width: 100%;
+    overflow-y: auto;
+}
+
+.ltk-log::-webkit-scrollbar {
+    display: none;
+}
+
+.ltk-log td, th {
+    border: 0px solid rgb(185, 185, 255);
+    border-bottom-width: 1px;
+    padding: 8px;
+}
+
+.ltk-log th {
+    position: sticky;
+    top: -4px;
+    text-align: left;
+    background-color: lightgreen;
+    font-size: 14px;
+    z-index: 100;
+}
+
+.ltk-log pre {
+    margin: 0;
+}
+
+.ltk-log-row {
+    background-color: rgb(255, 255, 240);
 }
