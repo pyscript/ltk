@@ -522,7 +522,7 @@ class Logger(Widget):
                     TableHeader().attr("width", 30).text("Level"),
                     TableHeader().text("Message"),
                 ).attr("id", "ltk-log-header")
-            ).css("width", "100vw"),
+            ).addClass("ltk-log"),
             Container(
                 Select(
                     [

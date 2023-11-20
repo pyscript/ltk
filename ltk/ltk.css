@@ -174,8 +174,12 @@
     z-index: 100;
 }
 
-.ltk-log pre {
+.ltk-log .ltk-pre {
     margin: 0;
+}
+
+.ltk-log-container .ltk-button, .ltk-select {
+    margin-left: 6px;
 }
 
 .ltk-log-row {
