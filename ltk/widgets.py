@@ -593,11 +593,11 @@ class Logger(Widget):
     def add_table(self):
         self.selector = find('#ltk-log-level')
         self.element.append(
-            Table(
-                TableRow(
-                    TableHeader().attr("width", 30).text("When"),
-                    TableHeader().attr("width", 30).text("Level"),
-                    TableHeader().text("Message"),
+            VBox(
+                HBox(
+                    Text().attr("width", 30).text("When"),
+                    Text().attr("width", 30).text("Level"),
+                    Text().text("Message"),
                 ).attr("id", "ltk-log-header")
             ).addClass("ltk-log"),
             Container(
@@ -624,9 +624,13 @@ class Logger(Widget):
         self.filter_rows()
 
     def filter_rows(self):
+        height = 32
         for row in find_list(".ltk-log-row"):
-            level = int(row.attr("level"))
-            row.css("display", "none" if level < self.level else "table-row")
+            visible = int(row.attr("level")) >= self.level
+            row.css("display", "block" if visible else "none")
+            if visible:
+                height += 32
+        find(".ltk-log-container").animate(to_js({ "height": min(250, height) }))
 
     def clear(self):
         find(".ltk-log-row").remove()
@@ -652,13 +656,14 @@ class Logger(Widget):
             message = " ".join(map(str, args))
             self.messages.append(message)
             find("#ltk-log-header").after(
-                TableRow(
-                    TableData().text(f"{python_timestamp:.2f}"),
-                    TableData().text(Logger.icons[level]),
-                    TableData().append(
-                        Preformatted().text(message)
-                    ),
-                ).addClass("ltk-log-row").attr("level", level)
+                HBox(
+                    Text().text(f"{python_timestamp:.2f}").css("width", 30),
+                    Text().text(Logger.icons[level]).css("width", 30),
+                    Text().append(Preformatted().text(message)),
+                )
+                .addClass("ltk-log-row")
+                .attr("level", level)
+                .animate(to_js({ "height": 32  }))
             )
             if level == logging.ERROR:
                 console.orig_error(*args)
