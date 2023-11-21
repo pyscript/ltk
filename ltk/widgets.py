@@ -3,29 +3,22 @@
 import inspect
 import logging
 import json
-import time
 
 from pyscript import window as js # type: ignore
 
-from ltk.jquery import jQuery
-from ltk.jquery import console
-from ltk.jquery import proxy
-from ltk.jquery import find
-from ltk.jquery import find_list
-from ltk.jquery import create
-from ltk.jquery import body
-from ltk.jquery import document
-from ltk.jquery import schedule
-from ltk.jquery import to_js
-from ltk.jquery import to_py
-from ltk.jquery import inject_css
-from ltk.jquery import inject_script
+from ltk.jquery import *
 
 timers = {}
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
 DEFAULT_CSS = {}
 shortcuts = {}
+
+
+def callback(function):
+    def inner(*args, **argv):
+        return function(*args, **argv)
+    return proxy(inner)
 
 
 class Widget(object):
@@ -38,10 +31,10 @@ class Widget(object):
     def __init__(self, *args):
         """
         Initialize a new Widget instance.
-        
+
         Args:
             *args: The content to add to this widget. Can be other widgets, strings, lists, etc.
-        
+
         Sets:
             self.element: The jQuery element representing this widget.
         """
@@ -105,17 +98,17 @@ class VBox(Widget):
     """ Lays out its child widgets vertically """
     classes = [ "ltk-vbox" ]
 
-    
+
 class Div(Widget):
     """ Wraps a <div> """
     classes = [ "ltk-div" ]
 
-    
+
 class Container(Widget):
     """ Wraps a <div> """
     classes = [ "ltk-container" ]
 
-    
+
 class Card(Container):
     """ A container with special styling looking like a card """
     classes = [ "ltk-card" ]
@@ -134,18 +127,35 @@ class Text(Widget):
     def __init__(self, text="", style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.text(str(text))
-    
-    
+
+
 class Input(Widget):
     """ Wraps an <input> """
     classes = [ "ltk-input" ]
     tag = "input"
-    
-    def __init__(self, value="", style=DEFAULT_CSS):
+
+    def __init__(self, value, style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.val(value)
-    
-       
+
+
+class Checkbox(Widget):
+    """ Wraps an <input type="checkbox"> """
+    classes = [ "ltk-checkbox" ]
+    tag = "input"
+
+    def __init__(self, checked, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
+        self.element.prop("type", "checkbox")
+        self.check(checked)
+
+    def check(self, checked):
+        self.element.prop("checked", "checked" if checked else None)
+
+    def checked(self):
+        return self.element.prop("checked") == "checked"
+
+
 class Label(Text):
     """ Wraps a <label> """
     classes = [ "ltk-label" ]
@@ -156,11 +166,11 @@ class Button(Widget):
     """ Wraps an HTML <button> element """
     classes = [ "ltk-button" ]
     tag = "button"
-    
+
     def __init__(self, label:str, click, style=DEFAULT_CSS):
         """
         Initialize a new Button instance.
-        
+
         Args:
             label:str: The label for the button
             click:function(event): The event handler for this button
@@ -168,8 +178,8 @@ class Button(Widget):
         """
         Widget.__init__(self, style)
         self.element.text(label).on("click", proxy(click))
-    
-    
+
+
 class Link(Text):
     """ Wraps an <a> """
     classes = [ "ltk-a" ]
@@ -185,67 +195,79 @@ class Strong(Text):
     classes = [ "ltk-strong" ]
     tag = "strong"
 
-    
+
 class Bold(Text):
     """ Wraps an <b> """
     classes = [ "ltk-b" ]
     tag = "b"
 
-    
+
 class Italic(Text):
     """ Wraps an <i> """
     classes = [ "ltk-i" ]
-    tag = "i"
+    tag = "i" 
 
-    
+
+class P(Text):
+    """ Wraps a <p> """
+    classes = [ "ltk-p" ]
+    tag = "p"
+
+
+class BR(Text):
+    """ Wraps a <br> """
+    classes = [ "ltk-br" ]
+    tag = "br"
+
+
 class H1(Text):
     """ Wraps an <h1> """
     classes = [ "ltk-h1" ]
     tag = "h1"
 
-    
+
 class H2(Text):
     """ Wraps an <h2> """
     classes = [ "ltk-h2" ]
     tag = "h2"
 
-    
+
 class H3(Text):
     """ Wraps an <h3> """
     classes = [ "ltk-h3" ]
     tag = "h3"
 
-    
+
 class H4(Text):
     """ Wraps an <h4> """
     classes = [ "ltk-h4" ]
     tag = "h4"
 
-    
+
 class OL(Container):
     """ Wraps an <ol> """
     classes = [ "ltk-ol" ]
     tag = "ol"
 
-    
+
 class UL(Container):
     """ Wraps a <ul> """
     classes = [ "ltk-ul" ]
     tag = "ul"
 
-    
+
 class LI(Container):
     """ Wraps a <li> """
     classes = [ "ltk-li" ]
     tag = "li"
- 
+
 
 class Span(Widget):
     """ Wraps a <span> """
     classes = [ "ltk-span" ]
     tag = "span"
 
-    
+
 class Tabs(Widget):
     """ Wraps a jQueryUI tabs """
     classes = [ "ltk-tabs" ]
@@ -262,14 +284,14 @@ class Tabs(Widget):
             self.add_tab(tab)
         self._handle_css(tabs)
         self.tabs()
-    
+
     def add_tab(self, tab):
         tab_id = f"{self.name}-{self.labels.children().length}"
         self.labels.append(
             LI().append(Link(f"#{tab_id}").text(tab.attr("name")))
         )
         self.append(Div(tab).attr("id", tab_id))
-    
+
     def active(self):
         return self.element.tabs("option", "active")
 
@@ -288,17 +310,37 @@ class File(Widget):
     """ Wraps a <input type=file> """
     classes = [ "ltk-file" ]
     tag = "input"
-    
+
     def __init__(self, style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.attr("type", "file")
-    
-    
+
+
+class DatePicker(Widget):
+    """ Wraps a <input type=date> """
+    classes = [ "ltk-datepicker" ]
+    tag = "input"
+
+    def __init__(self, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
+        self.element.attr("type", "date")
+
+
+class ColorPicker(Widget):
+    """ Wraps a <input type=color> """
+    classes = [ "ltk-colorpicker" ]
+    tag = "input"
+
+    def __init__(self, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
+        self.element.attr("type", "color")
+
+
 class Table(Widget):
     """ Wraps a <table> """
     classes = [ "ltk-table" ]
     tag = "table"
-    
+
     def __init__(self, *rows):
         self.element = (
             js.table()
@@ -308,37 +350,41 @@ class Table(Widget):
 
     def title(self, column, title):
         js.tableTitle(self.element, column, title)
-    
+
     def get(self, column, row):
         return js.tableGet(self.element, column, row)
 
     def set(self, column, row, value):
         js.tableSet(self.element, column, row, value)
-    
+
 
 class TableRow(Widget):
     """ Wraps a <tr> """
     classes = [ "ltk-tr" ]
     tag = "tr"
-    
+
 
 class TableHeader(Text):
     """ Wraps a <th> """
     classes = [ "ltk-th" ]
     tag = "th"
-    
+
 
 class TableData(Text):
     """ Wraps a <td> """
     classes = [ "ltk-td" ]
     tag = "td"
-    
+
 
 class TextArea(Text):
     """ Wraps a <textarea> """
     classes = [ "ltk-td" ]
     classes = [ "ltk-textarea" ]
     tag = "textarea"
+
+    def __init__(self, text="", style=DEFAULT_CSS):
+        Widget.__init__(self, style)
+        self.element.text(text)
 
 
 class Code(Widget):
@@ -366,13 +412,13 @@ class Code(Widget):
         else:
             schedule(self.highlight, 0.1)
 
-    
-    
+
+
 class Image(Widget):
     """ Wraps an <img> """
     classes = [ "ltk-image" ]
     tag = "img"
-    
+
     def __init__(self, src, style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.referrerPolicy = "referrer"
@@ -456,39 +502,42 @@ class MenuItem(Widget):
             shortcuts[shortcut] = self
         self.label = label
         self.selected = selected
-    
+
     def select(self, event):
         close_all_menus()
         self.selected(self)
         event.preventDefault()
-          
+
 
 class Select(Widget):
     """ Wraps a <select> """
     classes = [ "ltk-select" ]
     tag = "select"
 
-    def __init__(self, options, handler):
+    def __init__(self, options, selected, handler, style=DEFAULT_CSS):
         Widget.__init__(self, 
             [
-                Option(text).prop("selected", "selected" if selected else "")
-                for text, selected in options
-            ]
+                Option(text).prop("selected", "selected" if text == selected else "")
+                for text in options
+            ],
+            style
         )
         self.handler = handler
         self.element.on("change", proxy(lambda event: schedule(self.changed)))
 
+    def get_selected_index(self):
+        return self.element.prop("selectedIndex")
+
     def changed(self):
-        selectedIndex = self.element.prop("selectedIndex")
-        option = self.element.find("option").eq(selectedIndex)
-        self.handler(selectedIndex, option)
-    
-    
+        option = self.element.find("option").eq(self.get_selected_index())
+        self.handler(self.get_selected_index(), option)
+
+
 class Option(Text):
     """ Wraps an <option> """
     classes = [ "ltk-option" ]
     tag = "option"
-    
+
 
 
 class Logger(Widget):
@@ -526,9 +575,10 @@ class Logger(Widget):
             Container(
                 Select(
                     [
-                        (name, level == self.level)
-                        for name, level in sorted(self.levels.items(), key=lambda item: item[1])
+                        name
+                        for name in sorted(self.levels.keys())
                     ],
+                    self.icons[self.level],
                     lambda _, option: self.set_level(option.text()),
                 ).attr("id", "ltk-log-level"),
                 Button("clear", lambda event: self.clear()),
@@ -562,7 +612,7 @@ class Logger(Widget):
 
             def emit(self, record):
                 if record.levelno >= self.level:
-                    this.add(record.levelno, record.message)
+                    this.add(record.levelno, getattr(record, "message", getattr(record, "msg", "???")))
 
         logger = logging.getLogger('root')
         logger.setLevel(Logger.level)
@@ -570,7 +620,7 @@ class Logger(Widget):
 
     def add(self, level, *args, **argv):
         try:
-            python_timestamp = time.time()
+            python_timestamp = time()
             message = " ".join(map(str, args))
             self.messages.append(message)
             find("#ltk-log-header").after(

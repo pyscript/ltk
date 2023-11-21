@@ -1,9 +1,10 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
-import sys
+from pyscript import window as js # type: ignore
 
 def fix_time():
     import time
+    import sys
 
     if not hasattr(time, "time"):
         class MonkeyPatchedTimeModuleForMicroPython:
@@ -13,7 +14,7 @@ def fix_time():
         clone = MonkeyPatchedTimeModuleForMicroPython()
         for key in dir(time):
             setattr(clone, key, getattr(time, key))
-        setattr(clone, "time", lambda: time.ticks_ms() / 1000)
+        setattr(clone, "time", lambda: (js.time() + time.ticks_ms()) / 1000)
         sys.modules["time"] = clone
 
 fix_time()

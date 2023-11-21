@@ -54,6 +54,7 @@ tabs = ltk.Tabs(
 )
 
 
+@ltk.callback
 def activate_tab(event, ui=None):
     index = tabs.active()
     ltk.set_url_parameter("tab", index, False)
@@ -66,7 +67,7 @@ ltk.body.append(
     ltk.Div(
         tabs.css("margin-bottom", 24)
             .attr("id", "examples")
-            .on("tabsactivate", ltk.proxy(activate_tab)),
+            .on("tabsactivate", activate_tab),
         ltk.Link(
             "https://github.com/laffra/ltk",
             ltk.HBox(

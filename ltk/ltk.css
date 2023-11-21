@@ -178,7 +178,7 @@
     margin: 0;
 }
 
-.ltk-log-container .ltk-button, .ltk-select {
+.ltk-log-container.ltk-button, .ltk-log-container.ltk-select {
     margin-left: 6px;
 }
 

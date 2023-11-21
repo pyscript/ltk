@@ -3,6 +3,7 @@
 import ltk
 
 def create():
+    @ltk.callback
     def choose(event):
         if not ltk.find(event.target).text():
             ltk.find(event.target).append(
@@ -10,6 +11,7 @@ def create():
                     .addClass("choice")
             )
 
+    @ltk.callback
     def enter(event):
         ltk.find(".square").css("background", "white")
         if not ltk.jQuery(event.target).text():
@@ -22,8 +24,8 @@ def create():
                 ltk.HBox(
                     ltk.Container()
                         .addClass("square")
-                        .on("click", ltk.proxy(choose))
-                        .on("mouseenter", ltk.proxy(enter))
+                        .on("click", choose)
+                        .on("mouseenter", enter)
                     for column in range(3)
                 )
                 for row in range(3)

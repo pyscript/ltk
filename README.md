@@ -120,6 +120,15 @@ def buy(event):
 Card("Buy Now").on("click", ltk.proxy(buy))
 ```
 
+You can also use the more declarative decorator:
+```python
+@ltk.callback
+def buy(event):
+    purchase(...)
+
+Card("Buy Now").on("click", buy)
+```
+
 ## Examples
 
 See the [LTK kitchensink](https://laffra.github.io/ltk/) or explore the `examples` folder

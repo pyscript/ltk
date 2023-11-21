@@ -9,6 +9,7 @@ files = [
     "examples/app.py",
     "examples/documentation.py",
     "examples/helloworld.py",
+    "examples/inputs.py",
     "examples/tictactoe.py",
     "examples/tictactoe.css",
     "examples/custom.py",
