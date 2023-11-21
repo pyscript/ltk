@@ -7,15 +7,16 @@ def create():
     def choose(event):
         if not ltk.find(event.target).text():
             ltk.find(event.target).append(
-                ltk.Text("X" if ltk.find(".choice").length % 2 else "O")
-                    .addClass("choice")
+                ltk.Text("X" if ltk.find(".tictactoe-choice").length % 2 else "O")
+                    .addClass("tictactoe-choice")
             )
 
     @ltk.callback
     def enter(event):
-        ltk.find(".square").css("background", "white")
+        ltk.find(".tictactoe-inside").removeClass("tictactoe-inside")
         if not ltk.jQuery(event.target).text():
-            ltk.jQuery(event.target).css("background", "lightblue")
+            ltk.jQuery(event.target).addClass("tictactoe-inside")
+
 
     return (
         ltk.Div(
@@ -23,7 +24,7 @@ def create():
             ltk.VBox(
                 ltk.HBox(
                     ltk.Container()
-                        .addClass("square")
+                        .addClass("tictactoe-square")
                         .on("click", choose)
                         .on("mouseenter", enter)
                     for column in range(3)

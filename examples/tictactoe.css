@@ -1,11 +1,11 @@
-.square {
+.tictactoe-square {
     width: 70px;
     height: 70px;
     border: 1px solid gray;
     cursor: pointer;
 }
 
-.choice {
+.tictactoe-choice {
     font-family: "Brush Script MT";
     font-size: 42px;
     font-family: Brush Script MT;
@@ -13,4 +13,8 @@
     margin: auto;
     width: 90%;
     height: 90%;
+}
+
+.tictactoe-inside {
+    background-color: lightblue;
 }
