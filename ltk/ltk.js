@@ -68,9 +68,6 @@
     window.tableSet = (table, column, row, value) => {
         tableCell(table, column, row).text(value)
     }
-})()
-
-(function vislog() {
 
     KB = 1024
     MB = KB * KB
