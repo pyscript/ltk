@@ -624,18 +624,18 @@ class Logger(Widget):
         self.filter_rows()
 
     def filter_rows(self):
-        height = 32
+        height = 36
         for row in find_list(".ltk-log-row"):
             visible = int(row.attr("level")) >= self.level
             row.css("display", "block" if visible else "none")
             if visible:
                 height += 32
-        find(".ltk-log-container") \
-            .css("top", None) \
-            .animate(to_js({ "height": min(250, height) }))
+        find(".ltk-log-container").css("top", "").css("height", min(250, height))
+        print("filter rows, top=", find(".ltk-log-container").css("top"))
 
     def clear(self):
         find(".ltk-log-row").remove()
+        self.filter_rows()
 
     def setup_logger(self):
         widget = self
