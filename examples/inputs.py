@@ -33,19 +33,35 @@ def create():
         feedback(f"checkbox: {ltk.find('#love').prop('checked')}", "black")
 
     @ltk.callback
-    def set_runtime(event):
-        chosen = ltk.jQuery(event.target).attr("value")
-        if chosen != runtime:
-            js.setSearchParameter("runtime", chosen)
-
-    @ltk.callback
     def change(event):
         element = ltk.jQuery(event.target)
         kind = element.prop("type")
         feedback(f"Changed {kind}: {element.val()}", "purple")
 
+    @ltk.callback
+    def set_runtime(event):
+        chosen = ltk.jQuery(event.target).attr("value")
+        if chosen != runtime:
+            js.setSearchParameter("runtime", chosen)
 
     widgets = [
+        ltk.VBox(
+            ltk.Text("Choose your favorite runtime:"),
+            ltk.RadioGroup(
+                ltk.Span(
+                    ltk.RadioButton(runtime == "mpy")
+                        .attr("name", "runtime")
+                        .attr("id", "mpy")
+                        .attr("value", "mpy"),
+                    ltk.Label("MicroPython").attr("for", "mpy")
+                ),
+                ltk.Label("PyOdide",
+                    ltk.RadioButton(runtime == "py")
+                        .attr("name", "runtime")
+                        .attr("value", "py")
+                ),
+            ).on("change", set_runtime)
+        ),
         ltk.Button("Click me!", button_clicked, {
             "color": "white",
             "background-color": "red",
@@ -66,23 +82,6 @@ def create():
         ltk.File().on("change", change),
         ltk.ColorPicker().on("change", change),
         ltk.DatePicker().on("change", change),
-        ltk.VBox(
-            ltk.Text("Choose your favorite runtime:"),
-            ltk.RadioGroup(
-                ltk.Span(
-                    ltk.RadioButton(runtime == "mpy")
-                        .attr("name", "runtime")
-                        .attr("id", "mpy")
-                        .attr("value", "mpy"),
-                    ltk.Label("MicroPython").attr("for", "mpy")
-                ),
-                ltk.Label("PyOdide",
-                    ltk.RadioButton(runtime == "py")
-                        .attr("name", "runtime")
-                        .attr("value", "py")
-                ),
-            ).on("change", set_runtime)
-        ),
         ltk.Input("This is an input. Change me!", {
             "width": 180,
             "padding": 10,
