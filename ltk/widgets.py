@@ -630,7 +630,9 @@ class Logger(Widget):
             row.css("display", "block" if visible else "none")
             if visible:
                 height += 32
-        find(".ltk-log-container").animate(to_js({ "height": min(250, height) }))
+        find(".ltk-log-container") \
+            .css("top", None) \
+            .animate(to_js({ "height": min(250, height) }))
 
     def clear(self):
         find(".ltk-log-row").remove()
