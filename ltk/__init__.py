@@ -7,14 +7,11 @@ def fix_time():
     import sys
 
     if not hasattr(time, "time"):
-        class MonkeyPatchedTimeModuleForMicroPython:
-            """ Monkey patch for time.time() for MicroPython """
-            pass
-
+        class MonkeyPatchedTimeModuleForMicroPython: pass
         clone = MonkeyPatchedTimeModuleForMicroPython()
         for key in dir(time):
             setattr(clone, key, getattr(time, key))
-        setattr(clone, "time", lambda: (js.time() + time.ticks_ms()) / 1000)
+        setattr(clone, "time", lambda: js.Date.new().getTime() / 1000)
         sys.modules["time"] = clone
 
 fix_time()

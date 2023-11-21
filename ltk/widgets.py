@@ -156,10 +156,16 @@ class Checkbox(Widget):
         return self.element.prop("checked") == "checked"
 
 
-class Label(Text):
+class Label(Widget):
     """ Wraps a <label> """
     classes = [ "ltk-label" ]
     tag = "label"
+
+    def __init__(self, label, input=None, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
+        if input:
+            self.element.append(input)
+        self.element.append(label)
 
 
 class Button(Widget):
@@ -334,6 +340,28 @@ class ColorPicker(Widget):
     def __init__(self, style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.attr("type", "color")
+
+
+class RadioGroup(VBox):
+    """ Wraps a collection of Radio buttons """
+    classes = [ "ltk-vbox ltk-radiogroup" ]
+
+    def __init__(self, *buttons, style=DEFAULT_CSS):
+        name = f"ltk-radiogroup-{js.time()}"
+        for button in buttons:
+            button.find("input").attr("name", name)
+        VBox.__init__(self, *buttons, style)
+
+
+class RadioButton(Widget):
+    """ Wraps an <input type="radio"> """
+    classes = [ "ltk-radiobutton" ]
+    tag = "input"
+
+    def __init__(self, checked, style=DEFAULT_CSS):
+        Widget.__init__(self, style)
+        self.element.prop("type", "radio")
+        self.element.attr("checked", "checked" if checked else None)
 
 
 class Table(Widget):
