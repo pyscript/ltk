@@ -76,8 +76,9 @@ def create():
             "height": 120
         }).on("keydown", key_down),
         ltk.Span(
-            ltk.Checkbox(True).attr("id", "love").on("change", loveit),
-            ltk.Label("I love LTK")
+            ltk.Label("I love LTK",
+                ltk.Checkbox(True).attr("id", "love").on("change", loveit),
+            )
         ),
         ltk.File().on("change", change),
         ltk.ColorPicker().on("change", change),
