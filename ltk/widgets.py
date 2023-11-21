@@ -636,15 +636,14 @@ class Logger(Widget):
         find(".ltk-log-row").remove()
 
     def setup_logger(self):
-        this = self
+        widget = self
 
         class Handler(logging.StreamHandler):
             level = Logger.level
             formatter = logging.Formatter(fmt=' %(name)s :: %(levelname)-8s :: %(message)s')
 
             def emit(self, record):
-                if record.levelno >= self.level:
-                    this.add(record.levelno, getattr(record, "message", getattr(record, "msg", "???")))
+                widget.add(record.levelno, getattr(record, "message", getattr(record, "msg", "???")))
 
         logger = logging.getLogger('root')
         logger.setLevel(Logger.level)
@@ -698,7 +697,7 @@ class Logger(Widget):
                         try:
                             return json.dumps(to_py(arg))
                         except:
-                            return str(arg)
+                            pass
                     return str(arg)
 
             message = " ".join(filter(None, [format(arg) for arg in args]))
