@@ -7,7 +7,7 @@ def create():
         ltk.LI(
             ltk.Bold(f"Selected menu item: {item.label}")
                 .css("margin", 10)
-        ).appendTo(ltk.find("#feedback"))
+        ).appendTo(ltk.find("#app-feedback"))
 
     left_css = {
         "border-right": "2px solid lightgray",
@@ -38,7 +38,7 @@ def create():
                     left_css),
                 ltk.VBox(
                     ltk.Text("Right Panel"),
-                    ltk.UL().attr("id", "feedback"),
+                    ltk.UL().attr("id", "app-feedback"),
                     right_css)
             ).css("height", "100%")
         )
