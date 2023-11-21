@@ -5,7 +5,7 @@ import ltk
 def create():
     def handler(item):
         ltk.LI(
-            ltk.Bold(f"Selected menu item: {item.label}")
+            ltk.Italic(f"Selected menu item: {item.label}")
                 .css("margin", 10)
         ).appendTo(ltk.find("#app-feedback"))
 
@@ -37,7 +37,9 @@ def create():
                     ltk.Text("Left Panel"),
                     left_css),
                 ltk.VBox(
-                    ltk.Text("Right Panel"),
+                    ltk.Text("Right Panel")
+                        .css("margin-bottom", 20),
+                    ltk.H3("Select a menu item from the blue bar shown above, or press it's shortcut on your keyboard"),
                     ltk.UL().attr("id", "app-feedback"),
                     right_css)
             ).css("height", "100%")
