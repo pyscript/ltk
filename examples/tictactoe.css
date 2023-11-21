@@ -4,9 +4,7 @@
     border: 1px solid gray;
     cursor: pointer;
 }
-
 .tictactoe-choice {
-    font-family: "Brush Script MT";
     font-size: 42px;
     font-family: Brush Script MT;
     text-align: center;
@@ -14,7 +12,12 @@
     width: 90%;
     height: 90%;
 }
-
 .tictactoe-inside {
     background-color: lightblue;
+}
+.tictactoe-css {
+    margin-top: 10px;
+    width: 400px;
+    height: 400px;
+    background-color: rgb(255, 255, 244);
 }

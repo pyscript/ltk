@@ -17,9 +17,8 @@ def create():
         if not ltk.jQuery(event.target).text():
             ltk.jQuery(event.target).addClass("tictactoe-inside")
 
-
     return (
-        ltk.Div(
+        ltk.VBox(
             ltk.H2("Tic Tac Toe Game"),
             ltk.VBox(
                 ltk.HBox(
@@ -31,9 +30,17 @@ def create():
                 )
                 for row in range(3)
             ),
-            ltk.H4("Tip: Click inside the squares."),
+            ltk.H3("Tip: Click inside the squares."),
+            ltk.Label("The CSS:"),
+            ltk.TextArea("CSS will be loaded here...").addClass("tictactoe-css"),
         )
         .attr("name", "Tic Tac Toe")
     )
+
+ltk.get(
+    "examples/tictactoe.css",
+    lambda css: ltk.find(".tictactoe-css").text(css),
+    "html"
+)
 
 ltk.inject_css("examples/tictactoe.css")
