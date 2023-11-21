@@ -86,6 +86,7 @@
             const log = entry.decodedBodySize === 0 ? console.error : console.log
             const kind = entry.decodedBodySize === 0 ? "ERROR" : "INFO"
             log(
+                "Network:",
                 kind,
                 type,
                 toHuman(entry.encodedBodySize),
