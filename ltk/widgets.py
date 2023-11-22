@@ -14,7 +14,7 @@ BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
 DEFAULT_CSS = {}
 shortcuts = {}
 logger = logging.getLogger('root')
-logger.setLevel(logging.NOTSET)
+logger.setLevel(logging.INFO)
 
 
 def callback(function):
@@ -640,7 +640,7 @@ class Logger(Widget):
             formatter = logging.Formatter(fmt=' %(name)s :: %(levelname)-8s :: %(message)s')
 
             def emit(self, record):
-                logger_widget.add(record.levelno, record.getMessage())
+                logger_widget.add(record.levelno, getattr(record, "msg", getattr(record, "message", "???")))
 
         logger.addHandler(Handler())
 
