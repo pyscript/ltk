@@ -44,15 +44,15 @@ def to_py(jsobj):
 def number(s):
     return js.parseFloat(s)
 
-def schedule(function, timeout_seconds=0.1):
-    if not function:
-        raise ValueError(f"schedule: Expecting a function, not {function}")
-    if function in timers:
-        js.clearTimeout(timers[function])
-    timers[function] = js.setTimeout(proxy(function), int(timeout_seconds * 1000))
+def schedule(python_function, timeout_seconds=0.1):
+    if not python_function:
+        raise ValueError(f"schedule: Expecting a function, not {python_function}")
+    if python_function in timers:
+        js.clearTimeout(timers[python_function])
+    timers[python_function] = js.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
 
-def repeat(unproxied_pyton_function, timeout_seconds=1):
-    js.setInterval(proxy(unproxied_pyton_function), int(timeout_seconds * 1000))
+def repeat(python_function, timeout_seconds=1):
+    js.setInterval(proxy(python_function), int(timeout_seconds * 1000))
 
 def get(route, handler, kind="json"):
     def wrapper(data, *rest):
