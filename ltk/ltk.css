@@ -147,43 +147,32 @@
     background-color: white;
 }
 
-.ltk-log {
-    position: absolute;
-    border-collapse: collapse;
-    background-color: rgb(225, 246, 253);
-    width: 100%;
-    overflow-y: auto;
-    border: 3px solid transparent;
-    border-width: 3px 0;
-    padding-top: 32px;
-}
-
-#ltk-log-header {
+.ltk-log-header {
     background-color: lightgreen;
     width: 100%;
-    position: absolute;
-    z-index: 2;
-    top: 0;
+    height: 26px;
 }
 
-#ltk-log-header .ltk-text {
+.ltk-log-header .ltk-text {
     background-color: lightgreen;
+    width: 35px;
+    font-size: 12px;
+    padding: 6px 8px;
+}
+
+.ltk-log-row .ltk-text:nth-child(3) {
+    padding-left: 4px;
+}
+
+.ltk-log-buttons {
+    position: absolute;
+    top: 3px;
+    right: 15px;
+    z-index: 1000;
 }
 
 .ltk-log::-webkit-scrollbar {
     display: none;
-}
-
-.ltk-log .ltk-text {
-    padding: 8px;
-}
-
-.ltk-log .ltk-pre {
-    margin: 0;
-}
-
-.ltk-log-container.ltk-button, .ltk-log-container.ltk-select {
-    margin-left: 6px;
 }
 
 .ltk-log-row {
@@ -191,4 +180,29 @@
     border: 0px solid lightgray;
     border-bottom-width: 1px;
     height: 0;
+}
+
+.ltk-log-row .ltk-text {
+    padding: 4px 8px;
+    width: 35px;
+    font-size: 12px;
+}
+
+.ltk-log-row * {
+    height: 12px;
+}
+
+.ltk-log-row .ltk-text:nth-child(2) {
+    padding-left: 12px;
+}
+
+.ltk-log-row .ltk-text:nth-child(3) {
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    width: calc(100% - 125px);
+    height: 14px;
+}
+
+.ltk-log-container.ltk-button, .ltk-log-container.ltk-select {
+    margin-left: 6px;
 }

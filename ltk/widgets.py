@@ -13,6 +13,8 @@ timers = {}
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
 DEFAULT_CSS = {}
 shortcuts = {}
+logger = logging.getLogger('root')
+logger.setLevel(logging.NOTSET)
 
 
 def callback(function):
@@ -588,6 +590,7 @@ class Logger(Widget):
         self.add_table()
         self.setup_logger()
         self.setup_console()
+        self.setup_py_error()
         self.filter_rows()
 
     def add_table(self):
@@ -595,28 +598,21 @@ class Logger(Widget):
         self.element.append(
             VBox(
                 HBox(
-                    Text().attr("width", 30).text("When"),
-                    Text().attr("width", 30).text("Level"),
+                    Text().text("When"),
+                    Text().text("Level"),
                     Text().text("Message"),
-                ).attr("id", "ltk-log-header")
-            ).addClass("ltk-log"),
-            Container(
-                Select(
-                    [
-                        name
-                        for name in sorted(self.levels.keys())
-                    ],
-                    self.icons[self.level],
-                    lambda _, option: self.set_level(option.text()),
-                ).attr("id", "ltk-log-level"),
-                Button("clear", lambda event: self.clear()),
-                Button("x", lambda event: self.element.css("display", "none")),
+                ),
+                Container(
+                    Select(
+                        [ name for name in sorted(self.levels.keys()) ],
+                        self.icons[self.level],
+                        lambda _, option: self.set_level(option.text()),
+                    ).attr("id", "ltk-log-level"),
+                    Button("clear", lambda event: self.clear()),
+                    Button("x", lambda event: self.element.css("display", "none")),
+                ).addClass("ltk-log-buttons")
             )
-            .css("position", "absolute")
-            .css("top", 3)
-            .css("right", 15)
-            .css("width", "fit")
-            .css("z-index", 1000)
+            .addClass("ltk-log-header")
         )
 
     def set_level(self, selected):
@@ -631,40 +627,36 @@ class Logger(Widget):
             if visible:
                 height += 32
         find(".ltk-log-container").css("top", "").css("height", min(250, height))
-        print("filter rows, top=", find(".ltk-log-container").css("top"))
 
     def clear(self):
         find(".ltk-log-row").remove()
         self.filter_rows()
 
     def setup_logger(self):
-        widget = self
+        logger_widget = self
 
         class Handler(logging.StreamHandler):
             level = Logger.level
             formatter = logging.Formatter(fmt=' %(name)s :: %(levelname)-8s :: %(message)s')
 
             def emit(self, record):
-                widget.add(record.levelno, getattr(record, "message", getattr(record, "msg", "???")))
+                logger_widget.add(record.levelno, record.getMessage())
 
-        logger = logging.getLogger('root')
-        logger.setLevel(Logger.level)
         logger.addHandler(Handler())
 
     def add(self, level, *args, **argv):
         try:
-            python_timestamp = time()
             message = " ".join(map(str, args))
             self.messages.append(message)
-            find("#ltk-log-header").after(
+            find(".ltk-log-header").after(
                 HBox(
-                    Text().text(f"{python_timestamp:.2f}").css("width", 30),
-                    Text().text(Logger.icons[level]).css("width", 30),
-                    Text().append(Preformatted().text(message)),
+                    Text().text(f"{time():.2f}"),
+                    Text().text(Logger.icons[level]),
+                    Text().text(message.replace("\n", "\\n")),
                 )
                 .addClass("ltk-log-row")
                 .attr("level", level)
-                .animate(to_js({ "height": 32  }))
+                .animate(to_js({ "height": 24  }), 700)
             )
             if level == logging.ERROR:
                 console.orig_error(*args)
@@ -686,6 +678,15 @@ class Logger(Widget):
             warnings.warn = self.console_log
         except:
             pass # Micropython
+
+    def setup_py_error(self):
+        def find_errors():
+            py_error = find(".py-error")
+            if py_error.length > 0:
+                lines = py_error.text().strip().split("\n")
+                self.add(logging.ERROR, f"{lines[-1]}: {py_error.text()}")
+                py_error.remove()
+        repeat(find_errors, 1)
 
     def console_log(self, *args, **argv):
         try:
