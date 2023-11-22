@@ -51,8 +51,8 @@ def schedule(function, timeout_seconds=0.1):
         js.clearTimeout(timers[function])
     timers[function] = js.setTimeout(proxy(function), int(timeout_seconds * 1000))
 
-def repeat(function, timeout_seconds=1):
-    js.setInterval(proxy(function), int(timeout_seconds * 1000))
+def repeat(unproxied_pyton_function, timeout_seconds=1):
+    js.setInterval(proxy(unproxied_pyton_function), int(timeout_seconds * 1000))
 
 def get(route, handler, kind="json"):
     def wrapper(data, *rest):
