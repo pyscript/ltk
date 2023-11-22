@@ -595,7 +595,7 @@ class Logger(Widget):
 
     def add_table(self):
         self.selector = find('#ltk-log-level')
-        self.element.append(
+        self.element.css("opacity", 0).append(
             VBox(
                 HBox(
                     Text().text("When"),
@@ -663,6 +663,7 @@ class Logger(Widget):
             else:
                 console.orig_log(*args)
             self.filter_rows()
+            self.element.animate(to_js({"opacity": 1}), 1300)
         except Exception as e:
             print("Log error:", e)
 
