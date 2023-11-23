@@ -4,7 +4,7 @@ from ltk.jquery import *
 inject_script("ltk/ltk.js")
 inject_css("ltk/ltk.css")
 
-from pyscript import window as js # type: ignore
+from pyscript import window # type: ignore
 
 def fix_time():
     import time
@@ -15,16 +15,12 @@ def fix_time():
         clone = MonkeyPatchedTimeModuleForMicroPython()
         for key in dir(time):
             setattr(clone, key, getattr(time, key))
-        setattr(clone, "time", lambda: js.Date.new().getTime() / 1000)
+        setattr(clone, "time", lambda: window.Date.new().getTime() / 1000)
         sys.modules["time"] = clone
 
 fix_time()
 
 from ltk.widgets import *
-from ltk.logger import Logger
-
-from ltk.pubsub import publish
-from ltk.pubsub import subscribe
-
-
+from ltk.pubsub import *
+from ltk.logger import *
 from ltk.jquery import time

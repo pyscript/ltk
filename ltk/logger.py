@@ -2,8 +2,7 @@
 
 import json
 import logging
-from ltk.widgets import *
-from ltk.pubsub import PubSubUI
+from ltk import *
 
 logger = logging.getLogger('root')
 logger.setLevel(logging.DEBUG)
@@ -112,21 +111,21 @@ class Logger(HBox):
                 .animate(to_js({ "height": 24  }), 700)
             )
             if level == logging.ERROR:
-                console.orig_error(*args)
+                window.console.orig_error(*args)
             else:
-                console.orig_log(*args)
+                window.console.orig_log(*args)
             self.filter_rows()
             self.element.animate(to_js({"opacity": 1}), 1300)
         except Exception as e:
             print("Log error:", e)
 
     def setup_console(self):
-        console.orig_log = console.log
-        console.orig_warn = console.warn
-        console.orig_error = console.error
-        console.log = self.console_log
-        console.warn = self.console_log
-        console.error = self.console_log
+        window.console.orig_log = window.console.log
+        window.console.orig_warn = window.console.warn
+        window.console.orig_error = window.console.error
+        window.console.log = self.console_log
+        window.console.warn = self.console_log
+        window.console.error = self.console_log
         try:
             import warnings
             warnings.warn = self.console_log

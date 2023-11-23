@@ -2,9 +2,9 @@
 
 import logging
 import ltk
-from pyscript import window as js # type: ignore
+from pyscript import window # type: ignore
 
-search = js.URLSearchParams.new(js.location.search)
+search = window.URLSearchParams.new(window.location.search)
 runtime = search.get("runtime") or "mpy"
 
 logger = logging.getLogger()
@@ -42,7 +42,7 @@ def create():
     def set_runtime(event):
         chosen = ltk.jQuery(event.target).attr("value")
         if chosen != runtime:
-            js.setSearchParameter("runtime", chosen)
+            window.setSearchParameter("runtime", chosen)
 
     widgets = [
         ltk.VBox(

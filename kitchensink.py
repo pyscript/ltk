@@ -1,7 +1,7 @@
 import ltk  # Load early on MicroPython, before logging
 
 import examples
-from pyscript import window as js # type: ignore
+from pyscript import window # type: ignore
 import logging
 
 logger = logging.getLogger("kitchensink")
@@ -25,7 +25,7 @@ def getsource(file):
 
 
 ltk.find("#progress").remove()
-ltk.find("#title").append(f" took {js.startTime() / 1000}s to load")
+ltk.find("#title").append(f" took {window.startTime() / 1000}s to load")
 
 
 tabs = ltk.Tabs(
@@ -62,7 +62,7 @@ def activate_tab(event, ui=None):
 
 tabs.activate(ltk.get_url_parameter("tab") or 0)
 
-ltk.body.append(
+ltk.find(window.document.body).append(
     ltk.Logger().element,
     ltk.Div(
         tabs.css("margin-bottom", 24)

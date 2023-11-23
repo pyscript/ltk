@@ -1,6 +1,6 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
-from pyscript import window as js # type: ignore
+from pyscript import window # type: ignore
 from ltk.jquery import *
 
 timers = {}
@@ -342,7 +342,7 @@ class RadioGroup(VBox):
     classes = [ "ltk-vbox ltk-radiogroup" ]
 
     def __init__(self, *buttons, style=DEFAULT_CSS):
-        name = f"ltk-radiogroup-{js.time()}"
+        name = f"ltk-radiogroup-{window.time()}"
         for button in buttons:
             button.find("input").attr("name", name)
         VBox.__init__(self, *buttons, style)
@@ -366,19 +366,19 @@ class Table(Widget):
 
     def __init__(self, *rows):
         self.element = (
-            js.table()
+            window.table()
                 .addClass(" ".join(self.classes))
                 .append(*self._flatten(rows))
         )
 
     def title(self, column, title):
-        js.tableTitle(self.element, column, title)
+        window.tableTitle(self.element, column, title)
 
     def get(self, column, row):
-        return js.tableGet(self.element, column, row)
+        return window.tableGet(self.element, column, row)
 
     def set(self, column, row, value):
-        js.tableSet(self.element, column, row, value)
+        window.tableSet(self.element, column, row, value)
 
 
 class TableRow(Widget):
@@ -418,7 +418,7 @@ class Code(Widget):
 
     def __init__(self, language, code, style=DEFAULT_CSS):
         Widget.__init__(self, style)
-        if not hasattr(js, "hljs"):
+        if not hasattr(window, "hljs"):
             inject_css("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css")
             inject_script("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
             inject_script(f"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/{language}.min.js")
@@ -428,8 +428,8 @@ class Code(Widget):
     def highlight(self):
         if self.highlighted:
             return
-        if hasattr(js, "hljs"):
-            js.hljs.highlightElement(self.element[0])
+        if hasattr(window, "hljs"):
+            window.hljs.highlightElement(self.element[0])
             self.element.animate(to_js({ "opacity": 1}))
             self.highlighted = True
         else:
@@ -499,9 +499,9 @@ class MenuPopup(Popup):
         close_all_menus()
         find("#main").css("opacity", 0.3)
         (self
-            .appendTo(body)
+            .appendTo(jQuery(window.document.body))
             .css("top", element.offset().top + 28)
-            .css("left", min(element.offset().left + 2, body.width() - self.width() - 12))
+            .css("left", min(element.offset().left + 2, jQuery(window.document.body).width() - self.width() - 12))
             .addClass("ltk-menupopup-open")
         )
 
@@ -568,7 +568,7 @@ def close_all_menus(event=None):
         return
     find(".ltk-menupopup-open").removeClass("ltk-menupopup-open")
 
-body.on("click", proxy(close_all_menus))
+jQuery(window.document.body).on("click", proxy(close_all_menus))
 
 def _handle_shortcuts():
     def handle_keydown(event):
@@ -576,7 +576,7 @@ def _handle_shortcuts():
         if shortcut in shortcuts:
             event.preventDefault()
             shortcuts[shortcut].select(event)
-    document.on("keydown", proxy(handle_keydown))
+    jQuery(window.document).on("keydown", proxy(handle_keydown))
 
 
 _handle_shortcuts()
