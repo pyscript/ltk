@@ -83,15 +83,24 @@
     new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
             const type = entry.initiatorType[0].toUpperCase() + entry.initiatorType.slice(1);
-            const log = entry.decodedBodySize === 0 ? console.error : console.log
-            const kind = entry.decodedBodySize === 0 ? "ERROR" : "INFO"
+            var kind = "Debug";
+            var log = console.log
+            if (entry.responseStatus !== 0 && entry.responseStatus !== 200) {
+                kind = "Error";
+                log = console.error;
+            }
             log(
-                "Network:",
+                "Network |",
                 kind,
+                "|",
                 type,
+                "|",
                 toHuman(entry.encodedBodySize),
+                "|",
                 toHuman(entry.decodedBodySize),
+                "|",
                 `${entry.duration.toFixed()}ms`,
+                "|",
                 entry.name
             )
         }

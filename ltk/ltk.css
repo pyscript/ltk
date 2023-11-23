@@ -160,6 +160,14 @@
     padding: 6px 8px;
 }
 
+.ltk-log-header .ltk-input {
+    width: 55px;
+    font-size: 12px;
+    height: 16px;
+    border: 1px solid gray;
+    border-radius: 2px;
+}
+
 .ltk-log-row .ltk-text:nth-child(3) {
     padding-left: 4px;
 }

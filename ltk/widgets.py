@@ -580,7 +580,6 @@ class Logger(Widget):
         logging.WARNING  : '🤔',
         logging.INFO     : 'ⓘ',
         logging.DEBUG    : '🐞',
-        logging.NOTSET   : '❓', 
     }
     levels = dict((value, key) for key, value in icons.items())
 
@@ -604,10 +603,14 @@ class Logger(Widget):
                 ),
                 Container(
                     Select(
-                        [ name for name in sorted(self.levels.keys()) ],
+                        [ name for name, level in sorted(self.levels.items(), key = lambda item: item[1]) ],
                         self.icons[self.level],
                         lambda _, option: self.set_level(option.text()),
                     ).attr("id", "ltk-log-level"),
+                    Input("")
+                        .attr("placeholder", "Filter")
+                        .attr("id", "ltk-log-filter")
+                        .on("keyup", lambda event: self.apply_filter()),
                     Button("clear", lambda event: self.clear()),
                     Button("x", lambda event: self.element.css("display", "none")),
                 ).addClass("ltk-log-buttons")
@@ -619,10 +622,16 @@ class Logger(Widget):
         self.level = self.levels[selected]
         self.filter_rows()
 
+    def apply_filter(self):
+        self.filter_rows()
+
     def filter_rows(self):
+        filter_text = find("#ltk-log-filter").val()
         height = 36
-        for row in find_list(".ltk-log-row"):
-            visible = int(row.attr("level")) >= self.level
+        rows = find_list(".ltk-log-row")
+        for row in rows:
+            message = row.find(".ltk-text:nth-child(3)").text()
+            visible = int(row.attr("level")) >= self.level and (not filter_text or filter_text in message)
             row.css("display", "block" if visible else "none")
             if visible:
                 height += 32
@@ -640,13 +649,16 @@ class Logger(Widget):
             formatter = logging.Formatter(fmt=' %(name)s :: %(levelname)-8s :: %(message)s')
 
             def emit(self, record):
-                logger_widget.add(record.levelno, getattr(record, "msg", getattr(record, "message", "???")))
+                message = getattr(record, "msg", getattr(record, "message", "???"))
+                logger_widget.add(record.levelno, message)
 
         logger.addHandler(Handler())
 
     def add(self, level, *args, **argv):
         try:
             message = " ".join(map(str, args))
+            if message.startswith("js_callable_proxy"):
+                return
             self.messages.append(message)
             find(".ltk-log-header").after(
                 HBox(
@@ -693,22 +705,28 @@ class Logger(Widget):
         try:
             if not args:
                 return
-            kind = args[0]
 
             def format(arg):
-                if not arg in ["ERROR", "DEBUG", "WARN", "INFO"]:
-                    if arg.__class__.__name__ == "jsobj":
-                        try:
-                            return json.dumps(to_py(arg))
-                        except:
-                            pass
-                    return str(arg)
+                if arg.__class__.__name__ == "jsobj":
+                    try:
+                        return json.dumps(to_py(arg))
+                    except:
+                        pass
+                return str(arg)
 
             message = " ".join(filter(None, [format(arg) for arg in args]))
-            level = logging.ERROR if kind == "ERROR" or "Traceback" in message else logging.DEBUG if "js_callable_proxy" in message else logging.INFO
+            level = self.get_level(message)
             self.add(level, message)
         except Exception as e:
             print(e)
+
+    def get_level(self, message):
+        level = logging.INFO
+        if "Traceback" in message or "Error" in message:
+            level = logging.ERROR
+        if "Debug" in message or "js_callable_proxy" in message or message.startswith("💀🔒 - Possible deadlock"):
+            level = logging.DEBUG
+        return level
 
 
 
