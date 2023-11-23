@@ -137,14 +137,17 @@
     padding: 4px 8px;
 }
 
-.ltk-log-container {
+.ltk-log-list {
     position: fixed;
     bottom: 3px;
-    width: 100vw;
-    height: 32px;
+    width: 100%;
+    left: 0;
+    height: 232px;
     z-index: 1000;
     overflow-y: auto;
     background-color: white;
+    border: 0px solid gray;
+    border-top-width: 1px;
 }
 
 .ltk-log-header {
@@ -166,6 +169,7 @@
     height: 16px;
     border: 1px solid gray;
     border-radius: 2px;
+    background-color: white;
 }
 
 .ltk-log-row .ltk-text:nth-child(3) {
@@ -184,6 +188,7 @@
 }
 
 .ltk-log-row {
+    width: 100%;
     background-color: rgb(255, 255, 240);
     border: 0px solid lightgray;
     border-bottom-width: 1px;
@@ -213,4 +218,70 @@
 
 .ltk-log-container.ltk-button, .ltk-log-container.ltk-select {
     margin-left: 6px;
+}
+
+#ltk-log-ui {
+    width: 100%;
+}
+
+#ltk-pubsub-ui {
+    width: 0;
+    height: 100%;
+    background-color: rgb(245, 253, 253);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.ltk-pubsub-component {
+    margin-top: 20px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.ltk-pubsub-component-title {
+    padding: 8px;
+    min-width: 80px;
+    background-color: white;
+    text-align: center;
+    border: 1px solid gray;
+    margin: 2px auto 0 auto;
+    height: 32px;
+}
+
+.ltk-pubsub-component-line {
+    border: 0px dashed gray;
+    border-left-width: 1px;
+    width: 1px;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+.ltk-pubsub-call {
+    position: absolute;
+    border: 0px solid red;
+    border-bottom-width: 2px;
+    height: 1px;
+}
+
+.ltk-pubsub-dot {
+    position: absolute;
+    background-color: pink;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    top: -5px;
+    left: -5px;
+}
+
+.ltk-pubsub-dot .label {
+    position: absolute;
+    width: 200px;
+    height: 16px;
+    text-wrap: wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    top: 14px;
+    left: -39px;
 }

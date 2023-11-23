@@ -109,4 +109,6 @@
         buffered: true,
     });
 
+    console.log("LTK: ltk.js loaded.")
+
 })()

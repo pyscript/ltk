@@ -1,5 +1,9 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
+from ltk.jquery import *
+inject_script("ltk/ltk.js")
+inject_css("ltk/ltk.css")
+
 from pyscript import window as js # type: ignore
 
 def fix_time():
@@ -16,10 +20,11 @@ def fix_time():
 
 fix_time()
 
-from ltk.jquery import *
 from ltk.widgets import *
+from ltk.logger import Logger
 
-inject_script("ltk/ltk.js")
-inject_css("ltk/ltk.css")
+from ltk.pubsub import publish
+from ltk.pubsub import subscribe
+
 
 from ltk.jquery import time

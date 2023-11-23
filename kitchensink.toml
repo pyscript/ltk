@@ -2,7 +2,9 @@
 files = [
     "ltk/__init__.py",
     "ltk/jquery.py",
+    "ltk/pubsub.py",
     "ltk/widgets.py",
+    "ltk/logger.py",
     "ltk/ltk.js",
     "ltk/ltk.css",
     "examples/__init__.py",
@@ -14,5 +16,6 @@ files = [
     "examples/tictactoe.py",
     "examples/tictactoe.css",
     "examples/custom.py",
+    "examples/pubsub.py",
     "examples/table.py",
 ]
