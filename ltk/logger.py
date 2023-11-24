@@ -21,13 +21,14 @@ class Logger(ltk.Div):
         logging.DEBUG    : '🐞',
     }
     levels = dict((value, key) for key, value in icons.items())
+    last_width = 0
 
     def __init__(self):
-        self.log_ui = ltk.VBox().attr("id", "ltk-log-ui")
-        self.sequence = SequenceDiagram()
+        self.log_ui = ltk.VBox(ltk.Div().css("height", 28)).attr("id", "ltk-log-ui")
+        self.sequence_ui = SequenceDiagram()
         ltk.Div.__init__(self,
             ltk.VerticalSplitPane(
-                self.sequence,
+                self.sequence_ui,
                 self.log_ui,
             )
         )
@@ -46,7 +47,7 @@ class Logger(ltk.Div):
                 ltk.Text().text("When"),
                 ltk.Text().text("Level"),
                 ltk.Text().text("Message"),
-            ),
+            ).css("width", "100vw"),
             ltk.Container(
                 ltk.Select(
                     [ name for name, level in sorted(self.levels.items(), key = lambda item: item[1]) ],
@@ -58,9 +59,17 @@ class Logger(ltk.Div):
                     .attr("id", "ltk-log-filter")
                     .on("keyup", lambda event: self.apply_filter()),
                 ltk.Button("clear", lambda event: self.clear()),
-                ltk.Button("x", lambda event: self.element.css("display", "none")),
+                ltk.Button("x", lambda event: self.element.remove()),
             ).addClass("ltk-log-buttons")
         ).addClass("ltk-log-header").appendTo(self.log_ui)
+        ltk.observe(self.element, self.changed)
+        self.last_width = self.element.width()
+
+    def changed(self, element=None):
+        if self.element.width() != self.last_width:
+            ltk.find(".ltk-log-header").css("width", self.width())
+            ltk.find(".ltk-log-buttons").css("right", 10)
+            self.last_width = self.element.width()
 
     def set_level(self, selected):
         self.level = self.levels[selected]
@@ -68,6 +77,7 @@ class Logger(ltk.Div):
 
     def apply_filter(self):
         self.filter_rows()
+        self.sequence_ui.filter_messages(ltk.find("#ltk-log-filter").val())
 
     def filter_rows(self):
         filter_text = ltk.find("#ltk-log-filter").val()
@@ -81,8 +91,12 @@ class Logger(ltk.Div):
                 height += 25
 
     def clear(self):
-        ltk.find(".ltk-log-row").remove()
+        ltk.find(".ltk-log-row").animate(
+            ltk.to_js({ "opacity": 0}),
+            lambda: ltk.find(".ltk-log-row").remove()
+        )
         self.filter_rows()
+        self.sequence_ui.clear()
 
     def setup_logger(self):
         logger_widget = self
@@ -120,12 +134,23 @@ class Logger(ltk.Div):
             self.filter_rows()
             self.element.animate(ltk.to_js({"opacity": 1}), 1300)
             self.check_pubsub(message)
+            self.check_network(message)
+            self.check_events(message)
         except Exception as e:
             print("Log error:", e)
                 
     def check_pubsub(self, message):
         if message.startswith("[Pubsub]"):
-            self.sequence.log(*json.loads(message[9:]))
+            self.sequence_ui.log(*json.loads(message[9:]))
+
+    def check_network(self, message):
+        if message.startswith("[Network]"):
+            kind, type, encodedSize, decodedSize, duration, name = json.loads(message[10:])
+            if type == "Xmlhttprequest":
+                self.sequence_ui.log("Network", "Application", name, f"{decodedSize}")
+
+    def check_events(self, message):
+        print(message)
 
     def setup_console(self):
         window.console.orig_log = window.console.log
@@ -188,7 +213,7 @@ class Component(ltk.VBox):
 class Call(ltk.Div):
     classes = [ "ltk-sequence-call" ]
 
-    def __init__(self, sender, receiver, topic, data):
+    def __init__(self, sender, receiver, topic, data, index):
         ltk.Div.__init__(self)
         self.sender = sender
         self.receiver = receiver
@@ -196,7 +221,11 @@ class Call(ltk.Div):
         self.data = data
         self.dot = Dot(topic, data, self, sender.title.position().left > receiver.title.position().left)
         self.element.append(self.dot.element)
-        self.count = self.sender.parent().find(".ltk-sequence-call").length
+        self.set_index(index)
+    
+    def set_index(self, index):
+        self.index = index
+        self.css("display", "block")
         self.set_position()
     
     def set_position(self):
@@ -208,7 +237,7 @@ class Call(ltk.Div):
         
         self.css("width", right - left)
         self.css("left", round(left + width / 2 + 8))
-        self.css("top", round(top + height * 2 + 26 + self.count * 32))
+        self.css("top", round(top + height * 2 + 26 + self.index * 32))
         self.dot.set_position()
 
 
@@ -242,19 +271,25 @@ class Dot(ltk.Div):
 
 
 class SequenceDiagram(ltk.HBox):
-    classes = [ "ltk-sequence-ui ltk-hbox" ]
+    classes = [ "ltk-sequence-ui", "ltk-hbox" ]
     components = {}
     calls = []
     last_width = 0
 
     def __init__(self):
-        ltk.HBox.__init__(self)
+        ltk.HBox.__init__(self,
+            ltk.Div(
+                ltk.Text("State Sequence Diagram").css("margin", 3)
+            ).addClass("ltk-sequence-header"),
+        )
         self.element.attr("id", "ltk-sequence-ui")
         ltk.observe(self.element, self.changed)
         self.last_width = self.element.width()
 
-    def changed(self, element):
-        if self.element.width() != self.last_width:
+    def changed(self, element=None, force=False):
+        if force or self.element.width() != self.last_width:
+            ltk.find(".ltk-sequence-header").css("width", self.width())
+            self.closest("td").css("width", self.width())
             self.last_width = self.element.width()
             for call in self.calls:
                 call.set_position()
@@ -263,9 +298,25 @@ class SequenceDiagram(ltk.HBox):
         self.element.css("width", "100%")
         sender = self.get_component(sender_name)
         receiver = self.get_component(receiver_name)
-        call = Call(sender, receiver, topic, data)
+        call = Call(sender, receiver, topic, data, len(self.calls))
         self.calls.append(call)
         self.append(call.element)
+        ltk.schedule(lambda: self.changed(force=True), 1.5)
+
+    def clear(self):
+        ltk.find(".ltk-sequence-call").animate(
+            ltk.to_js({ "opacity": 0}),
+            lambda: ltk.find(".ltk-sequence-call").remove()
+        )
+
+    def filter_messages(self, filter):
+        ltk.find(".ltk-sequence-call").css("display", "none")
+        index = 0
+        for n, call in enumerate(self.calls):
+            if filter in call.text():
+                call.set_index(index)
+                index += 1
+
 
     def get_component(self, name):
         if not name in self.components:

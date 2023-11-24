@@ -105,9 +105,10 @@ def create():
                 .attr("id", "feedback"),
             ltk.Container(get_widgets()), {
                 "padding": 50,
+                "border": "1px solid gray",
                 "background-color": "lightyellow",
             }
         )
-        .css("height", 710)
+        .css("height", 708)
         .attr("name", "Inputs")
     )

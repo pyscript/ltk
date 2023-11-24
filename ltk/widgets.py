@@ -452,6 +452,7 @@ class Code(Widget):
             schedule(self.highlight, 0.1)
 
 
+
 class Image(Widget):
     """ Wraps an <img> """
     classes = [ "ltk-image" ]

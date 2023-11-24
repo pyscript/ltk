@@ -1,12 +1,11 @@
 # LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
 
 import ltk
-import ltk.pubsub
 import random
 
 fan = ltk.Preformatted("")
 
-ltk.pubsub.subscribe(
+ltk.subscribe(
     "Fan",           # the receiver
     "message",       # the subscription topic
     fan.append       # the handler to call
@@ -17,7 +16,7 @@ def publish(event=None):
     message = random.choice([
         "Subscribe!\n", "Like!\n", "Share!\n", "Pay me!\n", "Repost!\n"
     ]) 
-    ltk.pubsub.publish(
+    ltk.publish(
         "Influencer",   # the sender
         "message",      # the subscription topic
         message         # the message to send 

@@ -90,18 +90,15 @@
                 log = console.error;
             }
             log(
-                "Network |",
-                kind,
-                "|",
-                type,
-                "|",
-                toHuman(entry.encodedBodySize),
-                "|",
-                toHuman(entry.decodedBodySize),
-                "|",
-                `${entry.duration.toFixed()}ms`,
-                "|",
-                entry.name
+                "[Network]",
+                JSON.stringify([
+                    kind,
+                    type,
+                    toHuman(entry.encodedBodySize),
+                    toHuman(entry.decodedBodySize),
+                    `${entry.duration.toFixed()}ms`,
+                    entry.name
+                ])
             )
         }
     }).observe({

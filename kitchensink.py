@@ -29,23 +29,14 @@ ltk.find("#title").append(f" took {window.startTime() / 1000}s to load")
 
 
 tabs = ltk.Tabs(
-    ltk.VerticalSplitPane(
-        ltk.Container(
-            example
-        )
-        .addClass("example"),
-        ltk.VBox(
-            ltk.Preformatted(
-                ltk.Code("python", getsource(file))
-                    .attr("file", file)
-                    .css("width", "95%")
-            )
-            .css("padding-bottom", 16)
-            .css("height", 770)
-        )
-        .css("overflow", "hidden")
-        .css("padding-left", 24)
-        .css("border-left", "2px solid lightgray"),
+    ltk.HBox(
+        example
+            .addClass("example"),
+        ltk.Code("python", getsource(file))
+            .attr("file", file)
+            .css("margin-left", 20)
+            .css("width", "95%")
+            .css("height", 800)
     ).attr("name", example.attr("name"))
     for file, example in examples.items
 )
