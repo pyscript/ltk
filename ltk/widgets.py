@@ -73,6 +73,8 @@ class Widget(object):
                 result.extend(self._flatten(child))
             elif isinstance(child, list):
                 result.extend(self._flatten(child))
+            elif isinstance(child, float):
+                result.append(str(child))
             else:
                 result.append(child)
         return result
@@ -89,14 +91,15 @@ class HBox(Widget):
     classes = [ "ltk-hbox" ]
 
 
-class VBox(Widget):
-    """ Lays out its child widgets vertically """
-    classes = [ "ltk-vbox" ]
-
-
 class Div(Widget):
     """ Wraps a <div> """
     classes = [ "ltk-div" ]
+
+
+
+class VBox(Widget):
+    """ Lays out its child widgets vertically """
+    classes = [ "ltk-vbox" ]
 
 
 class Container(Widget):
@@ -119,9 +122,8 @@ class Text(Widget):
     """ A <div> to hold text """
     classes = [ "ltk-text" ]
 
-    def __init__(self, text="", style=DEFAULT_CSS):
-        Widget.__init__(self, style)
-        self.element.text(str(text))
+    def __init__(self, *args, style=DEFAULT_CSS):
+        Widget.__init__(self, *args, style)
 
 
 class Input(Widget):
@@ -399,6 +401,20 @@ class TableData(Text):
     tag = "td"
 
 
+class VerticalSplitPane(Table):
+    """ Lays out its child widgets horizontally with a resize handle in the center """
+    classes = [ "ltk-vertical-split-pane" ]
+
+    def __init__(self, left, right):
+        Table.__init__(self,
+            TableRow(
+                TableData(left.resizable(to_js({"handles": "e"}))).css("padding", 0), 
+                TableData(right).css("padding", 0)
+            )
+        )
+        self.css("width", "100%")
+
+
 class TextArea(Text):
     """ Wraps a <textarea> """
     classes = [ "ltk-td" ]
@@ -434,7 +450,6 @@ class Code(Widget):
             self.highlighted = True
         else:
             schedule(self.highlight, 0.1)
-
 
 
 class Image(Widget):

@@ -23,9 +23,5 @@ h1 {
 
 .example {
     border: 0px solid transparent;
-    border-right-width: 4px;
-}
-
-.example:hover {
-    border-color: lightgray;
+    overflow: hidden;
 }

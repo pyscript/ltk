@@ -84,6 +84,13 @@ def async_proxy(function):
     return pyodide.ffi.create_proxy(call_function)
 
 
+def observe(element, handler):
+    config = window.eval("_={ attributes: true, childList: true, subtree: true };")
+    callback = pyodide.ffi.create_proxy(lambda *args: handler(element))
+    observer = window.MutationObserver.new(callback)
+    observer.observe(element[0], config)
+
+
 def proxy(function):
     return pyodide.ffi.create_proxy(function)
 

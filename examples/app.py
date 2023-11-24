@@ -44,5 +44,6 @@ def create():
                     right_css)
             ).css("height", "100%")
         )
-        .css("height", "100%")
+        .css("width", 500)
+        .css("height", 800)
         .attr("name", "Application"))

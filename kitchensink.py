@@ -29,13 +29,11 @@ ltk.find("#title").append(f" took {window.startTime() / 1000}s to load")
 
 
 tabs = ltk.Tabs(
-    ltk.HBox(
+    ltk.VerticalSplitPane(
         ltk.Container(
             example
         )
-        .addClass("example")
-        .css("width", "40%")
-        .resizable(ltk.to_js({ "handles": "e" })),
+        .addClass("example"),
         ltk.VBox(
             ltk.Preformatted(
                 ltk.Code("python", getsource(file))
@@ -46,7 +44,6 @@ tabs = ltk.Tabs(
             .css("height", 770)
         )
         .css("overflow", "hidden")
-        .css("width", "60%")
         .css("padding-left", 24)
         .css("border-left", "2px solid lightgray"),
     ).attr("name", example.attr("name"))

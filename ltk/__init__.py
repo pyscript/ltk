@@ -21,6 +21,7 @@ def fix_time():
 fix_time()
 
 from ltk.widgets import *
-from ltk.pubsub import *
+from ltk.pubsub import publish
+from ltk.pubsub import subscribe
 from ltk.logger import *
 from ltk.jquery import time

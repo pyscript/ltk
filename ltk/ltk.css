@@ -135,6 +135,7 @@
     border: 0 solid lightgray;
     border-bottom-width: 1px;
     padding: 4px 8px;
+    vertical-align: top;
 }
 
 .ltk-log-list {
@@ -222,34 +223,36 @@
 
 #ltk-log-ui {
     width: 100%;
+    overflow: hidden;
+    border-left-width: 3px;
 }
 
-#ltk-pubsub-ui {
+#ltk-sequence-ui {
     width: 0;
     height: 100%;
-    background-color: rgb(245, 253, 253);
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.ltk-pubsub-component {
+.ltk-sequence-component {
     margin-top: 20px;
     height: 100%;
     overflow: hidden;
 }
 
-.ltk-pubsub-component-title {
+.ltk-sequence-component-title {
     padding: 8px;
     min-width: 80px;
-    background-color: white;
+    background-color: rgb(250, 230, 234);
     text-align: center;
     border: 1px solid gray;
     margin: 2px auto 0 auto;
     height: 32px;
 }
 
-.ltk-pubsub-component-line {
+.ltk-sequence-component-line {
     border: 0px dashed gray;
     border-left-width: 1px;
     width: 1px;
@@ -257,14 +260,14 @@
     margin: 0 auto;
 }
 
-.ltk-pubsub-call {
+.ltk-sequence-call {
     position: absolute;
     border: 0px solid red;
     border-bottom-width: 2px;
     height: 1px;
 }
 
-.ltk-pubsub-dot {
+.ltk-sequence-dot {
     position: absolute;
     background-color: pink;
     border: 1px solid black;
@@ -275,7 +278,7 @@
     left: -5px;
 }
 
-.ltk-pubsub-dot .label {
+.ltk-sequence-dot .label {
     position: absolute;
     width: 200px;
     height: 16px;
@@ -284,4 +287,14 @@
     overflow: hidden;
     top: 14px;
     left: -39px;
+}
+
+.ltk-vertical-dragger {
+    width: 4px;
+    background-color: lightgray;
+    cursor: ew-resize;
+}
+
+.ltk-vertical-dragger:hover {
+    background-color: gray;
 }
