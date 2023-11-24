@@ -1,7 +1,10 @@
 /* LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE  */
 
 (function ltk() {
+    if (window.__ltk__) return
+
     const start = new Date().getTime();
+    window.__ltk__ = start
 
     window.time = () => {
         return (new Date().getTime() - start)

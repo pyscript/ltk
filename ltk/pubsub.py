@@ -22,25 +22,29 @@ class DocumentPubSub():
     subscribers = []
 
     def __init__(self):
-        self.pubsub = window.document.createElement("pubsub")
-        window.document.body.appendChild(self.pubsub)
-        config = window.eval("_={ attributes: true, childList: false, subtree: false };")
-        callback = pyodide.ffi.create_proxy(lambda mutations, observer: self._process_queue())
+        self.pubsub = self.get_pubsub()
+        config = window.eval("_={ attributes: true, childList: true, subtree: true };")
+        callback = pyodide.ffi.create_proxy(lambda *args: self._process_queue())
         observer = window.MutationObserver.new(callback)
         observer.observe(self.pubsub, config)
+
+    def get_pubsub(self):
+        element = window.document.getElementById("pubsub")
+        if not element:
+            element = window.document.createElement("div")
+            element.id = "pubsub"
+            window.document.body.appendChild(element)
+        return element
 
     def _process_queue(self):
         for message in self.pubsub.children:
             sender, sender_topic, data = json.loads(message.innerText)
             for subscriber in self.subscribers:
-                self._match(
-                    sender, sender_topic, data,
-                    *subscriber
-                )
-                message.remove()
+                self._match(message, sender, sender_topic, data, *subscriber)
 
-    def _match(self, sender, sender_topic, data, receiver, receiver_topic, handler):
+    def _match(self, message, sender, sender_topic, data, receiver, receiver_topic, handler):
         if sender_topic == receiver_topic and sender != receiver:
+            message.remove()
             try:
                 handler(data)
                 _logger.info(f"[Pubsub] {json.dumps([sender, receiver, sender_topic, data])}")
