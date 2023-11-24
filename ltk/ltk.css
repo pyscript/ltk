@@ -164,13 +164,13 @@
 .ltk-log-header .ltk-text {
     background-color: lightgreen;
     width: 35px;
-    font-size: 12px;
+    font-size: 14px;
     padding: 6px 8px;
 }
 
 .ltk-log-header .ltk-input {
     width: 55px;
-    font-size: 12px;
+    font-size: 14px;
     height: 16px;
     border: 1px solid gray;
     border-radius: 2px;
@@ -240,7 +240,7 @@
     border: 0px solid lightgray;
     border-right-width: 3px;
     overflow: hidden;
-    margin-right: -3px;
+    z-index: 2;
 }
 
 #ltk-sequence-ui:hover {
@@ -251,8 +251,12 @@
     position: fixed;
     background-color: lightgreen;
     width: 100%;
-    height: 26px;
+    height: 28px;
     z-index: 2;
+}
+
+.ltk-sequence-header .ltk-text {
+    font-size: 14px;
 }
 
 .ltk-sequence-component {
