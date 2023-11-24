@@ -308,6 +308,7 @@ class SequenceDiagram(ltk.HBox):
             ltk.to_js({ "opacity": 0}),
             lambda: ltk.find(".ltk-sequence-call").remove()
         )
+        self.calls = []
 
     def filter_messages(self, filter):
         ltk.find(".ltk-sequence-call").css("display", "none")
