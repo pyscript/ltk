@@ -239,7 +239,6 @@
     justify-content: space-around;
     border: 0px solid lightgray;
     border-right-width: 3px;
-    overflow: hidden;
     z-index: 2;
 }
 
@@ -260,7 +259,7 @@
 }
 
 .ltk-sequence-component {
-    margin: 40px 20px;
+    margin: 40px 40px 40px 0px;
     height: 100%;
     overflow: hidden;
 }
@@ -303,7 +302,7 @@
 
 .ltk-sequence-dot .label {
     position: absolute;
-    width: 200px;
+    width: 160px;
     height: 16px;
     text-wrap: wrap;
     text-overflow: ellipsis;
@@ -320,4 +319,15 @@
 
 .ltk-vertical-dragger:hover {
     background-color: gray;
+}
+
+.ltk-log-list .ui-resizable-n {
+    cursor: ns-resize;
+    height: 32px;
+    width: calc(100% - 180px);
+}
+
+.ltk-log-list .ui-resizable-e {
+    cursor: ew-resize;
+    width: 15px;
 }
