@@ -289,15 +289,6 @@
     height: 1px;
 }
 
-.ltk-sequence-when {
-    position: absolute;
-    top: -6px;
-    left: -300px;
-    width: 294px;
-    text-align: right;
-    color: rgb(147, 147, 231);
-}
-
 .ltk-sequence-dot {
     position: absolute;
     background-color: pink;
@@ -309,8 +300,18 @@
     left: -5px;
 }
 
-.ltk-sequence-dot .label {
+.ltk-sequence-when {
     position: absolute;
+    top: -6px;
+    left: -300px;
+    width: 294px;
+    text-align: right;
+    color: rgb(147, 147, 231);
+}
+
+.ltk-sequence-label {
+    position: absolute;
+    opacity: 0;
     text-align: center;
     width: 160px;
     height: 16px;
@@ -319,7 +320,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     overflow-wrap: anywhere;
-    top: -14px;
+    top: -19px;
 }
 
 .ltk-vertical-dragger {

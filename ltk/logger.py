@@ -82,7 +82,7 @@ class Logger(ltk.Div):
 
     def _apply_filter(self):
         self._filter_rows()
-        self.sequence_ui.filter_messages(ltk.find("#ltk-log-filter").val())
+        self.sequence_ui.filter_messages()
 
     def _filter_rows(self):
         filter_text = ltk.find("#ltk-log-filter").val()
@@ -222,7 +222,9 @@ class _Call(ltk.Div):
     classes = [ "ltk-sequence-call" ]
 
     def __init__(self, sender, receiver, topic, data, index):
-        ltk.Div.__init__(self)
+        self.when = ltk.Span(f"{ltk.get_time():.2f}s").addClass("ltk-sequence-when")
+        self.label = ltk.Span(f"{topic[:18]}: {data}").addClass("ltk-sequence-label")
+        ltk.Div.__init__(self, self.label, self.when)
         self.sender = sender
         self.receiver = receiver
         self.topic = topic
@@ -249,6 +251,8 @@ class _Call(ltk.Div):
         self.css("width", right - left)
         self.css("left", round(left + width / 2 + 8))
         self.css("top", round(top + height * 2 + 26 + self.index * 32))
+        self.label.css("opacity", 0).width(self.width())
+        self.label.animate(ltk.to_js({ "opacity": 1 }), 1500)
         self.dot.set_position()
 
 
@@ -257,10 +261,7 @@ class _Dot(ltk.Div):
     animated = False
 
     def __init__(self, sender, receiver, topic, data, line, reverse):
-        ltk.Div.__init__(
-            self,
-            ltk.Span(f"{topic[:18]}: {data}").addClass("label")
-        )
+        ltk.Div.__init__(self)
         self.attr("title", f"{sender.text()} => {receiver.text()} - {topic}: {data}")
         self.reverse = reverse
         if reverse:
@@ -318,6 +319,7 @@ class _SequenceDiagram(ltk.HBox):
         call = _Call(sender, receiver, topic, data, len(self.calls))
         self.calls.append(call)
         self.append(call.element)
+        self.filter_messages()
         ltk.schedule(lambda: self.changed(force=True), 1.5)
 
     def clear(self):
@@ -327,14 +329,14 @@ class _SequenceDiagram(ltk.HBox):
         )
         self.calls = []
 
-    def filter_messages(self, filter):
+    def filter_messages(self):
+        filter = ltk.find("#ltk-log-filter").val()
         ltk.find(".ltk-sequence-call").css("display", "none")
-        index = 0
+        index = len(self.calls) - 1
         for n, call in enumerate(self.calls):
             if filter in call.text():
                 call.set_index(index)
-                index += 1
-
+                index -= 1
 
     def get_component(self, name):
         if not name in self.components:
