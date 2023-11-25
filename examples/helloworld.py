@@ -1,4 +1,4 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 

@@ -1,4 +1,4 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 
@@ -40,7 +40,7 @@ def create():
                     for country, temperature in get_averages().items()
                 ],
             ),
-            ltk.H4("Tip: resize the country column using the orange handle."),
+            ltk.Heading4("Tip: resize the country column using the orange handle."),
         )
         .attr("name", "HTML Tables")
     )

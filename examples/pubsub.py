@@ -1,4 +1,4 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 import random
@@ -25,13 +25,13 @@ def publish(event=None):
 def create():
     return (
         ltk.VBox(
-            ltk.H1("PubSub Demo"),
-            ltk.Bold("The Influencer:"),
+            ltk.Heading1("PubSub Demo"),
+            ltk.Important("The Influencer:"),
             ltk.Container(
                 ltk.Button("Send a message", publish).css("margin-top", 5),
             ).css("margin-bottom", 25),
 
-            ltk.Bold("What every fan sees:"),
+            ltk.Important("What every fan sees:"),
             ltk.HBox(
                 fan
                     .css("border", "1px solid gray")

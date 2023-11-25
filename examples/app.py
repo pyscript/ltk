@@ -1,10 +1,10 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 
 def create():
     def handler(item):
-        ltk.LI(
+        ltk.ListItem(
             ltk.Italic(f"Selected menu item: {item.label}")
                 .css("margin", 10)
         ).appendTo(ltk.find("#app-feedback"))
@@ -39,8 +39,8 @@ def create():
                 ltk.VBox(
                     ltk.Text("Right Panel")
                         .css("margin-bottom", 20),
-                    ltk.H3("Select a menu item from the blue bar shown above, or press it's shortcut on your keyboard"),
-                    ltk.UL().attr("id", "app-feedback"),
+                    ltk.Heading3("Select a menu item from the blue bar shown above, or press it's shortcut on your keyboard"),
+                    ltk.UnorderedList().attr("id", "app-feedback"),
                     right_css)
             ).css("height", "100%")
         )

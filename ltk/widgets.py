@@ -1,13 +1,21 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 from pyscript import window # type: ignore
 from ltk.jquery import *
 
-timers = {}
+__all__ = [
+    "HBox", "Div", "VBox", "Container", "Card", "Preformatted", "Text", "Input", "Checkbox",
+    "Label", "Button", "Link", "Strong", "Important", "Italic", "Paragraph", "Break", "Heading1",
+    "Heading2", "Heading3", "Heading4", "OrderedList", "UnorderedList", "ListItem", "Span",
+    "Tabs", "File", "DatePicker", "ColorPicker", "RadioGroup", "RadioButton", "Table", "TableRow",
+    "TableHeader", "TableData", "VerticalSplitPane", "TextArea", "Code", "Image", "MenuBar",
+    "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select", "Option", "Widget", "callback"
+]
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
 DEFAULT_CSS = {}
 shortcuts = {}
+timers = {}
 
 
 def callback(function):
@@ -25,7 +33,7 @@ class Widget(object):
 
     def __init__(self, *args):
         """
-        Initialize a new Widget instance.
+        Initializes a new Widget instance.
 
         Args:
             *args: The content to add to this widget. Can be other widgets, strings, lists, etc.
@@ -92,7 +100,7 @@ class HBox(Widget):
 
 
 class Div(Widget):
-    """ Wraps a <div> """
+    """ Wraps an HTML element of type <div> """
     classes = [ "ltk-div" ]
 
 
@@ -103,7 +111,7 @@ class VBox(Widget):
 
 
 class Container(Widget):
-    """ Wraps a <div> """
+    """ Wraps an HTML element of type <div> """
     classes = [ "ltk-container" ]
 
 
@@ -113,7 +121,7 @@ class Card(Container):
 
 
 class Preformatted(Widget):
-    """ Wraps an HTML <pre> element """
+    """ Wraps an HTML element of type <pre> """
     classes = [ "ltk-pre" ]
     tag = "pre"
 
@@ -127,7 +135,7 @@ class Text(Widget):
 
 
 class Input(Widget):
-    """ Wraps an <input> """
+    """ Wraps an HTML element of type <input> """
     classes = [ "ltk-input" ]
     tag = "input"
 
@@ -137,7 +145,7 @@ class Input(Widget):
 
 
 class Checkbox(Widget):
-    """ Wraps an <input type="checkbox"> """
+    """ Wraps an HTML element of type <input type="checkbox"> """
     classes = [ "ltk-checkbox" ]
     tag = "input"
 
@@ -154,7 +162,7 @@ class Checkbox(Widget):
 
 
 class Label(Widget):
-    """ Wraps a <label> """
+    """ Wraps an HTML element of type <label> browser DOM element """
     classes = [ "ltk-label" ]
     tag = "label"
 
@@ -166,13 +174,13 @@ class Label(Widget):
 
 
 class Button(Widget):
-    """ Wraps an HTML <button> element """
+    """ Wraps an HTML element of type <button> element """
     classes = [ "ltk-button" ]
     tag = "button"
 
     def __init__(self, label:str, click, style=DEFAULT_CSS):
         """
-        Initialize a new Button instance.
+        Initializes a new Button instance.
 
         Args:
             label:str: The label for the button
@@ -184,7 +192,7 @@ class Button(Widget):
 
 
 class Link(Text):
-    """ Wraps an <a> """
+    """ Wraps an HTML element of type <a> """
     classes = [ "ltk-a" ]
     tag = "a" 
 
@@ -194,85 +202,85 @@ class Link(Text):
 
 
 class Strong(Text):
-    """ Wraps an <strong> """
+    """ Wraps an HTML element of type <strong> """
     classes = [ "ltk-strong" ]
     tag = "strong"
 
 
-class Bold(Text):
-    """ Wraps an <b> """
+class Important(Text):
+    """ Wraps an HTML element of type <b> """
     classes = [ "ltk-b" ]
     tag = "b"
 
 
 class Italic(Text):
-    """ Wraps an <i> """
+    """ Wraps an HTML element of type <i> """
     classes = [ "ltk-i" ]
     tag = "i" 
 
 
-class P(Text):
-    """ Wraps a <p> """
+class Paragraph(Text):
+    """ Wraps an HTML element of type <p> """
     classes = [ "ltk-p" ]
     tag = "p"
 
 
-class BR(Text):
-    """ Wraps a <br> """
+class Break(Text):
+    """ Wraps an HTML element of type <br> """
     classes = [ "ltk-br" ]
     tag = "br"
 
 
-class H1(Text):
-    """ Wraps an <h1> """
+class Heading1(Text):
+    """ Wraps an HTML element of type <h1> """
     classes = [ "ltk-h1" ]
     tag = "h1"
 
 
-class H2(Text):
-    """ Wraps an <h2> """
+class Heading2(Text):
+    """ Wraps an HTML element of type <h2> """
     classes = [ "ltk-h2" ]
     tag = "h2"
 
 
-class H3(Text):
-    """ Wraps an <h3> """
+class Heading3(Text):
+    """ Wraps an HTML element of type <h3> """
     classes = [ "ltk-h3" ]
     tag = "h3"
 
 
-class H4(Text):
-    """ Wraps an <h4> """
+class Heading4(Text):
+    """ Wraps an HTML element of type <h4> """
     classes = [ "ltk-h4" ]
     tag = "h4"
 
 
-class OL(Container):
-    """ Wraps an <ol> """
+class OrderedList(Container):
+    """ Wraps an HTML element of type <ol> """
     classes = [ "ltk-ol" ]
     tag = "ol"
 
 
-class UL(Container):
-    """ Wraps a <ul> """
+class UnorderedList(Container):
+    """ Wraps an HTML element of type <ul> """
     classes = [ "ltk-ul" ]
     tag = "ul"
 
 
-class LI(Container):
-    """ Wraps a <li> """
+class ListItem(Container):
+    """ Wraps an HTML element of type <li> """
     classes = [ "ltk-li" ]
     tag = "li"
 
 
 class Span(Widget):
-    """ Wraps a <span> """
+    """ Wraps an HTML element of type <span> """
     classes = [ "ltk-span" ]
     tag = "span"
 
 
 class Tabs(Widget):
-    """ Wraps a jQueryUI tabs """
+    """ Wraps an HTML element of type jQueryUI tabs """
     classes = [ "ltk-tabs" ]
     tag = "div"
     count = 0
@@ -280,7 +288,7 @@ class Tabs(Widget):
     def __init__(self, *tabs):
         self.name = f"ltk-tabs-{Tabs.count}"
         Tabs.count += 1
-        self.labels = UL()
+        self.labels = UnorderedList()
         Widget.__init__(self, self.labels)
         self.attr("id", self.name)
         for tab in self._flatten(tabs):
@@ -291,7 +299,7 @@ class Tabs(Widget):
     def add_tab(self, tab):
         tab_id = f"{self.name}-{self.labels.children().length}"
         self.labels.append(
-            LI().append(Link(f"#{tab_id}").text(tab.attr("name")))
+            ListItem().append(Link(f"#{tab_id}").text(tab.attr("name")))
         )
         self.append(Div(tab).attr("id", tab_id))
 
@@ -308,9 +316,8 @@ class Tabs(Widget):
         return self.element.children().eq(index + 1)
 
 
-
 class File(Widget):
-    """ Wraps a <input type=file> """
+    """ Wraps an HTML element of type <input type=file> """
     classes = [ "ltk-file" ]
     tag = "input"
 
@@ -320,7 +327,7 @@ class File(Widget):
 
 
 class DatePicker(Widget):
-    """ Wraps a <input type=date> """
+    """ Wraps an HTML element of type <input type=date> """
     classes = [ "ltk-datepicker" ]
     tag = "input"
 
@@ -330,7 +337,7 @@ class DatePicker(Widget):
 
 
 class ColorPicker(Widget):
-    """ Wraps a <input type=color> """
+    """ Wraps an HTML element of type <input type=color> """
     classes = [ "ltk-colorpicker" ]
     tag = "input"
 
@@ -340,18 +347,18 @@ class ColorPicker(Widget):
 
 
 class RadioGroup(VBox):
-    """ Wraps a collection of Radio buttons """
+    """ Wraps an HTML element of type collection of Radio buttons """
     classes = [ "ltk-vbox ltk-radiogroup" ]
 
     def __init__(self, *buttons, style=DEFAULT_CSS):
-        name = f"ltk-radiogroup-{window.time()}"
+        name = f"ltk-radiogroup-{window.get_time()}"
         for button in buttons:
             button.find("input").attr("name", name)
         VBox.__init__(self, *buttons, style)
 
 
 class RadioButton(Widget):
-    """ Wraps an <input type="radio"> """
+    """ Wraps an HTML element of type <input type="radio"> """
     classes = [ "ltk-radiobutton" ]
     tag = "input"
 
@@ -362,7 +369,7 @@ class RadioButton(Widget):
 
 
 class Table(Widget):
-    """ Wraps a <table> """
+    """ Wraps an HTML element of type <table> """
     classes = [ "ltk-table" ]
     tag = "table"
 
@@ -384,39 +391,47 @@ class Table(Widget):
 
 
 class TableRow(Widget):
-    """ Wraps a <tr> """
+    """ Wraps an HTML element of type <tr> """
     classes = [ "ltk-tr" ]
     tag = "tr"
 
 
 class TableHeader(Text):
-    """ Wraps a <th> """
+    """ Wraps an HTML element of type <th> """
     classes = [ "ltk-th" ]
     tag = "th"
 
 
 class TableData(Text):
-    """ Wraps a <td> """
+    """ Wraps an HTML element of type <td> """
     classes = [ "ltk-td" ]
     tag = "td"
 
 
-class VerticalSplitPane(Table):
+class VerticalSplitPane(Widget):
     """ Lays out its child widgets horizontally with a resize handle in the center """
-    classes = [ "ltk-vertical-split-pane" ]
+    classes = [ "ltk-vertical-split-pane", "ltk-table" ]
+    tag = "table"
 
     def __init__(self, left, right):
-        Table.__init__(self,
-            TableRow(
-                TableData(left.resizable(to_js({"handles": "e"}))).css("padding", 0), 
-                TableData(right).css("padding", 0)
-            )
+        """
+        Places <code>left</code> and <code>right</code> next to each other.
+        """
+        self.element = (
+            window.table()
+                .addClass(" ".join(self.classes))
+                .append(
+                    TableRow(
+                        TableData(left.resizable(to_js({"handles": "e"}))).css("padding", 0), 
+                        TableData(right).css("padding", 0)
+                    ).element
+                )
         )
         self.css("width", "100%")
 
 
 class TextArea(Text):
-    """ Wraps a <textarea> """
+    """ Wraps an HTML element of type <textarea> """
     classes = [ "ltk-td" ]
     classes = [ "ltk-textarea" ]
     tag = "textarea"
@@ -427,7 +442,7 @@ class TextArea(Text):
 
 
 class Code(Widget):
-    """ Wraps a block of code """
+    """ Wraps an HTML element of type block of code """
     classes = [ "ltk-code" ]
     tag = "code"
     highlighted = False
@@ -452,9 +467,8 @@ class Code(Widget):
             schedule(self.highlight, 0.1)
 
 
-
 class Image(Widget):
-    """ Wraps an <img> """
+    """ Wraps an HTML element of type <img> """
     classes = [ "ltk-image" ]
     tag = "img"
 
@@ -491,19 +505,19 @@ class Menu(Widget):
 
     def replace_other(self, event):
         if find(".ltk-menupopup-open").length:
-            close_all_menus()
+            _close_all_menus()
             self.show(event)
 
     def show(self, event):
         """ Render the menu visible """
-        close_all_menus()
+        _close_all_menus()
         self.popup.show(self.element)
         event.preventDefault()
         return self
 
 
 class Popup(Widget):
-    """ Wraps a div that is positioned on top of all other widgets """
+    """ Wraps an HTML element of type div that is positioned on top of all other widgets """
     classes = [ "popup" ]
 
 
@@ -512,7 +526,7 @@ class MenuPopup(Popup):
     classes = [ "ltk-menupopup" ]
 
     def show(self, element):
-        close_all_menus()
+        _close_all_menus()
         find("#main").css("opacity", 0.3)
         (self
             .appendTo(jQuery(window.document.body))
@@ -543,13 +557,13 @@ class MenuItem(Widget):
         self.selected = selected
 
     def select(self, event):
-        close_all_menus()
+        _close_all_menus()
         self.selected(self)
         event.preventDefault()
 
 
 class Select(Widget):
-    """ Wraps a <select> """
+    """ Wraps an HTML element of type <select> """
     classes = [ "ltk-select" ]
     tag = "select"
 
@@ -573,18 +587,17 @@ class Select(Widget):
 
 
 class Option(Text):
-    """ Wraps an <option> """
+    """ Wraps an HTML element of type <option> """
     classes = [ "ltk-option" ]
     tag = "option"
 
 
-
-def close_all_menus(event=None):
+def _close_all_menus(event=None):
     if event and jQuery(event.target).hasClass("ltk-menulabel"):
         return
     find(".ltk-menupopup-open").removeClass("ltk-menupopup-open")
 
-jQuery(window.document.body).on("click", proxy(close_all_menus))
+jQuery(window.document.body).on("click", proxy(_close_all_menus))
 
 def _handle_shortcuts():
     def handle_keydown(event):

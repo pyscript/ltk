@@ -1,34 +1,35 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import inspect
 import ltk
 
+def link(tag):
+    url = "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/"
+    return f"<a href={url}{tag} target=_blank>{tag}</a>"
+
 def get_method_doc(clazz, name):
+    import textwrap
     item = getattr(clazz, name)
     if inspect.isfunction(item):
-        name = clazz.__name__ if item.__name__ == "__init__" else item.__name__
-        if not name.startswith("_"):
-            try:
-                import textwrap
-                docstring = textwrap.dedent(item.__doc__ or "").strip()
-                doc = ltk.Preformatted(docstring).css("color", "darkgreen")
-            except:
-                doc = ltk.Span(
-                    ltk.Span("⚠️ Use "),
-                    ltk.Link("?runtime=py&tab=5", "Pyodide"),
-                    ltk.Span(" to see doc strings") \
-                ).css("color", "red")
-            return ltk.LI(ltk.Text(name), doc)
-
+        is_constructor = item.__name__ == "__init__"
+        name = clazz.__name__ if is_constructor else item.__name__
+        if name.startswith("_"):
+            return
+        signature = str(inspect.signature(item)).replace("self, ", "")
+        default = f"Injects HTML element of type <{link(clazz.tag)}>" if is_constructor else ""
+        docstring = (item.__doc__ or "").replace("<", "&lt;").replace("\n", "<br>")
+        docstring = textwrap.dedent(f"{default}. {docstring}")
+        doc = ltk.Text(docstring).css("color", "darkgreen").css("width", 500)
+        return ltk.ListItem(ltk.VBox(ltk.Text(f"{name}{signature}"), doc))
 
 def get_widget_doc(name):
     item = ltk.__dict__.get(name)
     if item and type(item) == type:
-        doc = item.__doc__
+        doc = (item.__doc__ or "").replace("<", "&lt;")
         return ltk.VBox(
-            ltk.H2(name),
+            ltk.Heading2(name),
             ltk.Text(doc),
-            ltk.UL(
+            ltk.UnorderedList(
                 list(filter(None, [
                     get_method_doc(item, method)
                     for method in dir(item)
@@ -37,6 +38,14 @@ def get_widget_doc(name):
         )
 
 def create():
+    try:
+        import textwrap
+    except:
+        return ltk.Span(
+            ltk.Span("⚠️ You need to run on "),
+            ltk.Link("?runtime=py&tab=8", "Pyodide"),
+            ltk.Span(" to see documentation for LTK.") \
+        ).css("color", "red")
     return (
         ltk.VBox(
             list(filter(None, [

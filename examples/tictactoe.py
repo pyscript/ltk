@@ -1,4 +1,4 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 
@@ -19,7 +19,7 @@ def create():
 
     return (
         ltk.VBox(
-            ltk.H2("Tic Tac Toe Game"),
+            ltk.Heading2("Tic Tac Toe Game"),
             ltk.VBox(
                 ltk.HBox(
                     ltk.Container()
@@ -30,7 +30,7 @@ def create():
                 )
                 for row in range(3)
             ),
-            ltk.H3("Tip: Click inside the squares."),
+            ltk.Heading3("Tip: Click inside the squares."),
             ltk.Label("The CSS:"),
             ltk.TextArea("CSS will be loaded here...").addClass("tictactoe-css"),
         )

@@ -1,4 +1,4 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 
@@ -16,13 +16,13 @@ def create():
 
     return (
         ltk.VBox(
-            ltk.H2("Showing a Card with a custom widget inside of it"),
+            ltk.Heading2("Showing a Card with a custom widget inside of it"),
             ltk.Card(
                 CustomWidget("https://chrislaffra.com/chris.png", "Chris laffra")
             ).css("width", 200).draggable(),
             ltk.Text("For clarity, we marked the custom widget orange.")
                 .css("margin-top", 20),
-            ltk.H4("Tip: drag the card."),
+            ltk.Heading4("Tip: drag the card."),
         )
         .attr("name", "Custom Widget")
     )

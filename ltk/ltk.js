@@ -1,4 +1,4 @@
-/* LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE  */
+/* LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE  */
 
 (function ltk() {
     if (window.__ltk__) return
@@ -6,7 +6,7 @@
     const start = new Date().getTime();
     window.__ltk__ = start
 
-    window.time = () => {
+    window.get_time = () => {
         return (new Date().getTime() - start)
     }
 

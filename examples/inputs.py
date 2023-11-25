@@ -1,4 +1,4 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import logging
 import ltk
@@ -95,11 +95,11 @@ def create():
     def get_widgets():
         for widget in widgets:
             yield widget
-            yield ltk.P()
+            yield ltk.Paragraph()
 
     return (
         ltk.VBox(
-            ltk.H1(f"Widgets on {runtime}")
+            ltk.Heading1(f"Widgets on {runtime}")
                 .css("text-align", "left")
                 .css("height", 50)
                 .attr("id", "feedback"),

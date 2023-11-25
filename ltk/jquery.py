@@ -1,25 +1,40 @@
-# LTK - Copyrights Reserved 2023 - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import json
 import pyodide # type: ignore
-from pyscript import window
+from pyscript import window # type: ignore
+import time
+import sys
 
+__all__ = [
+    "jQuery", "parse_int", "parse_float", "local_storage", "find", "create", "find_list", "to_js",
+    "to_py", "schedule", "repeat", "get", "delete", "get_time", "post", "async_proxy", "observe",
+    "proxy", "get_url_parameter", "set_url_parameter", "push_state", "inject_script", "inject_css",
+]
 
-timers = {}
+def _fix_time_on_micropython():
+    if not hasattr(time, "time"):
+        class MonkeyPatchedTimeModuleForMicroPython:
+            pass
+        clone = MonkeyPatchedTimeModuleForMicroPython()
+        for key in dir(time):
+            setattr(clone, key, getattr(time, key))
+        setattr(clone, "time", lambda: window.Date.new().getTime() / 1000)
+        sys.modules["time"] = clone
 
 
 jQuery = window.jQuery
+find = jQuery
+create = jQuery
 parse_int = window.parseInt
 parse_float = window.parseFloat
 local_storage = window.localStorage
 
-
-def find(selector):
-    return jQuery(selector)
+_timers = {}
 
 
-def create(selector):
-    return jQuery(selector)
+def get_time():
+    return window.get_time() / 1000
 
 
 def find_list(selector):
@@ -41,16 +56,12 @@ def to_py(jsobj):
             return str(jsobj)
 
 
-def number(s):
-    return parse_float(s)
-
-
 def schedule(python_function, timeout_seconds=0.1):
     if not python_function:
         raise ValueError(f"schedule: Expecting a function, not {python_function}")
-    if python_function in timers:
-        window.clearTimeout(timers[python_function])
-    timers[python_function] = window.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
+    if python_function in _timers:
+        window.clearTimeout(_timers[python_function])
+    _timers[python_function] = window.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
 
 
 def repeat(python_function, timeout_seconds=1):
@@ -66,10 +77,6 @@ def get(route, handler, kind="json"):
 def delete(route, handler):
     wrapper = proxy(lambda data, *rest: handler(to_py(data)))
     return window.ajax(route, "DELETE", wrapper)
-
-
-def time():
-    return window.time() / 1000
 
 
 def post(route, data, handler):
@@ -119,3 +126,8 @@ def inject_script(url):
 
 def inject_css(url):
     create("<link>").attr("rel", "stylesheet").attr("href", url).appendTo(window.document.head)
+
+
+_fix_time_on_micropython()
+inject_script("ltk/ltk.js")
+inject_css("ltk/ltk.css")
