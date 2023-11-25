@@ -36,8 +36,8 @@ def create():
                 fan
                     .css("border", "1px solid gray")
                     .css("overflow", "hidden")
-                    .css("width", 200)
-                    .css("height", 400)
+                    .width(200)
+                    .height(400)
                     .css("margin-top", 5)
                     .addClass("fan"),
             ),

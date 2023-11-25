@@ -101,7 +101,7 @@ def create():
         ltk.VBox(
             ltk.Heading1(f"Widgets on {runtime}")
                 .css("text-align", "left")
-                .css("height", 50)
+                .height(50)
                 .attr("id", "feedback"),
             ltk.Container(get_widgets()), {
                 "padding": 50,
@@ -109,6 +109,6 @@ def create():
                 "background-color": "lightyellow",
             }
         )
-        .css("height", 708)
+        .height(708)
         .attr("name", "Inputs")
     )

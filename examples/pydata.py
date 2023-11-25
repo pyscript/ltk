@@ -8,7 +8,7 @@ def create():
 
             ltk.Image("https://pydata.org/wp-content/uploads/2019/06/pydata-logo-final.png")
                 .css("margin-top", 50)
-                .css("width", 350),
+                .width(350),
 
             ltk.Link(
                 "https://pydata.org/eindhoven2023/",

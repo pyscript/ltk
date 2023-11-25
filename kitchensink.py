@@ -35,8 +35,8 @@ tabs = ltk.Tabs(
         ltk.Code("python", getsource(file))
             .attr("file", file)
             .css("margin-left", 20)
-            .css("width", "95%")
-            .css("height", 800)
+            .width("95%")
+            .height(800)
     ).attr("name", example.attr("name"))
     for file, example in examples.items
 )
@@ -63,7 +63,7 @@ ltk.find(window.document.body).append(
             )
         ).attr("target", "_blank")
     )
-    .css("width", 1300)
+    .width(1300)
     .css("margin", "auto")
 )
 

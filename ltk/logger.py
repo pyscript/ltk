@@ -24,7 +24,7 @@ class Logger(ltk.Div):
     last_width = 0
 
     def __init__(self):
-        self.log_ui = ltk.VBox(ltk.Div().css("height", 28)).attr("id", "ltk-log-ui")
+        self.log_ui = ltk.VBox(ltk.Div().height(28)).attr("id", "ltk-log-ui")
         self.sequence_ui = _SequenceDiagram()
         ltk.Div.__init__(self,
             ltk.VerticalSplitPane(
@@ -34,7 +34,7 @@ class Logger(ltk.Div):
         )
         self.element.resizable(ltk.to_js({ "handles": "n" }))
         self.on("resize", lambda event, ui: self.resize())
-        self.css("height", ltk.local_storage["log-list-height"] or 300)
+        self.height(getattr(ltk.local_storage, "log-list-height", None) or 300)
         self._add_table()
         self._setup_logger()
         self._setup_console()
@@ -42,7 +42,7 @@ class Logger(ltk.Div):
         self._filter_rows()
         
     def resize(self):
-        ltk.local_storage["log-list-height"] = self.css("height")
+        setattr(ltk.local_storage, "log-list-height", self.css("height"))
 
     def _add_table(self):
         self.selector = ltk.find('#ltk-log-level')
@@ -52,7 +52,7 @@ class Logger(ltk.Div):
                 ltk.Text().text("When"),
                 ltk.Text().text("Level"),
                 ltk.Text().text("Message"),
-            ).css("width", "100vw"),
+            ).width("100vw"),
             ltk.Container(
                 ltk.Select(
                     [ name for name, level in sorted(self.levels.items(), key = lambda item: item[1]) ],
@@ -72,7 +72,7 @@ class Logger(ltk.Div):
 
     def _changed(self, element=None):
         if self.element.width() != self.last_width:
-            ltk.find(".ltk-log-header").css("width", self.width())
+            ltk.find(".ltk-log-header").width(self.width())
             ltk.find(".ltk-log-buttons").css("right", 10)
             self.last_width = self.element.width()
 
@@ -248,7 +248,7 @@ class _Call(ltk.Div):
         width = self.sender.title.width()
         height = self.sender.title.height()
         
-        self.css("width", right - left)
+        self.width(right - left)
         self.css("left", round(left + width / 2 + 8))
         self.css("top", round(top + height * 2 + 26 + self.index * 32))
         self.label.css("opacity", 0).width(self.width())
@@ -299,21 +299,21 @@ class _SequenceDiagram(ltk.HBox):
         ltk.observe(self.element, self.changed)
         self.last_width = self.element.width()
         self.on("resize", lambda event, ui: self.resize())
-        self.css("width", ltk.local_storage["log-sequence-width"] or 300)
+        self.width(getattr(ltk.local_storage, "log-sequence-width", None) or 300)
 
     def resize(self):
-        ltk.local_storage["log-sequence-width"] = self.css("width")
+        setattr(ltk.local_storage, "log-sequence-width", self.css("width"))
 
     def changed(self, element=None, force=False):
         if force or self.element.width() != self.last_width:
-            ltk.find(".ltk-sequence-header").css("width", self.width())
-            self.closest("td").css("width", self.width())
+            ltk.find(".ltk-sequence-header").width(self.width())
+            self.closest("td").width(self.width())
             self.last_width = self.element.width()
             for call in self.calls:
                 call.set_position()
 
     def log(self, sender_name, receiver_name, topic, data):
-        self.element.css("width", "100%")
+        self.element.width("100%")
         sender = self.get_component(sender_name)
         receiver = self.get_component(receiver_name)
         call = _Call(sender, receiver, topic, data, len(self.calls))

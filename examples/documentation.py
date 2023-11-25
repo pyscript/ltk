@@ -19,7 +19,7 @@ def get_method_doc(clazz, name):
         default = f"Injects HTML element of type <{link(clazz.tag)}>" if is_constructor else ""
         docstring = (item.__doc__ or "").replace("<", "&lt;").replace("\n", "<br>")
         docstring = textwrap.dedent(f"{default}. {docstring}")
-        doc = ltk.Text(docstring).css("color", "darkgreen").css("width", 500)
+        doc = ltk.Text(docstring).css("color", "darkgreen").width(500)
         return ltk.ListItem(ltk.VBox(ltk.Text(f"{name}{signature}"), doc))
 
 def get_widget_doc(name):

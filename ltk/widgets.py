@@ -427,7 +427,7 @@ class VerticalSplitPane(Widget):
                     ).element
                 )
         )
-        self.css("width", "100%")
+        self.width("100%")
 
 
 class TextArea(Text):

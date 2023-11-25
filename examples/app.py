@@ -42,8 +42,8 @@ def create():
                     ltk.Heading3("Select a menu item from the blue bar shown above, or press it's shortcut on your keyboard"),
                     ltk.UnorderedList().attr("id", "app-feedback"),
                     right_css)
-            ).css("height", "100%")
+            ).height("100%")
         )
-        .css("width", 500)
-        .css("height", 800)
+        .width(500)
+        .height(800)
         .attr("name", "Application"))
