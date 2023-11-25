@@ -259,7 +259,7 @@
 }
 
 .ltk-sequence-component {
-    margin: 40px 40px 40px 0px;
+    margin: 40px 20px;
     height: 100%;
     overflow: hidden;
 }
@@ -289,6 +289,15 @@
     height: 1px;
 }
 
+.ltk-sequence-when {
+    position: absolute;
+    top: -6px;
+    left: -300px;
+    width: 294px;
+    text-align: right;
+    color: rgb(147, 147, 231);
+}
+
 .ltk-sequence-dot {
     position: absolute;
     background-color: pink;
@@ -302,14 +311,15 @@
 
 .ltk-sequence-dot .label {
     position: absolute;
+    text-align: center;
     width: 160px;
     height: 16px;
     text-wrap: wrap;
+    color: rgb(31, 100, 45);
     text-overflow: ellipsis;
     overflow: hidden;
     overflow-wrap: anywhere;
-    top: 14px;
-    left: -39px;
+    top: -14px;
 }
 
 .ltk-vertical-dragger {
