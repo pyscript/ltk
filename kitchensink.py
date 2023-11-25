@@ -41,7 +41,6 @@ tabs = ltk.Tabs(
     for file, example in examples.items
 )
 
-
 @ltk.callback
 def activate_tab(event, ui=None):
     index = tabs.active()
