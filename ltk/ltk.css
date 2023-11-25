@@ -307,8 +307,9 @@
     text-wrap: wrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    overflow-wrap: anywhere;
     top: 14px;
-    left: -79px;
+    left: -39px;
 }
 
 .ltk-vertical-dragger {

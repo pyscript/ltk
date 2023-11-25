@@ -6,6 +6,9 @@
     const start = new Date().getTime();
     window.__ltk__ = start
 
+    const url_base = `${document.location.protocol}//${document.location.host}`
+    const url_prefix = new RegExp(`${url_base}|https:\\/\\/www.|https:\\/\\/`)
+
     window.get_time = () => {
         return (new Date().getTime() - start)
     }
@@ -92,6 +95,7 @@
                 kind = "Error";
                 log = console.error;
             }
+            url = entry.name.replace(url_prefix, "")
             log(
                 "[Network]",
                 JSON.stringify([
@@ -100,7 +104,7 @@
                     toHuman(entry.encodedBodySize),
                     toHuman(entry.decodedBodySize),
                     `${entry.duration.toFixed()}ms`,
-                    entry.name
+                    url,
                 ])
             )
         }
@@ -108,7 +112,4 @@
         type: "resource",
         buffered: true,
     });
-
-    console.log("LTK: ltk.js loaded.")
-
 })()

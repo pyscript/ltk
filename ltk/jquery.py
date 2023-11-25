@@ -80,6 +80,9 @@ def delete(route, handler):
 
 
 def post(route, data, handler):
+    if "?" in route:
+        index = route.index("?")
+        route = f"{route[:index]}?_=p&{route[index:]}"
     payload = window.encodeURIComponent(json.dumps(data))
     wrapper = proxy(lambda data, *rest: handler(window.JSON.stringify(data)))
     return jQuery.post(route, payload, wrapper, "json")

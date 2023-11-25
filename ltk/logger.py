@@ -146,8 +146,11 @@ class Logger(ltk.Div):
     def _check_network(self, message):
         if message.startswith("[Network]"):
             kind, type, encodedSize, decodedSize, duration, name = json.loads(message[10:])
+            post = "POST:" if "?_=p&" in name else ""
+            sender = "Application" if post else "Network"
+            receiver = "Network" if post else "Application"
             if type == "Xmlhttprequest":
-                self.sequence_ui.log("Network", "Application", name, f"{decodedSize}")
+                self.sequence_ui.log(sender, receiver, name, f"{decodedSize}")
 
     def _check_events(self, message):
         print(message)
@@ -251,7 +254,7 @@ class _Dot(ltk.Div):
     def __init__(self, sender, receiver, topic, data, line, reverse):
         ltk.Div.__init__(
             self,
-            ltk.Div(f"{topic}: {data}").addClass("label")
+            ltk.Span(f"{topic[:18]}: {data}").addClass("label")
         )
         self.attr("title", f"{sender.text()} => {receiver.text()} - {topic}: {data}")
         self.reverse = reverse
