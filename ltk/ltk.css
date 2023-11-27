@@ -8,7 +8,9 @@
     font-size: 14px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
+#pubsub {
+    display: none;
+}
 .ltk-hbox {
     display: flex;
     flex-direction: row;
@@ -16,13 +18,11 @@
     font-size: 14px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
 .ltk-text {
     display: inline-block;
     text-align: left;
     padding: 2px;
 }
-
 .ltk-code {
     border: 1px solid gray;
     width: 100%;
@@ -30,18 +30,15 @@
     white-space: pre; 
     overflow-y: scroll;
 }
-
 .ltk-input {
     border: 1px solid #e1e1e1;
     width: 36px;
     height: 28px;
 }
-
 .ltk-container {
     margin: 0;
     padding: 0;
 }
-
 .ltk-card {
     background-color: white;
     border-radius: 12px;
@@ -49,7 +46,6 @@
     box-shadow: 0 2px 2px 2px #DDD;
     padding: 16px;
 }
-
 .ltk-menubar {
     display: flex;
     flex-direction: row;
@@ -58,17 +54,14 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
 }
-
 .ltk-menulabel {
     padding: 4px 12px;
     border-radius: 4px;
     cursor: pointer;
 }
-
 .ltk-menulabel:hover {
     background-color: #e8ebee;
 }
-
 .ltk-menupopup {
     display: none;
     position: absolute;
@@ -82,21 +75,17 @@
     font-size: 14px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
 .ltk-menupopup-open {
     display: block;
 }
-
 .ltk-menuitem {
     cursor: pointer;
     padding: 2px;
     min-width: 200px;
 }
-
 .ltk-menuitem:hover {
     background-color: #e8ebee;
 }
-
 .ltk-menuitem-icon {
     display: inline-block;
     width: 24px;
@@ -104,7 +93,6 @@
     height: 24px;
     margin-left: 4px;
 }
-
 .ltk-menuitem-label {
     display: inline-block;
     margin-left: 12px;
@@ -113,7 +101,6 @@
     padding: 0;
     height: 24px;
 }
-
 .ltk-menuitem-shortcut {
     display: inline-block;
     width: 58px;
@@ -121,25 +108,21 @@
     height: 24px;
     margin-right: 4px;
 }
-
 .ltk-table {
     border-collapse: collapse;
 }
-
 .ltk-th {
     background-color: rgb(219, 242, 249);
     border: 0 solid lightgray;
     border-bottom-width: 1px;
     padding: 4px 8px;
 }
-
 .ltk-td {
     border: 0 solid lightgray;
     border-bottom-width: 1px;
     padding: 4px 8px;
     vertical-align: top;
 }
-
 .ltk-log-list {
     position: fixed;
     bottom: 3px;
@@ -152,7 +135,6 @@
     border: 0px solid gray;
     border-top-width: 1px;
 }
-
 .ltk-log-header {
     position: fixed;
     background-color: lightgreen;
@@ -160,14 +142,12 @@
     height: 28px;
     z-index: 2;
 }
-
 .ltk-log-header .ltk-text {
     background-color: lightgreen;
     width: 35px;
     font-size: 14px;
     padding: 6px 8px;
 }
-
 .ltk-log-header .ltk-input {
     width: 55px;
     font-size: 14px;
@@ -176,22 +156,18 @@
     border-radius: 2px;
     background-color: white;
 }
-
 .ltk-log-row .ltk-text:nth-child(3) {
     padding-left: 4px;
 }
-
 .ltk-log-buttons {
     margin-top: 2px;
     position: fixed;
     z-index: 1000;
     float: right
 }
-
 .ltk-log::-webkit-scrollbar {
     display: none;
 }
-
 .ltk-log-row {
     width: 100%;
     background-color: rgb(255, 255, 240);
@@ -199,37 +175,30 @@
     border-bottom-width: 1px;
     height: 0;
 }
-
 .ltk-log-row .ltk-text {
     padding: 4px 8px;
     width: 35px;
     font-size: 12px;
 }
-
 .ltk-log-row * {
     height: 12px;
 }
-
 .ltk-log-row .ltk-text:nth-child(2) {
     padding-left: 12px;
 }
-
 .ltk-log-row .ltk-text:nth-child(3) {
     text-wrap: nowrap;
     text-overflow: ellipsis;
     width: calc(100% - 125px);
     height: 14px;
 }
-
 .ltk-log-container.ltk-button, .ltk-log-container.ltk-select {
     margin-left: 6px;
 }
-
 #ltk-log-ui {
     width: 100%;
     overflow: hidden;
 }
-
 #ltk-sequence-ui {
     width: 700px;
     height: 100%;
@@ -241,11 +210,9 @@
     border-right-width: 3px;
     z-index: 2;
 }
-
 #ltk-sequence-ui:hover {
     border-color: gray;
 }
-
 .ltk-sequence-header {
     position: fixed;
     background-color: lightgreen;
@@ -253,17 +220,14 @@
     height: 28px;
     z-index: 2;
 }
-
 .ltk-sequence-header .ltk-text {
     font-size: 14px;
 }
-
 .ltk-sequence-component {
     margin: 40px 20px;
     height: 100%;
     overflow: hidden;
 }
-
 .ltk-sequence-component-title {
     padding: 8px;
     min-width: 80px;
@@ -273,7 +237,6 @@
     margin: 2px auto 0 auto;
     height: 20px;
 }
-
 .ltk-sequence-component-line {
     border: 0px dashed gray;
     border-left-width: 1px;
@@ -281,25 +244,17 @@
     height: 100vh;
     margin: 0 auto;
 }
-
 .ltk-sequence-call {
     position: absolute;
-    border: 0px solid red;
+    border: 0px solid #456;
     border-bottom-width: 2px;
     height: 1px;
 }
-
 .ltk-sequence-dot {
     position: absolute;
-    background-color: pink;
     border: 1px solid black;
-    border-radius: 5px;
-    width: 10px;
-    height: 10px;
-    top: -5px;
-    left: -5px;
+    top: -8px;
 }
-
 .ltk-sequence-when {
     position: absolute;
     top: -6px;
@@ -308,7 +263,6 @@
     text-align: right;
     color: rgb(147, 147, 231);
 }
-
 .ltk-sequence-label {
     position: absolute;
     opacity: 0;
@@ -322,24 +276,42 @@
     overflow-wrap: anywhere;
     top: -19px;
 }
-
 .ltk-vertical-dragger {
     width: 4px;
     background-color: lightgray;
     cursor: ew-resize;
 }
-
 .ltk-vertical-dragger:hover {
     background-color: gray;
 }
-
 .ltk-log-list .ui-resizable-n {
     cursor: ns-resize;
     height: 32px;
     width: calc(100% - 180px);
 }
-
 .ltk-log-list .ui-resizable-e {
     cursor: ew-resize;
     width: 15px;
+}
+.ltk-arrow{
+    display: block;
+    width: 0px;
+    height: 0px;
+    border: 10px solid transparent;
+}
+.ltk-arrow.ltk-arrow-up{
+    border-bottom-color: #456;
+    border-top-width: 0px;
+}
+.ltk-arrow.ltk-arrow-down{
+    border-top-color: #456;
+    border-bottom-width: 0px;
+}
+.ltk-arrow.ltk-arrow-left{
+    border-right-color: #456;
+    border-left-width: 0px;
+}
+.ltk-arrow.ltk-arrow-right{
+    border-left-color: #456;
+    border-right-width: 0px;
 }

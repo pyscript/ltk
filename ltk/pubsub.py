@@ -2,8 +2,8 @@
 
 import json
 import logging
-import pyodide # type: ignore
-from pyscript import window # type: ignore
+import sys
+import time
 
 """
 
@@ -15,7 +15,7 @@ This allows its use in Workers, which may not want to include any UIs.
 A receiver registers for events using "subscribe".
 A sender broadcasts events using "publish".
 
-Communication between the main UI and workers is done using the DOM.
+Communication between the main UI and workers is done using the worker sync.
 
 """
 
@@ -37,53 +37,84 @@ TOPIC_WORKER_RUN = "worker.run"
 TOPIC_WORKER_RESULT = "worker.result"
 
 _logger = logging.getLogger('root')
+_log_topics = {
+    "log.info": _logger.info,
+    "log.debug": _logger.debug,
+    "log.error": _logger.error,
+    "log.warning": _logger.warning,
+    "log.critical": _logger.critical,
+}
 
+_name = "pubsub_mpy" if "MicroPython" in sys.version else "pubsub_py"
 
-class _DocumentPubSub():
-    subscribers = []
+start = time.time()
 
+class _Message():
+    def __init__(self, sender, receiver, topic, data):
+        self.sender = sender
+        self.receiver = receiver
+        self.topic = topic
+        self.data = data
+
+class _PubSub():
     def __init__(self):
-        self.pubsub = self.get_pubsub()
-        config = window.eval("_={ attributes: true, childList: true, subtree: true };")
-        callback = pyodide.ffi.create_proxy(lambda *args: self._process_queue())
-        observer = window.MutationObserver.new(callback)
-        observer.observe(self.pubsub, config)
-
-    def get_pubsub(self):
-        element = window.document.getElementById("pubsub")
-        if not element:
-            element = window.document.createElement("div")
-            element.id = "pubsub"
-            window.document.body.appendChild(element)
-        return element
-
-    def _process_queue(self):
-        for message in self.pubsub.children:
-            sender, sender_topic, data = json.loads(message.innerText)
-            for subscriber in self.subscribers:
-                self._match(message, sender, sender_topic, data, *subscriber)
-
-    def _match(self, message, sender, sender_topic, data, receiver, receiver_topic, handler):
-        if sender_topic == receiver_topic and sender != receiver:
-            message.remove()
+        self.subscribers = []
+        self.queue = {}
+   
+    def match(self, message, receiver, receiver_topic, handler):
+        if message.topic == receiver_topic and message.sender != receiver:
             try:
-                handler(data)
-                _logger.info(f"[Pubsub] {json.dumps([sender, receiver, sender_topic, data])}")
+                handler(message.data)
+                log = _log_topics.get(message.topic, _logger.info)
+                log(f"[Pubsub] {json.dumps(['handle', message.sender, receiver, message.topic, str(message.data)])}")
             except Exception as e:
-                _logger.error(f"Pubsub could not handle message: {e}")
+                try:
+                    import traceback
+                    traceback.print_exc()
+                except:
+                    print("no traceback", _name)
+                    pass
+                _logger.error(f"Pubsub could not handle message: {e} {message.sender} {receiver} {message.topic} data={message.data}")
+            return True
+
+    def process_queue(self):
+        for key, message in list(self.queue.items()):
+            for subscriber in self.subscribers:
+                if self.match(message, *subscriber):
+                    self.remove_from_queue(key)
+
+    def add_to_queue(self, message):
+        self.queue[f"{_name}-{time.time()}"] = message
+
+    def remove_from_queue(self, key):
+        del self.queue[key]
+
+    def publish(self, sender, receiver, topic, data):
+        self.add_to_queue(_Message(sender, receiver, topic, data))
+        _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)])}")
+        self.process_queue()
 
     def subscribe(self, name, topic, handler):
-        self.subscribers.append((name, topic, handler))
-        self._process_queue()
- 
-    def publish(self, name, topic, data):
-        message = window.document.createElement("message")
-        message.innerText = json.dumps((name, topic, data))
-        self.pubsub.appendChild(message)
-        self._process_queue()
+        self.subscribers.append([name, topic, handler])
+        self.process_queue()
 
 
-_messenger = _DocumentPubSub()
 
-subscribe = _messenger.subscribe
-publish = _messenger.publish
+try:
+    from polyscript import xworker
+    print("PUBSUB: setup xworker", xworker)
+    subscribe = xworker.sync.subscribe
+    publish = xworker.sync.publish
+except:
+    print("PUBSUB: setup main")
+    _messenger = _PubSub()
+
+    subscribe = _messenger.subscribe
+    publish = _messenger.publish
+
+    def register_worker(worker):
+        _workers.append(worker)
+        worker.sync.publish = publish
+        worker.sync.subscribe = subscribe
+
+    

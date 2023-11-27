@@ -2,6 +2,11 @@
 
 import ltk
 import random
+from polyscript import XWorker
+
+print("launch worker")
+worker = XWorker("/examples/worker.py", config="/examples/worker.toml", type="micropython")
+print("worker", worker)
 
 fan = ltk.Preformatted("")
 
@@ -18,6 +23,7 @@ def publish(event=None):
     ]) 
     ltk.publish(
         "Influencer",   # the sender
+        "Fan",          # the intended receiver
         "message",      # the subscription topic
         message         # the message to send 
     )
@@ -34,6 +40,7 @@ def create():
             ltk.Important("What every fan sees:"),
             ltk.HBox(
                 fan
+                    .attr("id", "fan")
                     .css("border", "1px solid gray")
                     .css("overflow", "hidden")
                     .width(200)

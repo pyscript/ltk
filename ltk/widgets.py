@@ -93,6 +93,30 @@ class Widget(object):
         except AttributeError as e:
             raise AttributeError(f"Cannot find attribute '{name}' in the LTK widget {self}, nor in its jQuery element")
 
+    def left(self, value=None):
+        return self.css("left", value) if value != None else self.css("left")
+
+    def right(self, value=None):
+        return self.css("right", value) if value != None else self.css("right")
+
+    def top(self, value=None):
+        return self.css("top", value) if value != None else self.css("top")
+
+    def bottom(self, value=None):
+        return self.css("bottom", value) if value != None else self.css("bottom")
+
+    def opacity(self, value=None):
+        return self.css("opacity", value) if value != None else self.css("opacity")
+
+    def display(self, value=None):
+        return self.css("display", value) if value != None else self.css("display")
+
+    def position(self, value=None):
+        return self.css("position", value) if value != None else self.css("position")
+
+    def border(self, value=None):
+        return self.css("border", value) if value != None else self.css("border")
+
 
 class HBox(Widget):
     """ Lays out its child widgets horizontally """
@@ -558,6 +582,7 @@ class MenuItem(Widget):
 
     def select(self, event):
         _close_all_menus()
+        print("select", self, self.selected)
         self.selected(self)
         event.preventDefault()
 

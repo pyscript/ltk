@@ -46,7 +46,7 @@ class Logger(ltk.Div):
 
     def _add_table(self):
         self.selector = ltk.find('#ltk-log-level')
-        self.element.css("opacity", 0)
+        self.opacity(0)
         ltk.VBox(
             ltk.HBox(
                 ltk.Text().text("When"),
@@ -154,8 +154,9 @@ class Logger(ltk.Div):
             post = "POST:" if "?_=p&" in name else ""
             sender = "Application" if post else "Network"
             receiver = "Network" if post else "Application"
+            io = "POST" if post else "GET"
             if type == "Xmlhttprequest":
-                self.sequence_ui.log(sender, receiver, name, f"{decodedSize}")
+                self.sequence_ui.log(io, sender, receiver, name, f"{decodedSize}")
 
     def _check_events(self, message):
         print(message)
@@ -238,8 +239,8 @@ class _Call(ltk.Div):
     
     def set_index(self, index):
         self.index = index
-        self.css("display", "block")
-        self.set_position()
+        self.display("block")
+        ltk.schedule(self.set_position)
     
     def set_position(self):
         left = min(self.sender.title.position().left, self.receiver.title.position().left)
@@ -249,8 +250,8 @@ class _Call(ltk.Div):
         height = self.sender.title.height()
         
         self.width(right - left)
-        self.css("left", round(left + width / 2 + 8))
-        self.css("top", round(top + height * 2 + 26 + self.index * 32))
+        self.left(round(left + width / 2 + 8))
+        self.top(round(top + height * 2 + 26 + self.index * 32))
         self.label.css("opacity", 0).width(self.width())
         self.label.animate(ltk.to_js({ "opacity": 1 }), 1500)
         self.dot.set_position()
@@ -265,7 +266,8 @@ class _Dot(ltk.Div):
         self.attr("title", f"{sender.text()} => {receiver.text()} - {topic}: {data}")
         self.reverse = reverse
         if reverse:
-            self.css("left", "").css("right", 0)
+            self.left("").css("right", 0)
+        self.addClass("ltk-arrow ltk-arrow-left" if reverse else "ltk-arrow ltk-arrow-right")
         self.line = line
     
     def get_start(self):
@@ -275,9 +277,9 @@ class _Dot(ltk.Div):
         return -5 if self.reverse else self.line.width() - 5
 
     def set_position(self):
-        self.css("left", self.get_start())
+        self.left(self.get_start())
         if self.animated:
-            self.css("left", self.get_stop())
+            self.left(self.get_stop())
         else:
             self.animated = True
             self.animate(ltk.to_js({ "left": self.get_stop() }), 1000)
@@ -299,6 +301,9 @@ class _SequenceDiagram(ltk.HBox):
         ltk.observe(self.element, self.changed)
         self.last_width = self.element.width()
         self.on("resize", lambda event, ui: self.resize())
+        self.set_width()
+        
+    def set_width(self):
         self.width(getattr(ltk.local_storage, "log-sequence-width", None) or 300)
 
     def resize(self):
@@ -312,14 +317,15 @@ class _SequenceDiagram(ltk.HBox):
             for call in self.calls:
                 call.set_position()
 
-    def log(self, sender_name, receiver_name, topic, data):
+    def log(self, type, sender_name, receiver_name, topic, data):
         self.element.width("100%")
         sender = self.get_component(sender_name)
         receiver = self.get_component(receiver_name)
-        call = _Call(sender, receiver, topic, data, len(self.calls))
+        call = _Call(sender, receiver, f"{type}:{topic}", data, len(self.calls))
         self.calls.append(call)
         self.append(call.element)
         self.filter_messages()
+        self.set_width()
         ltk.schedule(lambda: self.changed(force=True), 1.5)
 
     def clear(self):

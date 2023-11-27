@@ -11,7 +11,7 @@ def create():
                 ltk.Image(src).width(196),
                 ltk.Text(label).width("100%").css("text-align", "center")
             )
-            self.element.css("border", "2px solid orange")
+            self.css("border", "2px solid orange")
 
 
     return (

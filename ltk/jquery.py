@@ -123,8 +123,13 @@ def push_state(url):
     window.history.pushState(None, "", url)
 
 
-def inject_script(url):
-    create("<script>").attr("src", url).appendTo(window.document.head)
+def inject_script(url, type=None, worker=None):
+    script = create("<script>").attr("src", url)
+    if type:
+        script.attr("type", type)
+    if worker:
+        script.attr("worker", "")
+    script.appendTo(window.document.head)
 
 
 def inject_css(url):
