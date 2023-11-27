@@ -4,9 +4,9 @@ import ltk
 import random
 from polyscript import XWorker
 
-print("launch worker")
+# Workers only work when server sets CORS, COOP, COEP headers
+# See https://jeff.glass/post/whats-new-pyscript-2023-11-1/ for more details
 worker = XWorker("/examples/worker.py", config="/examples/worker.toml", type="micropython")
-print("worker", worker)
 
 fan = ltk.Preformatted("")
 
