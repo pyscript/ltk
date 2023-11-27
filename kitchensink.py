@@ -25,7 +25,7 @@ def getsource(file):
 
 
 ltk.find("#progress").remove()
-ltk.find("#title").append(f" took {window.startTime() / 1000}s to load")
+ltk.find("#title").append(f" took {window.startTime() / 1000:.3f}s to load")
 
 
 tabs = ltk.Tabs(
