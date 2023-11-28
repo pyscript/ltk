@@ -8,7 +8,7 @@ __all__ = [
     "Label", "Button", "Link", "Strong", "Important", "Italic", "Paragraph", "Break", "Heading1",
     "Heading2", "Heading3", "Heading4", "OrderedList", "UnorderedList", "ListItem", "Span",
     "Tabs", "File", "DatePicker", "ColorPicker", "RadioGroup", "RadioButton", "Table", "TableRow",
-    "TableHeader", "TableData", "VerticalSplitPane", "TextArea", "Code", "Image", "MenuBar",
+    "TableHeader", "TableData", "VerticalSplitPane", "TextArea", "Code", "Image", "MenuBar", "Switch",
     "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select", "Option", "Widget", "callback"
 ]
 
@@ -185,6 +185,35 @@ class Checkbox(Widget):
         return self.element.prop("checked") == "checked"
 
 
+class Span(Widget):
+    """ Wraps an HTML element of type <span> """
+    classes = [ "ltk-span" ]
+    tag = "span"
+
+
+class Switch(HBox):
+    """ A checkbox with special styling to resemble a switch/toggle """
+    classes = [ "ltk-switch-container ltk-hbox" ]
+
+    def __init__(self, label, checked, style=DEFAULT_CSS):
+        def toggle_edit(event):
+            checked = self.element.find(".ltk-checkbox").prop("checked")
+            self.element.prop("checked", checked)
+        id = f"edit-switch-{get_time()}"
+        HBox.__init__(self, 
+            Div(label).addClass("ltk-switch-label"),
+            Checkbox(True).attr("id", id).addClass("ltk-switch-checkbox").on("change", toggle_edit),
+            Label("").attr("value", "edit:").attr("for", id).addClass("ltk-switch"),
+        )
+
+        self.check(checked)
+
+    def check(self, checked):
+        self.element.find(".ltk-checkbox").prop("checked", "checked" if checked else None)
+
+    def checked(self):
+        return self.element.find(".ltk-checkbox").prop("checked") == "checked"
+
 class Label(Widget):
     """ Wraps an HTML element of type <label> browser DOM element """
     classes = [ "ltk-label" ]
@@ -295,12 +324,6 @@ class ListItem(Container):
     """ Wraps an HTML element of type <li> """
     classes = [ "ltk-li" ]
     tag = "li"
-
-
-class Span(Widget):
-    """ Wraps an HTML element of type <span> """
-    classes = [ "ltk-span" ]
-    tag = "span"
 
 
 class Tabs(Widget):
@@ -496,10 +519,12 @@ class Image(Widget):
     classes = [ "ltk-image" ]
     tag = "img"
 
-    def __init__(self, src, style=DEFAULT_CSS):
+    def __init__(self, src, onerror=None, style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.referrerPolicy = "referrer"
         self.element.attr("src", src)
+        if onerror:
+            self.element.attr("onerror", f'this.src = "{onerror}"')
 
 
 class MenuBar(HBox):

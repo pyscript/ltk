@@ -39,6 +39,11 @@ def create():
         feedback(f"Changed {kind}: {element.val()}", "purple")
 
     @ltk.callback
+    def switched(event):
+        element = ltk.jQuery(event.target)
+        feedback(f"Changed switch: {element.prop('checked')}", "navy")
+
+    @ltk.callback
     def set_runtime(event):
         chosen = ltk.jQuery(event.target).attr("value")
         if chosen != runtime:
@@ -80,6 +85,7 @@ def create():
                 ltk.Checkbox(True).attr("id", "love").on("change", loveit),
             )
         ),
+        ltk.Switch("Python is great:", True).on("change", switched),
         ltk.File().on("change", change),
         ltk.ColorPicker().on("change", change),
         ltk.DatePicker().on("change", change),
