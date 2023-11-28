@@ -69,7 +69,7 @@ class _PubSub():
                 else:
                     handler(message.data)
                 log = _log_topics.get(message.topic, _logger.info)
-                log(f"[Pubsub] {json.dumps(['handle', message.sender, receiver, message.topic, str(message.data)])}")
+                log(f"[Pubsub] {json.dumps(['handle', message.sender, receiver, message.topic, str(message.data)[:32]])}")
             except Exception as e:
                 try:
                     import traceback
@@ -94,7 +94,7 @@ class _PubSub():
 
     def publish(self, sender, receiver, topic, data):
         self.add_to_queue(_Message(sender, receiver, topic, data))
-        _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)])}")
+        _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
         self.process_queue()
 
     def subscribe(self, name, topic, handler):
