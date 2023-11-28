@@ -18,4 +18,5 @@ files = [
     "examples/custom.py",
     "examples/pubsub.py",
     "examples/table.py",
+    "examples/svg.py",
 ]
