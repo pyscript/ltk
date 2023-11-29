@@ -34,7 +34,7 @@ def create():
             ltk.Label("The CSS:"),
             ltk.TextArea("CSS will be loaded here...").addClass("tictactoe-css"),
         )
-        .attr("name", "Tic Tac Toe")
+        .attr("name", "TicTacToe")
     )
 
 ltk.get(

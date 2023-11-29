@@ -24,5 +24,5 @@ def create():
                 .css("margin-top", 20),
             ltk.Heading4("Tip: drag the card."),
         )
-        .attr("name", "Custom Widget")
+        .attr("name", "Custom")
     )

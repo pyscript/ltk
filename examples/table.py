@@ -42,5 +42,5 @@ def create():
             ),
             ltk.Heading4("Tip: resize the country column using the orange handle."),
         )
-        .attr("name", "HTML Tables")
+        .attr("name", "Tables")
     )
