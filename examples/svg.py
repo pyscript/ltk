@@ -8,7 +8,7 @@ def create():
         ltk.find("#svg").css("background-color", "blue")
 
     def bind_event():
-        ltk.find("#ellipse").on("click", lambda event: ellipse_clicked())
+        ltk.find("#ellipse").on("click", ltk.proxy(lambda event: ellipse_clicked()))
 
     #
     # Only in this specific example we need to bind events after
