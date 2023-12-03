@@ -150,13 +150,13 @@
 .ltk-table {
     border-collapse: collapse;
 }
-.ltk-th {
+.ltk-table-title {
     background-color: rgb(219, 242, 249);
     border: 0 solid lightgray;
     border-bottom-width: 1px;
     padding: 4px 8px;
 }
-.ltk-td {
+.ltk-table-cell {
     border: 0 solid lightgray;
     border-bottom-width: 1px;
     padding: 4px 8px;
