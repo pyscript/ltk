@@ -20,9 +20,9 @@ ltk.Text("Hello World").appendTo(ltk.body)
 
 ## Getting Started
 
-To get started with LTK, we recommend you try it out on [pyscript.com](https://pyscript.com):
- -  [Minimal LTK with MicroPython](https://laffra.pyscriptapps.com/ltk-on-micropython)
- -  [Minimal LTK with PyOdide](https://laffra.pyscriptapps.com/ltk-on-pyodide)
+To get started with LTK, we recommend you try it out on pyscript.com:
+ -  [Minimal LTK with MicroPython](https://pyscript.com/@laffra/ltk-on-micropython/latest)
+ -  [Minimal LTK with PyOdide](https://pyscript.com/@laffra/ltk-on-pyodide/latest)
 
 ## Widget Specification
 
