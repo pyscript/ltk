@@ -3,6 +3,7 @@
 import json
 import pyodide # type: ignore
 from pyscript import window # type: ignore
+import os
 import time
 import sys
 
@@ -122,8 +123,11 @@ def push_state(url):
     window.history.pushState(None, "", url)
 
 
-def inject_script(url, type=None, worker=None):
-    script = create("<script>").attr("src", url)
+def inject_script(file_or_url, type=None, worker=None):
+    try:
+        script = create("<script>").text(open(file_or_url).read())
+    except:
+        script = create("<script>").attr("src", file_or_url)
     if type:
         script.attr("type", type)
     if worker:
@@ -131,8 +135,12 @@ def inject_script(url, type=None, worker=None):
     script.appendTo(window.document.head)
 
 
-def inject_css(url):
-    create("<link>").attr("rel", "stylesheet").attr("href", url).appendTo(window.document.head)
+def inject_css(file_or_url):
+    try:
+        node = create("<style>").text(open(file_or_url).read())
+    except:
+        node = create("<link>").attr("rel", "stylesheet").attr("href", file_or_url)
+    node.appendTo(window.document.head)
 
 
 _fix_time_on_micropython()

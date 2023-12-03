@@ -18,6 +18,12 @@ import ltk
 ltk.Text("Hello World").appendTo(ltk.body)
 ```
 
+## Getting Started
+
+To get started with LTK, we recommend you try it out on [pyscript.com](https://pyscript.com):
+ -  [Minimal LTK with MicroPython](https://laffra.pyscriptapps.com/ltk-on-micropython)
+ -  [Minimal LTK with PyOdide](https://laffra.pyscriptapps.com/ltk-on-pyodide)
+
 ## Widget Specification
 
 New widget types are created by subclassing `ltk.Widget`:
