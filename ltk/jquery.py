@@ -29,8 +29,7 @@ create = jQuery
 parse_int = window.parseInt
 parse_float = window.parseFloat
 local_storage = window.localStorage
-
-_timers = {}
+timers = {}
 
 
 def get_time():
@@ -56,12 +55,12 @@ def to_py(jsobj):
             return str(jsobj)
 
 
-def schedule(python_function, timeout_seconds=0.1):
+def schedule(python_function, key, timeout_seconds=0.1):
     if not python_function:
         raise ValueError(f"schedule: Expecting a function, not {python_function}")
-    if python_function in _timers:
-        window.clearTimeout(_timers[python_function])
-    _timers[python_function] = window.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
+    if key in timers:
+        window.clearTimeout(timers[key])
+    timers[key] = window.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
 
 
 def repeat(python_function, timeout_seconds=1):

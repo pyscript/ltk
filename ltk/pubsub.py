@@ -48,6 +48,7 @@ _log_topics = {
 _name = "pubsub_mpy" if "MicroPython" in sys.version else "pubsub_py"
 workers = {}
 start = time.time()
+show_publish = False
 
 class _Message():
     def __init__(self, sender, receiver, topic, data):
@@ -94,7 +95,8 @@ class _PubSub():
 
     def publish(self, sender, receiver, topic, data):
         self.add_to_queue(_Message(sender, receiver, topic, data))
-        _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
+        if show_publish:
+            _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
         self.process_queue()
 
     def subscribe(self, name, topic, handler):

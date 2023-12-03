@@ -1,3 +1,6 @@
 dist/*
 ltk.egg-info/*
 pyscript_ltk.egg-info/*
+ltk/__pycache__/*
+tests/__pycache__/*
+.DS_Store

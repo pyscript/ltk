@@ -196,6 +196,13 @@ class Switch(HBox):
     classes = [ "ltk-switch-container ltk-hbox" ]
 
     def __init__(self, label, checked, style=DEFAULT_CSS):
+        """
+        Create a new switch
+
+        Args:
+            label:str: The label for the switch
+            checked:bool Whether the switch is checked or not
+        """
         def toggle_edit(event):
             checked = self.element.find(".ltk-checkbox").prop("checked")
             self.element.prop("checked", checked)
@@ -501,7 +508,7 @@ class Code(Widget):
             inject_script("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
             inject_script(f"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/{language}.min.js")
         self.element.text(code).css("opacity", 0)
-        schedule(self.highlight)
+        schedule(self.highlight, f"{self}.highlight")
 
     def highlight(self):
         if self.highlighted:
@@ -511,7 +518,7 @@ class Code(Widget):
             self.element.animate(to_js({ "opacity": 1}))
             self.highlighted = True
         else:
-            schedule(self.highlight, 0.1)
+            schedule(self.highlight, f"{self}.highlight", 0.1)
 
 
 class Image(Widget):
@@ -626,7 +633,7 @@ class Select(Widget):
             style
         )
         self.handler = handler
-        self.element.on("change", proxy(lambda event: schedule(self.changed)))
+        self.element.on("change", proxy(lambda event: schedule(self.changed, f"{self}.changed")))
 
     def get_selected_index(self):
         return self.element.prop("selectedIndex")

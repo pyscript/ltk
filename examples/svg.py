@@ -14,7 +14,7 @@ def create():
     # Only in this specific example we need to bind events after
     # the svg is actually added to the DOM, so we use ltk.schedule
     #
-    ltk.schedule(bind_event)
+    ltk.schedule(bind_event, "bind_event")
 
     return(
         ltk.VBox(

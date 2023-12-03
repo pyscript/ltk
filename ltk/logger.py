@@ -79,6 +79,7 @@ class Logger(ltk.Div):
     def _set_level(self, selected):
         self.level = self.levels[selected]
         self._filter_rows()
+        ltk.pubsub.show_publish = self.level == logging.DEBUG
 
     def _apply_filter(self):
         self._filter_rows()
@@ -240,7 +241,7 @@ class _Call(ltk.Div):
     def set_index(self, index):
         self.index = index
         self.display("block")
-        ltk.schedule(self.set_position)
+        ltk.schedule(self.set_position, f"{self}.set_position")
     
     def set_position(self):
         left = min(self.sender.title.position().left, self.receiver.title.position().left)
@@ -294,7 +295,7 @@ class _SequenceDiagram(ltk.HBox):
     def __init__(self):
         ltk.HBox.__init__(self,
             ltk.Div(
-                ltk.Text("State Sequence Diagram").css("margin", 3)
+                ltk.Text("State Sequence Diagram").css("margin", 3),
             ).addClass("ltk-sequence-header"),
         )
         self.element.attr("id", "ltk-sequence-ui")
@@ -326,7 +327,7 @@ class _SequenceDiagram(ltk.HBox):
         self.append(call.element)
         self.filter_messages()
         self.set_width()
-        ltk.schedule(lambda: self.changed(force=True), 1.5)
+        ltk.schedule(lambda: self.changed(force=True), f"{self}.changed", 1.5)
 
     def clear(self):
         ltk.find(".ltk-sequence-call").animate(
@@ -338,11 +339,11 @@ class _SequenceDiagram(ltk.HBox):
     def filter_messages(self):
         filter = ltk.find("#ltk-log-filter").val()
         ltk.find(".ltk-sequence-call").css("display", "none")
-        index = len(self.calls) - 1
-        for n, call in enumerate(self.calls):
-            if filter in call.text():
-                call.set_index(index)
-                index -= 1
+        calls = [call for call in self.calls if filter in call.text()]
+        index = len(calls) - 1
+        for call in calls:
+            call.set_index(index)
+            index -= 1
 
     def get_component(self, name):
         if not name in self.components:

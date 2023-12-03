@@ -326,7 +326,7 @@
 .ltk-log-list .ui-resizable-n {
     cursor: ns-resize;
     height: 32px;
-    width: calc(100% - 180px);
+    width: calc(100% - 210px);
 }
 .ltk-log-list .ui-resizable-e {
     cursor: ew-resize;
