@@ -8,13 +8,28 @@ def create():
         ltk.find("#svg").css("background-color", "blue")
 
     def bind_event():
-        ltk.find("#ellipse").on("click", ltk.proxy(lambda event: ellipse_clicked()))
+        ltk.find("#ellipse").on(
+            "click",
+            lambda event: ellipse_clicked()
+        )
 
     #
-    # Only in this specific example we need to bind events after
+    # In this specific example we need to bind events after
     # the svg is actually added to the DOM, so we use ltk.schedule
     #
-    ltk.schedule(bind_event, "bind_event")
+    ltk.schedule(bind_event, "SVG ellipse bind_event")
+
+    # 
+    # Note that LTK is based on jQuery, which does not officially supports SVG.
+    # Using jQuery methods on SVG documents, unless explicitly documented for
+    # that method, might cause unexpected behaviors. 
+    # 
+    # Examples of jQuery methods that do support SVG are addClass and
+    # removeClass.  Event handling also works, as shown in this example.
+    # However, the appending of specific SVG nodes using an LTK Widget does
+    # not work well. This is why in this example we construct the SVG from
+    # HTML, instead of composing it out of nested widgets.
+    #
 
     return(
         ltk.VBox(

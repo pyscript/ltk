@@ -118,12 +118,12 @@ ltk.inject_style("https://example.org/awesome_styles.css")
 
 ## Events
 
-Event handlers are attached using `jQuery` mechanisms. As the functions cross PyOdide and JavaScript namespaces, they need to be wrapped with `pyodide.ffi.create_proxy` calls. We use the shortcut offered by `ltk.proxy`:
+Event handlers are attached using `jQuery` mechanisms. 
 ```python
 def buy(event):
     purchase(...)
 
-Card("Buy Now").on("click", ltk.proxy(buy))
+Card("Buy Now").on("click", buy)
 ```
 
 You can also use the more declarative decorator:

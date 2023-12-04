@@ -12,13 +12,10 @@ def create():
 
             ltk.Link(
                 "https://pydata.org/eindhoven2023/",
-                "Come visit PyData Eindhoven"
+                "LTK was presented at PyData Eindhoven"
             )
                 .attr("target", "_blank")
                 .css("color", "navy")
-                .css("margin-top", 50),
-
-            ltk.Text("on November 30 and learn more about LTK, the Pyscript Little Toolkit")
                 .css("margin-top", 50),
 
             ltk.Link(

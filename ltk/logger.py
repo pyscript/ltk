@@ -33,7 +33,7 @@ class Logger(ltk.Div):
             )
         )
         self.element.resizable(ltk.to_js({ "handles": "n" }))
-        self.on("resize", lambda event, ui: self.resize())
+        self.on("resize", lambda event: self.resize())
         self.height(getattr(ltk.local_storage, "log-list-height", None) or 300)
         self._add_table()
         self._setup_logger()
@@ -46,13 +46,13 @@ class Logger(ltk.Div):
 
     def _add_table(self):
         self.selector = ltk.find('#ltk-log-level')
-        self.opacity(0)
+        self.css("opacity", 0)
         ltk.VBox(
             ltk.HBox(
                 ltk.Text().text("When"),
                 ltk.Text().text("Level"),
                 ltk.Text().text("Message"),
-            ).width("100vw"),
+            ).css("width", "100vw"),
             ltk.Container(
                 ltk.Select(
                     [ name for name, level in sorted(self.levels.items(), key = lambda item: item[1]) ],
@@ -72,13 +72,14 @@ class Logger(ltk.Div):
 
     def _changed(self, element=None):
         if self.element.width() != self.last_width:
-            ltk.find(".ltk-log-header").width(self.width())
+            ltk.find(".ltk-log-header").css("width", self.width())
             ltk.find(".ltk-log-buttons").css("right", 10)
             self.last_width = self.element.width()
 
     def _set_level(self, selected):
         self.level = self.levels[selected]
         self._filter_rows()
+        
         ltk.pubsub.show_publish = self.level == logging.DEBUG
 
     def _apply_filter(self):
@@ -138,7 +139,7 @@ class Logger(ltk.Div):
             else:
                 window.console.orig_log(*args)
             self._filter_rows()
-            self.element.animate(ltk.to_js({"opacity": 1}), 1300)
+            self.animate(ltk.to_js({"opacity": 1}), 1300)
             self._check_pubsub(message)
             self._check_network(message)
             self._check_events(message)
@@ -192,7 +193,7 @@ class Logger(ltk.Div):
             def format(arg):
                 if arg.__class__.__name__ == "jsobj":
                     try:
-                        return json.dumps(to_py(arg))
+                        return json.dumps(ltk.to_py(arg))
                     except:
                         pass
                 return str(arg)
@@ -240,7 +241,7 @@ class _Call(ltk.Div):
     
     def set_index(self, index):
         self.index = index
-        self.display("block")
+        self.css("display", "block")
         ltk.schedule(self.set_position, f"{self}.set_position")
     
     def set_position(self):
@@ -250,10 +251,10 @@ class _Call(ltk.Div):
         width = self.sender.title.width()
         height = self.sender.title.height()
         
-        self.width(right - left)
-        self.left(round(left + width / 2 + 8))
-        self.top(round(top + height * 2 + 26 + self.index * 32))
-        self.label.css("opacity", 0).width(self.width())
+        self.css("width", right - left)
+        self.css("left", round(left + width / 2 + 8))
+        self.css("top", round(top + height * 2 + 26 + self.index * 32))
+        self.label.css("opacity", 0).css("width", self.width())
         self.label.animate(ltk.to_js({ "opacity": 1 }), 1500)
         self.dot.set_position()
 
@@ -267,7 +268,7 @@ class _Dot(ltk.Div):
         self.attr("title", f"{sender.text()} => {receiver.text()} - {topic}: {data}")
         self.reverse = reverse
         if reverse:
-            self.left("").css("right", 0)
+            self.css("left", "").css("right", 0)
         self.addClass("ltk-arrow ltk-arrow-left" if reverse else "ltk-arrow ltk-arrow-right")
         self.line = line
     
@@ -278,9 +279,9 @@ class _Dot(ltk.Div):
         return -5 if self.reverse else self.line.width() - 5
 
     def set_position(self):
-        self.left(self.get_start())
+        self.css("left", self.get_start())
         if self.animated:
-            self.left(self.get_stop())
+            self.css("left", self.get_stop())
         else:
             self.animated = True
             self.animate(ltk.to_js({ "left": self.get_stop() }), 1000)
@@ -301,7 +302,7 @@ class _SequenceDiagram(ltk.HBox):
         self.element.attr("id", "ltk-sequence-ui")
         ltk.observe(self.element, self.changed)
         self.last_width = self.element.width()
-        self.on("resize", lambda event, ui: self.resize())
+        self.on("resize", lambda event: self.resize())
         self.set_width()
         
     def set_width(self):

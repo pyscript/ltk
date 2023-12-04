@@ -87,35 +87,254 @@ class Widget(object):
                 result.append(child)
         return result
 
+    names = set()
+
+    def css(self, property, value=None):
+        """
+        Get or set a computed style property. 
+
+        Calls jQuery's css method, see https://api.jquery.com/css. If the first argument is a dict,
+        it is passed to jQuery to set property values in bulk. If the first argument is a string, 
+        jQuery is used to set or get that specific CSS property.
+
+        Args:
+            property:(str,dict): The CSS property or map to set/get
+            value:Any The CSS value to set. Numeric values auto-convert to "px"
+        """
+        if isinstance(property, dict):
+            property = to_js(property)
+        return self.element.css(property, value) if value != None else self.element.css(property)
+
+    def attr(self, name, value=None):
+        """
+        Get or set a the attribute on the underlying DOM element.
+
+        Calls jQuery's attr method, see https://api.jquery.com/attr. 
+
+        Args:
+            name:str: The attribute to set/get on the DOM element
+            value:str The value to set. 
+                If value is None, this gets the value as a string. 
+                Otherwise, it sets the value, which needs to be a string.
+        """
+        return self.element.attr(name, value) if value != None else self.element.attr(name)
+
+    def prop(self, name, value=None):
+        """
+        Get or set a the property on the underlying DOM element.
+
+        Calls jQuery's prop method, see https://api.jquery.com/prop. 
+        The difference between "attr" and "prop" becomes more clear when looking at
+        a checkbox. Its checked attribute value does not change with the state of 
+        the checkbox, while the checked property does. Attributes are concrete values that
+        are set on a DOM element, while properties are more dynamic and symbolic.
+
+        Args:
+            name:str: The property to set/get on the DOM element
+            value:str The value to set. 
+                If value is None, this gets the value as a string. 
+                Otherwise, it sets the value, which needs to be a string.
+        """
+        return self.element.prop(name, value) if value != None else self.element.prop(name)
+
+    def val(self, value=None):
+        """
+        Get or set a the value on the underlying DOM form element, such as input, select, and textarea.
+
+        Calls jQuery's val method, see https://api.jquery.com/val. 
+
+        Args:
+            value:str The value to set. 
+                If value is None, this gets the value as a string. 
+                Otherwise, it sets the value, which needs to be a string.
+        """
+        return self.element.val(value) if value != None else self.element.val()
+
+    def height(self, value=None):
+        """
+        Get or set a the height on the underlying DOM element.
+
+        Calls jQuery's height method, see https://api.jquery.com/height. 
+
+        The difference between .css( "height" ) and .height() is that the latter
+        returns a unit-less pixel value (for example, 400) while the former returns
+        a value with units intact (for example, 400px). The .height() method is recommended
+        when an element's height needs to be used in a mathematical calculation.
+
+        Args:
+            value:number The value to set. 
+                If value is None, this gets the current height of the DOM element as a number. 
+                Otherwise, it sets the height.
+        """
+        return self.element.height(value) if value != None else self.element.height()
+
+    def width(self, value=None):
+        """
+        Get or set a the width on the underlying DOM element.
+
+        Calls jQuery's width method, see https://api.jquery.com/width. 
+
+        The difference between .css( "width" ) and .width() is that the latter
+        returns a unit-less pixel value (for example, 400) while the former returns
+        a value with units intact (for example, 400px). The .width() method is recommended
+        when an element's width needs to be used in a mathematical calculation.
+
+        Args:
+            value:number The value to set. 
+                If value is None, this gets the current width of the DOM element as a number. 
+                Otherwise, it sets the width.
+        """
+        return self.element.width(value) if value != None else self.element.width()
+
+    def find(self, selector):
+        """
+        Search through the DOM tree descendants of this widget and construct a new jQuery object from the
+        matching elements. 
+
+        Args:
+            selector:str: A string containing a selector expression to match elements against.
+        """
+        return self.element.find(selector)
+
+    def closest(self, selector):
+        """
+        Get the first element that matches the selector by testing the element itself and
+        traversing up through its ancestors in the DOM tree.
+
+        Args:
+            selector:str: A string containing a selector expression to match elements against.
+        """
+        return self.element.closest(selector)
+
+    def addClass(self, classes):
+        """
+        Add the specified class(es) to the current widget's DOM element.
+
+        Args:
+            classes:(str,list): One or more space-separated classes or a list of classes to be added
+        """
+        return self.element.addClass(classes)
+
+    def removeClass(self, classes):
+        """
+        Remove the specified class(es) from the current widget's DOM element.
+
+        Args:
+            classes:(str,list): One or more space-separated classes or a list of classes to be removed
+        """
+        return self.element.removeClass(classes)
+
+    def children(self, selector=None):
+        """
+        Search through the direct children of this widget's DOM tree and construct a new jQuery object
+        from the matching elements. The .children() method differs from .find() in that .children()
+        only travels a single level down the DOM tree while .find() can traverse down multiple levels
+        to select descendant elements (grandchildren, etc.) as well.
+
+        Args:
+            selector:str: A string containing a selector expression to match elements against.
+        """
+        return self.element.children(selector)
+
+    def text(self, text=None):
+        """
+        Return a string containing the combined text of the current widget's DOM tree
+        or completely replace that DOM tree with a new text value.
+        
+        Due to variations in the HTML parsers in different browsers, the text returned may vary in newlines
+        and other white space.
+
+        Args:
+            text:str: A string that to replace the current widget's DOM tree with.
+        """
+        return self.element.text() if text is None else self.element.text(text)
+
+    def html(self, html=None):
+        """
+        Return a string containing the combined "innerHTML" of the current widget's DOM tree
+        or completely replace that DOM tree with new html.
+        
+        When .html()) is used to set an element's content, any content that was in that element
+        is completely replaced by the new content. Additionally, jQuery removes other constructs
+        such as data and event handlers from child elements before replacing those elements with 
+        the new content.
+
+        Args:
+            text:str: A string that to replace the current widget's DOM tree with.
+        """
+        return self.element.html() if html is None else self.element.html(html)
+
+    def append(self, *children):
+        """
+        Append children to the current widget. Each child can be a Widget, a jQuery element, or a 
+        nested list of the same.
+
+        Args:
+            selector:str: A string containing a selector expression to match elements against.
+        """
+        return self.element.append(*self._flatten(children))
+
+    def appendTo(self, target):
+        """
+        Append the current widget at the end of the children list in target.
+
+        Args:
+            target:(Widget,Element): An LTK widget or a jQuery element
+        """
+        target = target.element if isinstance(target, Widget) else target
+        return self.element.appendTo(target)
+
+    def empty(self):
+        """
+        Remove all DOM elements and event handlers in the current widget's DOM tree. 
+        """
+        return self.element.empty()
+
+    def on(self, events, selector=None, data=None, handler=None):
+        """
+        Register an event handler for DOM or application-level events.
+
+        Args:
+            events:str: A string containing one or more space-separated event types and
+                optional namespaces, such as "click" or "keydown.myPlugin".
+            selector:str A selector string to filter the descendants of the selected elements
+                that trigger the event. If the selector is None or omitted, the event
+                is always triggered when it reaches the selected element.
+            handler:function A Python function that is called when the event happens.
+        """
+        if handler is None:
+            if data is None:
+                handler = selector
+                selector = None
+            else:
+                handler = data
+                data = None
+        assert handler is not None, "The handler argument should be a valid Python function"
+        return self.element.on(events, selector, data, proxy(handler))
+
+    def animate(self, properties, duration=None, easing=None, complete=None):
+        """
+        Perform a custom animation of a set of CSS properties.
+
+        See https://api.jquery.com/animate/#animate-properties-options.
+
+        Args:
+            events:dict: An map of CSS properties and values that the animation will move toward.
+            duration:number The amount of milliseconds this animation should take.
+            easing:string A string indicating which easing function to use for the transition.
+            complete:function A Python function that is called when the animation is done.
+        """
+        print(f"animate{properties}, {duration}, {easing}, {complete}")
+        if isinstance(properties, dict):
+            properties = to_js(properties)
+        return self.element.animate(properties, duration, easing, proxy(complete))
+
     def __getattr__(self, name):
-        try:
-            return getattr(self.element, name)
-        except AttributeError as e:
-            raise AttributeError(f"Cannot find attribute '{name}' in the LTK widget {self}, nor in its jQuery element")
+        if not name in self.names:
+            print("###", name)
+            self.names.add(name)
+        return getattr(self.element, name)
 
-    def left(self, value=None):
-        return self.css("left", value) if value != None else self.css("left")
-
-    def right(self, value=None):
-        return self.css("right", value) if value != None else self.css("right")
-
-    def top(self, value=None):
-        return self.css("top", value) if value != None else self.css("top")
-
-    def bottom(self, value=None):
-        return self.css("bottom", value) if value != None else self.css("bottom")
-
-    def opacity(self, value=None):
-        return self.css("opacity", value) if value != None else self.css("opacity")
-
-    def display(self, value=None):
-        return self.css("display", value) if value != None else self.css("display")
-
-    def position(self, value=None):
-        return self.css("position", value) if value != None else self.css("position")
-
-    def border(self, value=None):
-        return self.css("border", value) if value != None else self.css("border")
 
 
 class HBox(Widget):
@@ -486,7 +705,6 @@ class VerticalSplitPane(Widget):
 
 class TextArea(Text):
     """ Wraps an HTML element of type <textarea> """
-    classes = [ "ltk-td" ]
     classes = [ "ltk-textarea" ]
     tag = "textarea"
 

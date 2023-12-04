@@ -42,8 +42,10 @@ def find_list(selector):
     return [ elements.eq(n) for n in range(elements.length) ]
 
 
-def to_js(dict):
-    return window.to_js(json.dumps(dict))
+def to_js(python_object):
+    if python_object.__class__.__name__ == "jsobj":
+        return python_object
+    return window.to_js(json.dumps(python_object))
 
 
 def to_py(jsobj):
@@ -102,7 +104,7 @@ def observe(element, handler):
 
 
 def proxy(function):
-    return pyodide.ffi.create_proxy(function)
+    return pyodide.ffi.create_proxy(function) if function else None
 
 
 def get_url_parameter(key):
