@@ -6,39 +6,39 @@ def create():
 
     def click(event):
         element = ltk.find(event.target)
-        ltk.find("#styling-text").text(
-            f"You pressed the button with background color: {element.css('background-color')}"
+        color = element.css("background-color")
+        element.parent().find(".ltk-text").text(
+            f"You pressed the '{element.text()}' button with background color: {color}"
         )
 
     ui = (
         ltk.VBox(
-            ltk.Button("Unstyled", click),
+            ltk.Button("Default", click),
+
             ltk.Button("Blue", click)
-                .css("background-color", "blue")
-                .css("color", "white")
-                .css("border", "none")
-                .css("font-family", "Arial")
-                .css("padding", 19),
-            ltk.Button("Red", click)
-                .css("background-color", "red")
-                .css("color", "white")
-                .css("border", "3px solid black")
-                .css("border-radius", 15)
-                .css("font-family", "Arial")
-                .css("padding", 19),
-            ltk.Break(),
+                .css("background-color", "#007fff")
+                .css("color", "white"),
+
             ltk.Button("Modern", click)
-                .css("background-color", "lightgray")
-                .css("color", "#222")
-                .css("border", "none")
-                .css("height", 48)
-                .css("border-radius", 24)
-                .css("font-family", "Arial")
-                .css("font-size", 16)
-                .css("padding", "10px 5px"),
+                .css({
+                    "background": "white",
+                    "color": "#222",
+                    "border": "1px solid gray",
+                    "height": 48,
+                    "border-radius": 24,
+                    "font-family": "Arial",
+                    "font-size": 16,
+                    "padding": "10px 5px",
+                })
+                .hover(ltk.proxy(lambda e:
+                    ltk.find(e.target)
+                        .css(ltk.to_js({
+                            "text-decoration": "underline" if e.type == "mouseenter" else "none",
+                            "background": "#EEE" if e.type == "mouseenter" else "white",
+                        }))
+                )),
+
             ltk.Text("")
-                .css("margin-top", 50)
-                .attr("id", "styling-text")
         )
         .attr("name", "Styling")
     )

@@ -62,7 +62,7 @@ class Logger(ltk.Div):
                 ltk.Input("")
                     .attr("placeholder", "Filter")
                     .attr("id", "ltk-log-filter")
-                    .on("keyup", lambda event: self._apply_filter()),
+                    .on("keyup", ltk.proxy(lambda event: self._apply_filter())),
                 ltk.Button("clear", lambda event: self._clear()),
                 ltk.Button("x", lambda event: self.element.remove()),
             ).addClass("ltk-log-buttons")
@@ -100,7 +100,7 @@ class Logger(ltk.Div):
     def _clear(self):
         ltk.find(".ltk-log-row").animate(
             ltk.to_js({ "opacity": 0}),
-            lambda: ltk.find(".ltk-log-row").remove()
+            ltk.proxy(lambda: ltk.find(".ltk-log-row").remove())
         )
         self._filter_rows()
         self.sequence_ui.clear()

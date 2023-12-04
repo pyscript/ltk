@@ -18,10 +18,7 @@ def create():
     )
 
     def animate(event):
-        card.animate({
-            "left": 0,
-            "top": 0,
-        }, 500)
+        card.animate({ "left": 0, "top": 0 }, 500)
 
     return (
         ltk.VBox(

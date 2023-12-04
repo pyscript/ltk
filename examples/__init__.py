@@ -5,6 +5,7 @@ from examples import custom
 from examples import documentation
 from examples import helloworld
 from examples import inputs
+from examples import pitch
 from examples import pubsub
 from examples import pydata
 from examples import styling
@@ -22,6 +23,7 @@ items = [
     ("examples/app.py", app.create()),
     ("examples/pubsub.py", pubsub.create()),
     ("examples/documentation.py", documentation.create()),
+    ("examples/pitch.py", pitch.create()),
     ("examples/svg.py", svg.create()),
     ("examples/pydata.py", pydata.create()),
 ]

@@ -15,6 +15,7 @@ files = [
     "examples/pydata.py",
     "examples/tictactoe.py",
     "examples/tictactoe.css",
+    "examples/pitch.py",
     "examples/styling.py",
     "examples/custom.py",
     "examples/pubsub.py",
