@@ -88,7 +88,7 @@ def go():
             section = script[current]
             section["tick"] = 0
         section["tick"] += 1
-        ltk.find(f"#progress-{current}").css("width", 15 * section["tick"])
+        ltk.find(f"#progress-{current}").animate(ltk.to_js({"width": 15 * section["tick"]}), 500)
         lines = section["lines"]
         line_index = max(0, min(len(lines) - 1, int(-0.1 + len(lines) * section["tick"] / section["duration"])))
         line = lines[line_index]
