@@ -5,6 +5,10 @@ import ltk
 script = [ {
         "title": "Intro",
         "duration": 10,
+        "images": [
+            "https://chrislaffra.com/chris.png",
+            "https://chrislaffra.com/visual-resume-2023.png",
+        ],
         "color": "lightyellow",
         "lines": [
             "Hello, my name is Chris Laffra. I grew up in Holland.",
@@ -14,6 +18,10 @@ script = [ {
     }, {
         "title": "The problem",
         "duration": 15,
+        "images": [
+            "https://i0.wp.com/blog.tomiwa.ca/wp-content/uploads/2018/03/atila-tech-stack.png",
+            "https://www.saaspegasus.com/static/images/web/modern-javascript/js-pipeline-with-django.56456c10739f.png",
+        ],
         "color": "lightblue",
         "lines": [
             "What I learned over 30 years as the biggest problem with Python:",
@@ -23,6 +31,11 @@ script = [ {
     }, {
         "title": "The solution",
         "duration": 25,
+        "images": [
+            "https://chrislaffra.com/pysheets/bikestore.png",
+            "https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img/https://latitudetechnolabs.com/wp-content/uploads/elementor/thumbs/PyScript-in-Python-pozknlge3s7mxlaoecwmfwp0fovjee5g55c5ejbdsw.jpg",
+            "https://chrislaffra.com/pysheets/ltk-kitchensink.png",
+        ],
         "color": "lightgreen",
         "lines": [
             "LTK - The Little Toolkit solves these problems.",
@@ -34,6 +47,10 @@ script = [ {
     }, {
         "title": "The ask",
         "duration": 10,
+        "images": [
+            "https://chrislaffra.com/pysheets/pyscript.com.png",
+            "https://chrislaffra.com/pysheets/ltk.png",
+        ],
         "color": "pink",
         "lines": [
             "Write your own Python browser app in minutes on pyscript.com",
@@ -76,6 +93,18 @@ def go():
         .css("margin", 200)
         .append(pitch)
     )
+        
+    def show_current_line(section):
+        lines = section["lines"]
+        line_index = max(0, min(len(lines) - 1, int(-0.1 + len(lines) * section["tick"] / section["duration"])))
+        line = lines[line_index]
+        ltk.find(f"#pitch-line").text(line) 
+
+    def show_current_image(section):
+        images = section["images"]
+        image_index = max(0, min(len(images) - 1, int(-0.1 + len(images) * section["tick"] / section["duration"])))
+        image = images[image_index]
+        ltk.find(f"#pitch-image").attr("src", image)
 
     def run():
         global current
@@ -89,10 +118,8 @@ def go():
             section["tick"] = 0
         section["tick"] += 1
         ltk.find(f"#progress-{current}").animate(ltk.to_js({"width": 15 * section["tick"]}), 500)
-        lines = section["lines"]
-        line_index = max(0, min(len(lines) - 1, int(-0.1 + len(lines) * section["tick"] / section["duration"])))
-        line = lines[line_index]
-        ltk.find(f"#pitch-line").text(line)
+        show_current_line(section)
+        show_current_image(section)
         ltk.schedule(run, "play next script section", 1.1)
 
     script[0]["tick"] = 0
@@ -104,6 +131,13 @@ def create():
     return(
         ltk.VBox(
             ltk.Heading1("Why LTK?"),
+            ltk.Div(
+                ltk.Image(script[-1]["images"][-1])
+                    .attr("id", "pitch-image")
+                    .css("width", 900)
+            )
+            .css("margin-bottom", 25)
+            .css("height", 600),
             ScriptPlayer(),
             ltk.Text()
                 .css("font-size", 35)
