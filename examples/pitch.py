@@ -24,9 +24,9 @@ script = [ {
         ],
         "color": "lightblue",
         "lines": [
-            "What I learned over 30 years as the biggest problem with Python:",
-            "It is very hard to write fast and beautiful UIs in Python.",
-            "The web is hard. Data scientists don't want to learn JavaScript.",
+            "What I learned over 30 years as the biggest problem with Python...",
+            "... it is difficult to write fast and beautiful UIs in Python.",
+            "The web is complex. Data scientists don't want to learn JavaScript.",
         ],
     }, {
         "title": "The solution",
@@ -40,9 +40,9 @@ script = [ {
         "lines": [
             "LTK - The Little Toolkit solves these problems.",
             "It does that by leveraging a novel technology called PyScript.",
-            "You can create widgets, style them, and handle events.",
-            "With LTK, apps are written in a Pythonic fashion, without JS,",
-            "... and deployed as static HTML files, e.g., on Github Pages.",
+            "With Pyscript, you can create widgets, style them, and handle events.",
+            "With LTK, apps are written in a Pythonic fashion, without JS ...",
+            "... and deployed simply as static HTML files, e.g., on Github Pages.",
         ],
     }, {
         "title": "The ask",
@@ -87,12 +87,9 @@ current = 0
 
 def go():
     total = sum(section["duration"] for section in script)
-    pitch = ltk.find("#pitch").css("width", 15 * total)
-    (ltk.find("body")
-        .empty()
-        .css("margin", 200)
-        .append(pitch)
-    )
+    pitch = ltk.find("#pitch").css("width", 15 * total).css("margin", "auto")
+    body = ltk.find("body")
+    body.empty().css("margin-top", "50px").append(pitch)
         
     def show_current_line(section):
         lines = section["lines"]
@@ -125,6 +122,7 @@ def go():
     script[0]["tick"] = 0
     ltk.schedule(run, 1)
     ltk.find(".ltk-button").remove()
+    ltk.find("#pitch-image-container").css("height", 600)
 
 
 def create():
@@ -136,8 +134,10 @@ def create():
                     .attr("id", "pitch-image")
                     .css("width", 900)
             )
+            .attr("id", "pitch-image-container")
+            .css("height", 0)
             .css("margin-bottom", 25)
-            .css("height", 600),
+            .css("overflow", "hidden"),
             ScriptPlayer(),
             ltk.Text()
                 .css("font-size", 35)
