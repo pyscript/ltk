@@ -10,7 +10,7 @@ def create():
     def bind_event():
         ltk.find("#ellipse").on(
             "click",
-            lambda event: ellipse_clicked()
+            ltk.proxy(lambda event: ellipse_clicked())
         )
 
     #
