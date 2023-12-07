@@ -4,3 +4,9 @@ from ltk.jquery import *
 from ltk.widgets import *
 from ltk.pubsub import *
 from ltk.logger import *
+
+(
+    ltk.Link("https://github.com/laffra/ltk", "built with LTK")
+        .addClass("ltk-built-with")
+        .appendTo(jQuery(window.document.body))
+)
