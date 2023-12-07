@@ -1,6 +1,8 @@
 # ltk
 LTK is a little toolkit for writing UIs in PyScript. See the [LTK kitchensink](https://laffra.github.io/ltk/) 
-or [explore the docs rendered using LTK](https://laffra.github.io/ltk/?runtime=py&tab=8).
+or [explore the docs rendered using LTK](https://laffra.github.io/ltk/?runtime=py&tab=8). Another live 
+example of LTK can be seen at [chrislaffra.com](https://chrislaffra.com), which uses a number of animations,
+svg, styling, and timers to render a visual resume.
 
 LTK is implemented as a declarative Python library and leverages `jQuery` for DOM operations.
 
