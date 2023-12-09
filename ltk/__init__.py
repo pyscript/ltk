@@ -8,5 +8,6 @@ from ltk.logger import *
 (
     ltk.Link("https://github.com/laffra/ltk", "built with LTK")
         .addClass("ltk-built-with")
+        .attr("target", "_blank")
         .appendTo(jQuery(window.document.body))
 )
