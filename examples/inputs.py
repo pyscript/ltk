@@ -20,7 +20,7 @@ def create():
     @ltk.callback
     def choose_theme(index, option):
         theme = option.text()
-        ltk.inject_css(f"http://ajax.googleapis.com/ajax/libs/jqueryui/1.13.1/themes/{theme}/jquery-ui.css")
+        ltk.inject_css(f"https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/{theme}/jquery-ui.css")
         
     @ltk.callback
     def key_down(event):
