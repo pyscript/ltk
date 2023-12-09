@@ -46,4 +46,4 @@ def create():
         )
         .width(500)
         .height(800)
-        .attr("name", "Application"))
+        .attr("name", "App"))

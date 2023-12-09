@@ -45,7 +45,7 @@ def create():
             ltk.Span("⚠️ You need to run on "),
             ltk.Link("?runtime=py&tab=8", "Pyodide"),
             ltk.Span(" to see documentation for LTK.") \
-        ).css("color", "red").attr("name", "Documentation")
+        ).css("color", "red").attr("name", "Doc")
     return (
         ltk.VBox(
             list(filter(None, [

@@ -12,9 +12,12 @@ __all__ = [
     "to_py", "schedule", "repeat", "get", "delete", "get_time", "post", "async_proxy", "observe",
     "proxy", "get_url_parameter", "set_url_parameter", "push_state", "inject_script", "inject_css",
 ]
+    
+def is_micro_python():
+    return not hasattr(time, "time")
 
 def _fix_time_on_micropython():
-    if not hasattr(time, "time"):
+    if is_micro_python():
         class MonkeyPatchedTimeModuleForMicroPython:
             pass
         clone = MonkeyPatchedTimeModuleForMicroPython()
@@ -104,7 +107,9 @@ def observe(element, handler):
 
 
 def proxy(function):
-    return pyodide.ffi.create_proxy(function) if function else None
+    if not function:
+        return None
+    return pyodide.ffi.create_proxy(function) if not is_micro_python() else function
 
 
 def get_url_parameter(key):

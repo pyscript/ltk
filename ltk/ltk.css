@@ -426,3 +426,93 @@
     left: 12px;
     z-index: 100000;
 }
+
+body {
+    margin: 0;
+    font-family: var(--ltk-body-font-family);
+    font-size: var(--ltk-body-font-size);
+    font-weight: var(--ltk-body-font-weight);
+    line-height: var(--ltk-body-line-height);
+    color: var(--ltk-body-color);
+    text-align: var(--ltk-body-text-align);
+    background-color: var(--ltk-body-bg);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --ltk-blue: #0d6efd;
+    --ltk-indigo: #6610f2;
+    --ltk-purple: #6f42c1;
+    --ltk-pink: #d63384;
+    --ltk-red: #dc3545;
+    --ltk-orange: #fd7e14;
+    --ltk-yellow: #ffc107;
+    --ltk-green: #198754;
+    --ltk-teal: #20c997;
+    --ltk-cyan: #0dcaf0;
+    --ltk-black: #000;
+    --ltk-white: #fff;
+    --ltk-gray: #6c757d;
+    --ltk-gray-dark: #343a40;
+    --ltk-gray-100: #f8f9fa;
+    --ltk-gray-200: #e9ecef;
+    --ltk-gray-300: #dee2e6;
+    --ltk-gray-400: #ced4da;
+    --ltk-gray-500: #adb5bd;
+    --ltk-gray-600: #6c757d;
+    --ltk-gray-700: #495057;
+    --ltk-gray-800: #343a40;
+    --ltk-gray-900: #212529;
+    --ltk-primary: #0d6efd;
+    --ltk-secondary: #6c757d;
+    --ltk-success: #198754;
+    --ltk-info: #0dcaf0;
+    --ltk-warning: #ffc107;
+    --ltk-danger: #dc3545;
+    --ltk-light: #f8f9fa;
+    --ltk-dark: #212529;
+    --ltk-primary-rgb: 13,110,253;
+    --ltk-secondary-rgb: 108,117,125;
+    --ltk-success-rgb: 25,135,84;
+    --ltk-info-rgb: 13,202,240;
+    --ltk-warning-rgb: 255,193,7;
+    --ltk-danger-rgb: 220,53,69;
+    --ltk-light-rgb: 248,249,250;
+    --ltk-dark-rgb: 33,37,41;
+    --ltk-white-rgb: 255,255,255;
+    --ltk-black-rgb: 0,0,0;
+    --ltk-body-color-rgb: 33,37,41;
+    --ltk-body-bg-rgb: 255,255,255;
+    --ltk-font-sans-serif: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --ltk-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --ltk-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    --ltk-body-font-family: var(--bs-font-sans-serif);
+    --ltk-body-font-size: 1rem;
+    --ltk-body-font-weight: 400;
+    --ltk-body-line-height: 1.5;
+    --ltk-body-color: #212529;
+    --ltk-body-bg: #fff;
+    --ltk-border-width: 1px;
+    --ltk-border-style: solid;
+    --ltk-border-color: #dee2e6;
+    --ltk-border-color-translucent: rgba(0, 0, 0, 0.175);
+    --ltk-border-radius: 0.375rem;
+    --ltk-border-radius-sm: 0.25rem;
+    --ltk-border-radius-lg: 0.5rem;
+    --ltk-border-radius-xl: 1rem;
+    --ltk-border-radius-2xl: 2rem;
+    --ltk-border-radius-pill: 50rem;
+    --ltk-link-color: #0d6efd;
+    --ltk-link-hover-color: #0a58ca;
+    --ltk-code-color: #d63384;
+    --ltk-highlight-bg: #fff3cd;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}

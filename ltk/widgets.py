@@ -856,9 +856,11 @@ class Select(Widget):
     def get_selected_index(self):
         return self.element.prop("selectedIndex")
 
+    def get_selected_option(self):
+        return self.element.find("option").eq(self.get_selected_index()).text()
+
     def changed(self):
-        option = self.element.find("option").eq(self.get_selected_index())
-        self.handler(self.get_selected_index(), option)
+        self.handler(self.get_selected_index(), self.get_selected_option())
 
 
 class Option(Text):
@@ -884,3 +886,10 @@ def _handle_shortcuts():
 
 
 _handle_shortcuts()
+
+import ltk
+
+ltk.find('.btn').on(
+    "click",
+    ltk.proxy(lambda event: ltk.find(event.target).attr("id"))
+)

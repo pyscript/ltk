@@ -9,39 +9,41 @@ runtime = search.get("runtime") or "mpy"
 
 logger = logging.getLogger()
 
+
 def create():
-    def feedback(text, color):
+    def feedback(text):
         ltk.find("#feedback") \
             .html(text) \
-            .css("text-align", "left") \
-            .css("color", color)
+            .css("text-align", "left")
         logger.info(text)
 
-    def number_chosen(event, option):
-        feedback(f"You chose {option.text()}", "green")
+    @ltk.callback
+    def choose_theme(index, option):
+        print("select theme", index, option)
+        ltk.inject_css(f"http://ajax.googleapis.com/ajax/libs/jqueryui/1.13.1/themes/{option}/jquery-ui.css")
         
     @ltk.callback
     def key_down(event):
-        feedback(f"keydown: {event.keyCode}, {event.key}", "blue")
+        feedback(f"keydown: {event.keyCode}, {event.key}")
 
     @ltk.callback
     def button_clicked(event):
-        feedback("You clicked the button", "red")
+        feedback("You clicked the button")
 
     @ltk.callback
     def loveit(event):
-        feedback(f"checkbox: {ltk.find('#love').prop('checked')}", "black")
+        feedback(f"checkbox: {ltk.find('#love').prop('checked')}")
 
     @ltk.callback
     def change(event):
         element = ltk.jQuery(event.target)
         kind = element.prop("type")
-        feedback(f"Changed {kind}: {element.val()}", "purple")
+        feedback(f"Changed {kind}: {element.val()}")
 
     @ltk.callback
     def switched(event):
         element = ltk.jQuery(event.target)
-        feedback(f"Changed switch: {element.prop('checked')}", "navy")
+        feedback(f"Changed switch: {element.prop('checked')}")
 
     @ltk.callback
     def set_runtime(event):
@@ -51,7 +53,11 @@ def create():
 
     widgets = [
         ltk.VBox(
-            ltk.Text("Choose your favorite runtime:"),
+            ltk.Text("Choose your favorite theme:"),
+            ltk.Select(themes, 0, choose_theme),
+        ),
+        ltk.VBox(
+            ltk.Text("Choose the Python runtime and reload the page:"),
             ltk.RadioGroup(
                 ltk.Span(
                     ltk.RadioButton(runtime == "mpy")
@@ -67,16 +73,7 @@ def create():
                 ),
             ).on("change", set_runtime)
         ),
-        ltk.Button("Click me!", button_clicked, {
-            "color": "white",
-            "background-color": "red",
-            "padding": 6,
-        }),
-        ltk.Select(["One", "Two", "Three" ], "Two", number_chosen, {
-            "padding": 6,
-            "color": "white",
-            "background-color": "green",
-        }),
+        ltk.Button("Click me!", button_clicked),
         ltk.TextArea("This is a text area.\n\nChange me!", {
             "height": 120
         }).on("keydown", key_down),
@@ -92,7 +89,6 @@ def create():
         ltk.Input("This is an input. Change me!", {
             "width": 180,
             "padding": 10,
-            "background-color": "pink",
         })
         .on("keydown", key_down)
         .on("change", change),
@@ -112,9 +108,36 @@ def create():
             ltk.Container(get_widgets()), {
                 "padding": 50,
                 "border": "1px solid gray",
-                "background-color": "lightyellow",
             }
         )
         .height(708)
         .attr("name", "Inputs")
     )
+
+themes = [
+    "base",
+    "black-tie",
+    "blitzer",
+    "cupertino",
+    "dark-hive",
+    "dot-luv",
+    "eggplant",
+    "excite-bike",
+    "flick",
+    "hot-sneaks",
+    "humanity",
+    "le-frog",
+    "mint-choc",
+    "overcast",
+    "pepper-grinder",
+    "redmond",
+    "smoothness",
+    "south-street",
+    "start",
+    "sunny",
+    "swanky-purse",
+    "trontastic",
+    "ui-darkness",
+    "ui-lightness",
+    "vader",
+]

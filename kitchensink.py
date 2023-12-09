@@ -57,7 +57,7 @@ ltk.find(window.document.body).append(
         ltk.Link(
             "https://github.com/laffra/ltk",
             ltk.HBox(
-                ltk.Image("https://github.com/favicon.ico").width(20),
+                ltk.Image("images/favicon.ico").width(20),
                 ltk.Text("See the LTK project at Github")
             )
         ).attr("target", "_blank")

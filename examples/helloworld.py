@@ -18,5 +18,5 @@ def create():
                 .css("font-size", 42)
         )
         .height("100%")
-        .attr("name", "HelloWorld")
+        .attr("name", "Hello")
     )

@@ -6,8 +6,8 @@ script = [ {
         "title": "Intro",
         "duration": 10,
         "images": [
-            "https://chrislaffra.com/chris.png",
-            "https://chrislaffra.com/visual-resume-2023.png",
+            "images/chris.png",
+            "images/visual-resume-2023.png",
         ],
         "color": "lightyellow",
         "lines": [
@@ -19,8 +19,8 @@ script = [ {
         "title": "The problem",
         "duration": 15,
         "images": [
-            "https://i0.wp.com/blog.tomiwa.ca/wp-content/uploads/2018/03/atila-tech-stack.png",
-            "https://www.saaspegasus.com/static/images/web/modern-javascript/js-pipeline-with-django.56456c10739f.png",
+            "images/atila-tech-stack.png",
+            "images/js-pipeline-with-django.png",
         ],
         "color": "lightblue",
         "lines": [
@@ -32,9 +32,9 @@ script = [ {
         "title": "The solution",
         "duration": 25,
         "images": [
-            "https://chrislaffra.com/pysheets/bikestore.png",
-            "https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img/https://latitudetechnolabs.com/wp-content/uploads/elementor/thumbs/PyScript-in-Python-pozknlge3s7mxlaoecwmfwp0fovjee5g55c5ejbdsw.jpg",
-            "https://chrislaffra.com/pysheets/ltk-kitchensink.png",
+            "images/bikestore.png",
+            "images/pyscript.png",
+            "images/ltk-kitchensink.png",
         ],
         "color": "lightgreen",
         "lines": [
@@ -48,8 +48,8 @@ script = [ {
         "title": "The ask",
         "duration": 10,
         "images": [
-            "https://chrislaffra.com/pysheets/pyscript.com.png",
-            "https://chrislaffra.com/pysheets/ltk.png",
+            "images/pyscript.com.png",
+            "images/ltk.png",
         ],
         "color": "pink",
         "lines": [

@@ -14,7 +14,7 @@ def create():
             self.css("border", "2px solid orange")
 
     card = ltk.Card(
-        CustomWidget("https://chrislaffra.com/chris.png", "Chris laffra")
+        CustomWidget("images/chris.png", "Chris laffra")
     )
 
     def animate(event):
@@ -23,7 +23,7 @@ def create():
     return (
         ltk.VBox(
             ltk.Heading2("Showing a Card with a custom widget inside of it"),
-            card.width(200)
+            card.width(234)
                 .attr("id", "card")
                 .draggable(),
             ltk.Text("For clarity, we marked the custom widget orange.")

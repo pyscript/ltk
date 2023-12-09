@@ -6,7 +6,7 @@ def create():
     return (
         ltk.VBox(
 
-            ltk.Image("https://pydata.org/wp-content/uploads/2019/06/pydata-logo-final.png")
+            ltk.Image("images/pydata.png")
                 .css("margin-top", 50)
                 .width(350),
 
