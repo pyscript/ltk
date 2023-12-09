@@ -50,17 +50,11 @@ def activate_tab(event, ui=None):
 tabs.activate(ltk.get_url_parameter("tab") or 0)
 
 ltk.find(window.document.body).append(
+    # ltk.Logger().element,
     ltk.Div(
         tabs.css("margin-bottom", 24)
             .attr("id", "examples")
-            .on("tabsactivate", activate_tab),
-        ltk.Link(
-            "https://github.com/laffra/ltk",
-            ltk.HBox(
-                ltk.Image("images/favicon.ico").width(20),
-                ltk.Text("See the LTK project at Github")
-            )
-        ).attr("target", "_blank")
+            .on("tabsactivate", activate_tab)
     )
     .width(1300)
     .css("margin", "auto")

@@ -857,7 +857,7 @@ class Select(Widget):
         return self.element.prop("selectedIndex")
 
     def get_selected_option(self):
-        return self.element.find("option").eq(self.get_selected_index()).text()
+        return self.element.find("option").eq(self.get_selected_index())
 
     def changed(self):
         self.handler(self.get_selected_index(), self.get_selected_option())

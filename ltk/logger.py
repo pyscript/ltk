@@ -33,7 +33,7 @@ class Logger(ltk.Div):
             )
         )
         self.element.resizable(ltk.to_js({ "handles": "n" }))
-        self.on("resize", lambda event: self.resize())
+        self.on("resize", lambda event, ui: self.resize())
         self.height(getattr(ltk.local_storage, "log-list-height", None) or 300)
         self._add_table()
         self._setup_logger()
@@ -296,13 +296,13 @@ class _SequenceDiagram(ltk.HBox):
     def __init__(self):
         ltk.HBox.__init__(self,
             ltk.Div(
-                ltk.Text("State Sequence Diagram").css("margin", 3),
+                ltk.Text("State Sequence Diagram"),
             ).addClass("ltk-sequence-header"),
         )
         self.element.attr("id", "ltk-sequence-ui")
         ltk.observe(self.element, self.changed)
         self.last_width = self.element.width()
-        self.on("resize", lambda event: self.resize())
+        self.on("resize", lambda event, ui: self.resize())
         self.set_width()
         
     def set_width(self):

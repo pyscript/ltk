@@ -212,13 +212,14 @@
     width: 100%;
     height: 28px;
     z-index: 2;
+    overflow: hidden;
 }
 
 .ltk-log-header .ltk-text {
     background-color: lightgreen;
-    width: 35px;
+    width: 40px;
     font-size: 14px;
-    padding: 6px 8px;
+    padding: 3px 8px;
 }
 
 .ltk-log-header .ltk-input {
@@ -310,6 +311,7 @@
 
 .ltk-sequence-header .ltk-text {
     font-size: 14px;
+    padding-top: 3px;
 }
 
 .ltk-sequence-component {
@@ -324,8 +326,8 @@
     background-color: rgb(250, 230, 234);
     text-align: center;
     border: 1px solid gray;
-    margin: 2px auto 0 auto;
-    height: 20px;
+    margin: 2px auto 4px auto;
+    height: 40px;
 }
 
 .ltk-sequence-component-line {

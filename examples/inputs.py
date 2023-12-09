@@ -19,8 +19,8 @@ def create():
 
     @ltk.callback
     def choose_theme(index, option):
-        print("select theme", index, option)
-        ltk.inject_css(f"http://ajax.googleapis.com/ajax/libs/jqueryui/1.13.1/themes/{option}/jquery-ui.css")
+        theme = option.text()
+        ltk.inject_css(f"http://ajax.googleapis.com/ajax/libs/jqueryui/1.13.1/themes/{theme}/jquery-ui.css")
         
     @ltk.callback
     def key_down(event):
