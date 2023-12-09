@@ -2,6 +2,7 @@
 
 import json
 import pyodide # type: ignore
+from pyscript import document # type: ignore
 from pyscript import window # type: ignore
 import os
 import time
