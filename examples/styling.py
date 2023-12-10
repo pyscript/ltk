@@ -7,18 +7,27 @@ def create():
     def click(event):
         element = ltk.find(event.target)
         color = element.css("background-color")
-        element.parent().find(".ltk-text").text(
+        ltk.find("#style-msg").text(
             f"You pressed the '{element.text()}' button with background color: {color}"
         )
 
     ui = (
         ltk.VBox(
+            ltk.Text("An unstyled button:"),
             ltk.Button("Default", click),
 
+            ltk.Text("A blue button using element styles:"),
             ltk.Button("Blue", click)
                 .css("background-color", "#007fff")
                 .css("color", "white"),
 
+            ltk.Text("An orange button with CSS in the constructor:"),
+            ltk.Button("Orange", click, {
+                "background-color": "orange",
+                "color": "#111",
+            }),
+
+            ltk.Text("A button using element hover:"),
             ltk.Button("Modern", click)
                 .css({
                     "background": "white",
@@ -38,10 +47,28 @@ def create():
                         }))
                 )),
 
-            ltk.Text("")
+            ltk.Text("A button styled with a CSS class with hover:"),
+            ltk.Button("Classy", click).addClass("classy"),
+
+            ltk.Text("").attr("id", "style-msg")
         )
         .attr("name", "Styling")
     )
+
+    # For this example, we are injecting a new style tag from Python.
+    # For a real app, you probably want to use an external style sheet.
+    ltk.inject_css("""
+        .classy {
+            width: 110px;
+            background-color: var(--ltk-primary);
+            color: var(--ltk-white);
+            border-radius: 11px;
+            padding: 14px;
+        }
+        .classy:hover {
+            background-color: var(--ltk-secondary);
+        }
+    """)
 
     ui.find(".ltk-button").width(110).css("margin-bottom", 25)
 
