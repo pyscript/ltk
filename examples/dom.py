@@ -114,7 +114,7 @@ def create():
             .attr("id", "dom-texts")
             .attr("background-color", "#A10F")
         )
-        .height("100%")
+        .width(400)
         .attr("id", "dom-demo")
         .attr("name", "DOM")
     )
