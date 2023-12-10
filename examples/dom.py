@@ -17,6 +17,11 @@ def create():
         })
 
     def append(event):
+        # the base class for LTK Widgets sends all methods it does not
+        # understand to its jQuery element. This also happens to the "append"
+        # call below. As jQuery does not know anything about LTK, it expects 
+        # a list of other jQuery elements to be passed to it. Therefore, we 
+        # append the widget's element, not the widget itself.
         ltk.find("#dom-texts").append(new_text().element)
 
     def append_to(event):
