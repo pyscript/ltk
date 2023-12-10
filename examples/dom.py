@@ -74,6 +74,9 @@ def create():
             border-radius: 11px;
             padding: 14px;
         }
+        #dom-demo .ltk-a {
+            margin-right: 5px;
+        }
         #dom-texts .ltk-text {
             margin: 5px;
         }
@@ -89,6 +92,16 @@ def create():
     return (
         ltk.VBox(
             ltk.Heading1("Dynamic DOM Operations"),
+            ltk.Text("We're using the following jQuery APIs: ",
+                ltk.Link("https://api.jquery.com/append", "append"),
+                ltk.Link("https://api.jquery.com/appendTo", "appendTo"),
+                ltk.Link("https://api.jquery.com/prepend", "prepend"),
+                ltk.Link("https://api.jquery.com/eq", "eq"),
+                ltk.Link("https://api.jquery.com/after", "after"),
+                ltk.Link("https://api.jquery.com/before", "before"),
+                ltk.Link("https://api.jquery.com/css", "css"),
+                ltk.Link("https://api.jquery.com/remove", "remove."),
+            ),
             ltk.Container(
                 ltk.Button("Append", append),
                 ltk.Button("AppendTo", append_to),

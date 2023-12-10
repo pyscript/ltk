@@ -478,6 +478,7 @@ class Link(Text):
     def __init__(self, href, *items):
         Widget.__init__(self, *items)
         self.attr("href", href)
+        self.attr("target", "_blank")
 
 
 class Strong(Text):
