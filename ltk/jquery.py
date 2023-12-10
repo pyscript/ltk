@@ -131,11 +131,14 @@ def push_state(url):
     window.history.pushState(None, "", url)
 
 
-def inject_script(file_or_url, type=None, worker=None):
+def inject_script(file_or_url_or_text, type=None, worker=None):
     try:
-        script = create("<script>").text(open(file_or_url).read())
+        script = create("<script>").text(open(file_or_url_or_text).read())
     except:
-        script = create("<script>").attr("src", file_or_url)
+        if file_or_url_or_text.startswith("http"):
+            script = create("<script>").attr("src", file_or_url_or_text)
+        else:
+            script = create("<script>").text(file_or_url_or_text)
     if type:
         script.attr("type", type)
     if worker:
@@ -143,11 +146,14 @@ def inject_script(file_or_url, type=None, worker=None):
     script.appendTo(window.document.head)
 
 
-def inject_css(file_or_url):
+def inject_css(file_or_url_or_text):
     try:
-        node = create("<style>").text(open(file_or_url).read())
+        node = create("<style>").text(open(file_or_url_or_text).read())
     except:
-        node = create("<link>").attr("rel", "stylesheet").attr("href", file_or_url)
+        if file_or_url_or_text.startswith("http"):
+            node = create("<link>").attr("rel", "stylesheet").attr("href", file_or_url_or_text)
+        else:
+            node = create("<style>").text(file_or_url_or_text)
     node.appendTo(window.document.head)
 
 

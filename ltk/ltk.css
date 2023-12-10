@@ -31,6 +31,11 @@
     text-wrap: nowrap;
 }
 
+.ltk-button {
+    min-width: 90px;
+    align-self: flex-start
+}
+
 .ltk-switch-container {
     align-items: center;
 }
@@ -517,4 +522,11 @@ body {
 
 *, ::after, ::before {
     box-sizing: border-box;
+}
+
+.py-error {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000000;
 }

@@ -10,7 +10,7 @@ files = [
     "examples/__init__.py",
     "examples/app.py",
     "examples/documentation.py",
-    "examples/helloworld.py",
+    "examples/dom.py",
     "examples/inputs.py",
     "examples/pydata.py",
     "examples/tictactoe.py",
