@@ -516,14 +516,6 @@ body {
     --ltk-highlight-bg: #fff3cd;
 }
 
-*, ::after, ::before {
-    box-sizing: border-box;
-}
-
-*, ::after, ::before {
-    box-sizing: border-box;
-}
-
 .py-error {
     position: absolute;
     bottom: 10px;
