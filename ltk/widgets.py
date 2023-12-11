@@ -331,7 +331,6 @@ class Widget(object):
 
     def __getattr__(self, name):
         if not name in self.names:
-            print("###", name)
             self.names.add(name)
         return getattr(self.element, name)
 
