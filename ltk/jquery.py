@@ -135,7 +135,7 @@ def inject_script(file_or_url_or_text, type=None, worker=None):
     try:
         script = create("<script>").text(open(file_or_url_or_text).read())
     except:
-        if file_or_url_or_text.startswith("http"):
+        if file_or_url_or_text.endswith(".js"):
             script = create("<script>").attr("src", file_or_url_or_text)
         else:
             script = create("<script>").text(file_or_url_or_text)
@@ -150,10 +150,10 @@ def inject_css(file_or_url_or_text):
     try:
         node = create("<style>").text(open(file_or_url_or_text).read())
     except:
-        if file_or_url_or_text.startswith("http"):
-            node = create("<link>").attr("rel", "stylesheet").attr("href", file_or_url_or_text)
-        else:
+        if "{" in file_or_url_or_text:
             node = create("<style>").text(file_or_url_or_text)
+        else:
+            node = create("<link>").attr("rel", "stylesheet").attr("href", file_or_url_or_text)
     node.appendTo(window.document.head)
 
 
