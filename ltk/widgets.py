@@ -324,7 +324,6 @@ class Widget(object):
             easing:string A string indicating which easing function to use for the transition.
             complete:function A Python function that is called when the animation is done.
         """
-        print(f"animate{properties}, {duration}, {easing}, {complete}")
         if isinstance(properties, dict):
             properties = to_js(properties)
         return self.element.animate(properties, duration, easing, proxy(complete))
@@ -832,7 +831,6 @@ class MenuItem(Widget):
 
     def select(self, event):
         _close_all_menus()
-        print("select", self, self.selected)
         self.selected(self)
         event.preventDefault()
 
