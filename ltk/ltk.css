@@ -430,6 +430,7 @@
 .ltk-built-with {
     position: fixed;
     left: 40px;
+    bottom: 1px;
     z-index: 100000;
 }
 
