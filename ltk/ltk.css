@@ -429,8 +429,7 @@
 
 .ltk-built-with {
     position: fixed;
-    bottom: 10px;
-    left: 12px;
+    left: 40px;
     z-index: 100000;
 }
 
