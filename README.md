@@ -69,12 +69,18 @@ ltk.Table(
 Widgets are added to others by using `jQuery`'s `append` and `appendTo` calls:
 ```python
 ltk.body.append(
-    ltk.Table(...)
+    ltk.Table(...).element
 )
 
 container = ltk.VBox(...)
 ltk.H1("This is a header").appendTo(container)
 ```
+
+When an LTK widget is created, a corresponding jQuery element is attached to it in 
+the `ltk.Widget.__init__` constructor. It uses the `tag` value defined by the 
+declaring class and the constructed element is referred to as `element`.
+As the `append` call is a JavaScript function, implemented by jQuery, we do not
+pass the LTK widget directly, but pass its `element` to append to the DOM.
 
 ## Styling
 
@@ -128,7 +134,7 @@ Event handlers are attached using `jQuery` mechanisms.
 def buy(event):
     purchase(...)
 
-Card("Buy Now").on("click", buy)
+ltk.Card("Buy Now").on("click", ltk.proxy(buy))
 ```
 
 You can also use the more declarative decorator:
@@ -137,7 +143,7 @@ You can also use the more declarative decorator:
 def buy(event):
     purchase(...)
 
-Card("Buy Now").on("click", buy)
+ltk.Card("Buy Now").on("click", buy)
 ```
 
 ## Examples
