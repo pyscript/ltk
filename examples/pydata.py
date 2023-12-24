@@ -12,7 +12,7 @@ def create():
 
             ltk.Link(
                 "https://pydata.org/eindhoven2023/",
-                "LTK was presented at PyData Eindhoven"
+                "LTK was presented at PyData Eindhoven,"
             )
                 .attr("target", "_blank")
                 .css("color", "navy")
@@ -20,7 +20,15 @@ def create():
 
             ltk.Link(
                 "https://eindhoven2023.pydata.org/pydata/talk/RJVRMT/",
-                "in this presentation"
+                "in this presentation,"
+            )
+                .attr("target", "_blank")
+                .css("color", "navy")
+                .css("margin-top", 50),
+
+            ltk.Link(
+                "https://www.youtube.com/watch?v=5nseG-iU62g&list=PLGVZCDnMOq0qkbJjIfppGO44yhDV2i4gR&index=6",
+                "recorded in this video."
             )
                 .attr("target", "_blank")
                 .css("color", "navy")
