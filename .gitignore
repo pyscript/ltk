@@ -4,3 +4,4 @@ pyscript_ltk.egg-info/*
 ltk/__pycache__/*
 tests/__pycache__/*
 .DS_Store
+ltk/pyscript_ltk.egg-info/*
