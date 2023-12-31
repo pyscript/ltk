@@ -74,24 +74,30 @@ def repeat(python_function, timeout_seconds=1):
     window.setInterval(proxy(python_function), int(timeout_seconds * 1000))
 
 
-def get(route, handler, kind="json"):
+def get(url, handler, kind="json"):
     def wrapper(data, *rest):
         handler(data if isinstance(data, str) else to_py(data))
-    return jQuery.get(route, proxy(wrapper), kind)
+    def error(jqXHR, textStatus, errorThrown):
+        window.console.error("[Network]", json.dumps(["Error", "GET", jqXHR.status, repr(errorThrown), url]))
+    return jQuery.get(url, proxy(wrapper), kind).fail(proxy(error))
 
 
-def delete(route, handler):
+def delete(url, handler):
     wrapper = proxy(lambda data, *rest: handler(to_py(data)))
-    return window.ajax(route, "DELETE", wrapper)
+    def error(jqXHR, textStatus, errorThrown):
+        window.console.error("[Network]", json.dumps(["Error", "DELETE", jqXHR.status, repr(errorThrown), url]))
+    return window.ajax(url, "DELETE", wrapper).fail(proxy(error))
 
 
-def post(route, data, handler):
-    if "?" in route:
-        index = route.index("?")
-        route = f"{route[:index]}?_=p&{route[index:]}"
+def post(url, data, handler):
+    if "?" in url:
+        index = url.index("?")
+        url = f"{url[:index]}?_=p&{url[index:]}"
     payload = window.encodeURIComponent(json.dumps(data))
     wrapper = proxy(lambda data, *rest: handler(window.JSON.stringify(data)))
-    return jQuery.post(route, payload, wrapper, "json")
+    def error(jqXHR, textStatus, errorThrown):
+        window.console.error("[Network]", json.dumps(["Error", "POST", jqXHR.status, repr(errorThrown), url]))
+    return jQuery.post(url, payload, wrapper, "json").fail(proxy(error))
 
 
 def async_proxy(function):
