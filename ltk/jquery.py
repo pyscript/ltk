@@ -114,21 +114,24 @@ def delete(url, handler):
     return window.ajax(url, "DELETE", wrapper).fail(proxy(error))
 
 
-def post(url, data, handler):
+def post(url, payload, handler, kind="json"):
     start = get_time()
     if "?" in url:
         index = url.index("?")
         url = f"{url[:index]}?_=p&{url[index:]}"
-    payload = window.encodeURIComponent(json.dumps(data))
+    payload = window.encodeURIComponent(json.dumps(payload))
     @callback
     def success(response, *rest):
-        window.console.log("[Network] POST OK", f"{get_time() - start:.2f}", f"{toHuman(len(data))}/{toHuman(len(response))}", url)
-        return handler(window.JSON.stringify(response))
+        data = response if isinstance(response, str) else to_py(response)
+        response_size = len(response) if data is response else len(json.dumps(data))
+        size = f"{toHuman(len(payload))}/{toHuman(response_size)}"
+        window.console.log("[Network] POST OK", f"{get_time() - start:.2f}", size, url)
+        return handler(data)
     @callback
     def error(jqXHR, textStatus, errorThrown):
         window.console.error("[Network] POST ERROR", f"{get_time() - start:.2f}", jqXHR.status, repr(errorThrown), url)
         return handler(window.JSON.stringify({ "Error": errorThrown}))
-    return jQuery.post(url, payload, success, "json").fail(error)
+    window.ltk_post(url, payload, success, kind, error)
 
 
 def async_proxy(function):
