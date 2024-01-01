@@ -9,19 +9,13 @@ __all__ = [
     "Heading2", "Heading3", "Heading4", "OrderedList", "UnorderedList", "ListItem", "Span",
     "Tabs", "File", "DatePicker", "ColorPicker", "RadioGroup", "RadioButton", "Table", "TableRow",
     "TableHeader", "TableData", "VerticalSplitPane", "TextArea", "Code", "Image", "MenuBar", "Switch",
-    "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select", "Option", "Widget", "callback"
+    "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select", "Option", "Widget"
 ]
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
 DEFAULT_CSS = {}
 shortcuts = {}
 timers = {}
-
-
-def callback(function):
-    def inner(*args, **argv):
-        return function(*args, **argv)
-    return proxy(inner)
 
 
 class Widget(object):

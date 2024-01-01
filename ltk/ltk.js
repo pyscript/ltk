@@ -75,41 +75,7 @@
         tableCell(table, column, row).text(value)
     }
 
-    KB = 1024
-    MB = KB * KB
-    GB = MB * MB
-
-    function toHuman(byteCount) {
-        if (byteCount > GB) return `${(byteCount / GB).toFixed()}GB`;
-        if (byteCount > MB) return `${(byteCount / MB).toFixed()}MB`;
-        if (byteCount > KB) return `${(byteCount / KB).toFixed()}KB`;
-        return byteCount
+    window.ltk_get = (url, success, kind, error) => {
+        $.get(url, success, kind).fail(error)
     }
-
-    new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-            const type = entry.initiatorType[0].toUpperCase() + entry.initiatorType.slice(1);
-            var kind = "Debug";
-            var log = console.log
-            if (entry.responseStatus !== 0 && entry.responseStatus !== 200) {
-                kind = "Error";
-                log = console.error;
-            }
-            url = entry.name.replace(url_prefix, "")
-            log(
-                "[Network]",
-                JSON.stringify([
-                    kind,
-                    type,
-                    toHuman(entry.encodedBodySize),
-                    toHuman(entry.decodedBodySize),
-                    `${entry.duration.toFixed()}ms`,
-                    url,
-                ])
-            )
-        }
-    }).observe({
-        type: "resource",
-        buffered: true,
-    });
 })()

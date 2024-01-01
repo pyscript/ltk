@@ -63,8 +63,8 @@ class Logger(ltk.Div):
                     .attr("placeholder", "Filter")
                     .attr("id", "ltk-log-filter")
                     .on("keyup", ltk.proxy(lambda event: self._apply_filter())),
-                ltk.Button("clear", lambda event: self._clear()),
-                ltk.Button("x", lambda event: self.element.remove()),
+                ltk.Button("clear", lambda event: self._clear()).css("min-width", 0),
+                ltk.Button("x", lambda event: self.element.remove()).css("min-width", 0),
             ).addClass("ltk-log-buttons")
         ).addClass("ltk-log-header").appendTo(self.log_ui)
         ltk.observe(self.element, self._changed)
@@ -152,13 +152,9 @@ class Logger(ltk.Div):
 
     def _check_network(self, message):
         if message.startswith("[Network]"):
-            kind, type, encodedSize, decodedSize, duration, name = json.loads(message[10:])
-            post = "POST:" if "?_=p&" in name else ""
-            sender = "Application" if post else "Network"
-            receiver = "Network" if post else "Application"
-            io = "POST" if post else "GET"
-            if type == "Xmlhttprequest":
-                self.sequence_ui.log(io, sender, receiver, name, f"{decodedSize}")
+            _, kind, status, duration, size, url = message.split()
+            print(kind, status, duration, size, url)
+            self.sequence_ui.log(kind, "Network", "Application", url, size)
 
     def _check_events(self, message):
         print(message)
@@ -206,9 +202,9 @@ class Logger(ltk.Div):
 
     def _get_level(self, message):
         level = logging.INFO
-        if "Traceback" in message or "Error" in message:
+        if "Traceback" in message or "ERROR" in message.upper():
             level = logging.ERROR
-        if "Debug" in message or "js_callable_proxy" in message or message.startswith("💀🔒 - Possible deadlock"):
+        if "DEBUG" in message or "js_callable_proxy" in message or message.startswith("💀🔒 - Possible deadlock"):
             level = logging.DEBUG
         return level
 

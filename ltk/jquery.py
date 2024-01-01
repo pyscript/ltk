@@ -12,6 +12,7 @@ __all__ = [
     "jQuery", "parse_int", "parse_float", "local_storage", "find", "create", "find_list", "to_js",
     "to_py", "schedule", "repeat", "get", "delete", "get_time", "post", "async_proxy", "observe",
     "proxy", "get_url_parameter", "set_url_parameter", "push_state", "inject_script", "inject_css",
+    "callback",
 ]
     
 def is_micro_python():
@@ -35,6 +36,23 @@ parse_int = window.parseInt
 parse_float = window.parseFloat
 local_storage = window.localStorage
 timers = {}
+
+KB = 1024
+MB = KB * KB
+GB = MB * MB
+
+
+def toHuman(byteCount):
+    if byteCount > GB: return f"{round(byteCount / GB)}GB"
+    if byteCount > MB: return f"{round(byteCount / MB)}MB"
+    if byteCount > KB: return f"{round(byteCount / KB)}KB"
+    return f"{byteCount} bytes"
+
+
+def callback(function):
+    def inner(*args, **argv):
+        return function(*args, **argv)
+    return proxy(inner)
 
 
 def get_time():
@@ -75,29 +93,40 @@ def repeat(python_function, timeout_seconds=1):
 
 
 def get(url, handler, kind="json"):
-    def wrapper(data, *rest):
-        handler(data if isinstance(data, str) else to_py(data))
+    start = get_time()
+    @callback
+    def success(response, *rest):
+        window.console.log("[Network] GET DEBUG", f"{get_time() - start:.2f}", toHuman(len(response)), url)
+        handler(response if isinstance(response, str) else to_py(response))
+    @callback
     def error(jqXHR, textStatus, errorThrown):
-        window.console.error("[Network]", json.dumps(["Error", "GET", jqXHR.status, repr(errorThrown), url]))
-    return jQuery.get(url, proxy(wrapper), kind).fail(proxy(error))
+        window.console.error("[Network] GET ERROR", f"{get_time() - start:.2f}", jqXHR.status, repr(errorThrown), url)
+        return handler(window.JSON.stringify({ "Error": errorThrown}))
+    window.ltk_get(url, success, kind, error)
 
 
 def delete(url, handler):
     wrapper = proxy(lambda data, *rest: handler(to_py(data)))
     def error(jqXHR, textStatus, errorThrown):
-        window.console.error("[Network]", json.dumps(["Error", "DELETE", jqXHR.status, repr(errorThrown), url]))
+        window.console.error("[Network] DELETE ERROR", jqXHR.status, repr(errorThrown), url)
     return window.ajax(url, "DELETE", wrapper).fail(proxy(error))
 
 
 def post(url, data, handler):
+    start = get_time()
     if "?" in url:
         index = url.index("?")
         url = f"{url[:index]}?_=p&{url[index:]}"
     payload = window.encodeURIComponent(json.dumps(data))
-    wrapper = proxy(lambda data, *rest: handler(window.JSON.stringify(data)))
+    @callback
+    def success(response, *rest):
+        window.console.log("[Network] POST DEBUG", f"{get_time() - start:.2f}", f"{toHuman(len(data))}/{toHuman(len(response))}", url)
+        return handler(window.JSON.stringify(response))
+    @callback
     def error(jqXHR, textStatus, errorThrown):
-        window.console.error("[Network]", json.dumps(["Error", "POST", jqXHR.status, repr(errorThrown), url]))
-    return jQuery.post(url, payload, wrapper, "json").fail(proxy(error))
+        window.console.error("[Network] POST ERROR", f"{get_time() - start:.2f}", jqXHR.status, repr(errorThrown), url)
+        return handler(window.JSON.stringify({ "Error": errorThrown}))
+    return jQuery.post(url, payload, success, "json").fail(error)
 
 
 def async_proxy(function):
