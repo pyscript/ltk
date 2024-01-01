@@ -103,7 +103,7 @@ def get(url, handler, kind="json"):
     @callback
     def error(jqXHR, textStatus, errorThrown):
         window.console.error("[Network] GET ERROR", f"{get_time() - start:.2f}", jqXHR.status, repr(errorThrown), url)
-        return handler(f'{{"Error": {errorThrown}}}')
+        return handler(f'{{"Error": "{errorThrown}"}}')
     window.ltk_get(url, success, kind, error)
 
 
@@ -130,7 +130,7 @@ def post(url, payload, handler, kind="json"):
     @callback
     def error(jqXHR, textStatus, errorThrown):
         window.console.error("[Network] POST ERROR", f"{get_time() - start:.2f}", jqXHR.status, repr(errorThrown), url)
-        return handler(f'{{"Error": {errorThrown}}}')
+        return handler(f'{{"Error": "{errorThrown}"}}')
     window.ltk_post(url, payload, success, kind, error)
 
 
