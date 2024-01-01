@@ -98,7 +98,7 @@ def get(url, handler, kind="json"):
     def success(response, *rest):
         data = response if isinstance(response, str) else to_py(response)
         size = len(response) if data is response else len(json.dumps(data))
-        window.console.log("[Network] GET DEBUG", f"{get_time() - start:.2f}", toHuman(size), url)
+        window.console.log("[Network] GET OK", f"{get_time() - start:.2f}", toHuman(size), url)
         handler(data)
     @callback
     def error(jqXHR, textStatus, errorThrown):
@@ -122,7 +122,7 @@ def post(url, data, handler):
     payload = window.encodeURIComponent(json.dumps(data))
     @callback
     def success(response, *rest):
-        window.console.log("[Network] POST DEBUG", f"{get_time() - start:.2f}", f"{toHuman(len(data))}/{toHuman(len(response))}", url)
+        window.console.log("[Network] POST OK", f"{get_time() - start:.2f}", f"{toHuman(len(data))}/{toHuman(len(response))}", url)
         return handler(window.JSON.stringify(response))
     @callback
     def error(jqXHR, textStatus, errorThrown):

@@ -204,7 +204,7 @@ class Logger(ltk.Div):
         level = logging.INFO
         if "Traceback" in message or "ERROR" in message.upper():
             level = logging.ERROR
-        if "DEBUG" in message or "js_callable_proxy" in message or message.startswith("💀🔒 - Possible deadlock"):
+        elif "[Network]" in message or "Debug" in message or "js_callable_proxy" in message or message.startswith("💀🔒 - Possible deadlock"):
             level = logging.DEBUG
         return level
 
