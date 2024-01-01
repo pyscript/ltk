@@ -96,8 +96,10 @@ def get(url, handler, kind="json"):
     start = get_time()
     @callback
     def success(response, *rest):
-        window.console.log("[Network] GET DEBUG", f"{get_time() - start:.2f}", toHuman(len(response)), url)
-        handler(response if isinstance(response, str) else to_py(response))
+        data = response if isinstance(response, str) else to_py(response)
+        size = len(response) if data is response else len(json.dumps(data))
+        window.console.log("[Network] GET DEBUG", f"{get_time() - start:.2f}", toHuman(size), url)
+        handler(data)
     @callback
     def error(jqXHR, textStatus, errorThrown):
         window.console.error("[Network] GET ERROR", f"{get_time() - start:.2f}", jqXHR.status, repr(errorThrown), url)
