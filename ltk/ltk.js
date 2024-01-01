@@ -78,4 +78,8 @@
     window.ltk_get = (url, success, kind, error) => {
         $.get(url, success, kind).fail(error)
     }
+
+    window.ltk_post = (url, payload, success, kind, error) => {
+        $.post(url, payload, success, kind).fail(error)
+    }
 })()
