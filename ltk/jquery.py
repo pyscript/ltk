@@ -116,9 +116,6 @@ def delete(url, handler):
 
 def post(url, payload, handler, kind="json"):
     start = get_time()
-    if "?" in url:
-        index = url.index("?")
-        url = f"{url[:index]}?_=p&{url[index:]}"
     payload = window.encodeURIComponent(json.dumps(payload))
     @callback
     def success(response, *rest):
