@@ -82,4 +82,8 @@
     window.ltk_post = (url, payload, success, kind, error) => {
         $.post(url, payload, success, kind).fail(error)
     }
+
+    window.ltk_delete = (url, success, error) => {
+        $.ajax({ url, type: "DELETE", success}).fail(error)
+    }
 })()

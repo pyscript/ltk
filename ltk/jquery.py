@@ -108,10 +108,13 @@ def get(url, handler, kind="json"):
 
 
 def delete(url, handler):
-    wrapper = proxy(lambda data, *rest: handler(to_py(data)))
+    @callback
+    def success(data, *rest):
+        return handler(to_py(data))
+    @callback
     def error(jqXHR, textStatus, errorThrown):
         window.console.error("[Network] DELETE ERROR", jqXHR.status, repr(errorThrown), url)
-    return window.ajax(url, "DELETE", wrapper).fail(proxy(error))
+    return window.ltk_delete(url, success, error)
 
 
 def post(url, payload, handler, kind="json"):
