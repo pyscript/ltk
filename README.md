@@ -1,5 +1,7 @@
 # ltk
-LTK is a little toolkit for writing UIs in PyScript. For examples see:
+LTK is a little toolkit for writing UIs in PyScript. For an explanation of PyScript and LTK, see [YouTube](https://www.youtube.com/watch?v=5nseG-iU62g&list=PLGVZCDnMOq0qkbJjIfppGO44yhDV2i4gR&index=6).
+
+For examples see:
 
  - The [LTK kitchensink](https://laffra.github.io/ltk/) for a live demo of all the widgets.
  - Why use LTK? See the [pitch](https://laffra.github.io/ltk/?tab=9), written with LTK, of course.
