@@ -653,7 +653,7 @@ class Table(Widget):
         return window.tableGet(self.element, column, row)
 
     def set(self, column, row, value):
-        window.tableSet(self.element, column, row, value)
+        window.tableSet(self.element, column, row, str(value))
 
 
 class TableRow(Widget):
