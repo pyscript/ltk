@@ -5,6 +5,8 @@ import logging
 import sys
 import time
 
+from jquery import schedule
+
 """
 
 Implements a publish-subscribe facility.
@@ -76,22 +78,16 @@ class _PubSub():
         for key, message in list(self.queue.items()):
             for subscriber in self.subscribers:
                 if self.match(message, *subscriber):
-                    self.remove_from_queue(key)
+                    del self.queue[key]
 
     def add_to_queue(self, message):
         self.queue[f"{_name}-{time.time()}"] = message
-
-    def remove_from_queue(self, key):
-        if key in self.queue:
-            del self.queue[key]
-        else:
-            logging.debug(f"PUBSUB: Cannot remove '{key}' from queue {list(self.queue.keys())}")
 
     def publish(self, sender, receiver, topic, data):
         self.add_to_queue(_Message(sender, receiver, topic, data))
         if show_publish:
             _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
-        self.process_queue()
+        schedule(self.process_queue, "avoid recursion")
 
     def subscribe(self, name, topic, handler):
         self.subscribers.append([name, topic, handler])
