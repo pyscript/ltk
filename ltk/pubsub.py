@@ -91,7 +91,10 @@ class _PubSub():
         self.queue[f"{_name}-{time.time()}"] = message
 
     def remove_from_queue(self, key):
-        del self.queue[key]
+        try:
+            del self.queue[key]
+        except:
+            logging.error(f"PUBSUB: Cannot remove '{key}' from queue {self.queue.keys()}")
 
     def publish(self, sender, receiver, topic, data):
         self.add_to_queue(_Message(sender, receiver, topic, data))
