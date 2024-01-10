@@ -64,21 +64,12 @@ class _PubSub():
    
     def match(self, message, receiver, receiver_topic, handler):
         if message.topic == receiver_topic and message.sender != receiver:
-            try:
-                if isinstance(handler, str):
-                    workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
-                else:
-                    handler(message.data)
-                log = _log_topics.get(message.topic, _logger.info)
-                log(f"[Pubsub] {json.dumps(['handle', message.sender, receiver, message.topic, str(message.data)[:32]])}")
-            except Exception as e:
-                try:
-                    import traceback
-                    traceback.print_exc()
-                except:
-                    print("no traceback", _name)
-                    pass
-                _logger.error(f"Pubsub could not handle message: {e} {message.sender} {receiver} {message.topic} data={message.data}")
+            if isinstance(handler, str):
+                workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
+            else:
+                handler(message.data)
+            log = _log_topics.get(message.topic, _logger.info)
+            log(f"[Pubsub] {json.dumps(['handle', message.sender, receiver, message.topic, str(message.data)[:32]])}")
             return True
 
     def process_queue(self):
