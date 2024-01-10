@@ -5,7 +5,7 @@ import logging
 import sys
 import time
 
-from jquery import schedule
+from ltk import schedule
 
 """
 
