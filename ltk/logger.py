@@ -152,8 +152,8 @@ class Logger(ltk.Div):
 
     def _check_network(self, message):
         if message.startswith("[Network]"):
+            print(message)
             _, kind, status, duration, size, url = message.split()
-            print(kind, status, duration, size, url)
             self.sequence_ui.log(kind, "Network", "Application", url, size)
 
     def _check_events(self, message):
