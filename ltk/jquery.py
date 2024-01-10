@@ -46,7 +46,7 @@ def toHuman(byteCount):
     if byteCount > GB: return f"{round(byteCount / GB)}GB"
     if byteCount > MB: return f"{round(byteCount / MB)}MB"
     if byteCount > KB: return f"{round(byteCount / KB)}KB"
-    return f"{byteCount} bytes"
+    return f"{byteCount}"
 
 
 def callback(function):
