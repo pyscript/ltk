@@ -76,10 +76,13 @@ class _PubSub():
 
     def process_queue(self):
         for key, message in list(self.queue.items()):
+            del self.queue[key] # remove the message from the queue
+            handled = False
             for subscriber in self.subscribers:
-                del self.queue[key] # remove the message from the queue
-                if not self.match(message, *subscriber):
-                    self.queue[key] = message # put back the message onto the queue
+                if self.match(message, *subscriber):
+                    handled = True
+            if not handled:
+                self.queue[key] = message # put back the message onto the queue
 
     def add_to_queue(self, message):
         self.queue[f"{_name}-{time.time()}"] = message
