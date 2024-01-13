@@ -51,6 +51,12 @@ def create():
         if chosen != runtime:
             window.setSearchParameter("runtime", chosen)
 
+    @ltk.callback
+    def open_dialog(event):
+        ltk.Div(
+            ltk.Text("This is a dialog")
+        ).dialog()
+
     widgets = [
         ltk.VBox(
             ltk.Text("Choose your favorite theme:"),
@@ -92,6 +98,8 @@ def create():
         })
         .on("keydown", key_down)
         .on("change", change),
+        ltk.Button("Open Dialog", open_dialog),
+
     ]
 
     def get_widgets():
