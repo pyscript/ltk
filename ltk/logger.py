@@ -156,6 +156,7 @@ class Logger(ltk.Div):
             _, kind, status, duration, size, url = message.split()
             source, destination = "Network", "Application"
             if message.startswith("[Network] POST "):
+                self.sequence_ui.get_component(source)
                 source, destination = destination, source
             self.sequence_ui.log(kind, source, destination, url, size)
             
