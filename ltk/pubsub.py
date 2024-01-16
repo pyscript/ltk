@@ -71,7 +71,7 @@ class _PubSub():
             else:
                 handler(message.data)
             log = _log_topics.get(message.topic, _logger.info)
-            log(f"[Pubsub] {json.dumps(['handle', message.sender, receiver, message.topic, str(message.data)[:32]])}")
+            log(f"[Pubsub] {json.dumps(['', message.sender, receiver, message.topic, str(message.data)[:32]])}")
             return True
 
     def process_queue(self):

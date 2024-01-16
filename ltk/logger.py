@@ -324,7 +324,7 @@ class _SequenceDiagram(ltk.HBox):
         self.element.width("100%")
         sender = self.get_component(sender_name)
         receiver = self.get_component(receiver_name)
-        call = _Call(sender, receiver, f"{type}:{topic}", data, len(self.calls))
+        call = _Call(sender, receiver, f"{type}{':' if type else ''}{topic}", data, len(self.calls))
         self.calls.append(call)
         self.append(call.element)
         self.filter_messages()
