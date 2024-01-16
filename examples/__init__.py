@@ -6,6 +6,7 @@ from examples import documentation
 from examples import dom
 from examples import inputs
 from examples import pitch
+from examples import pizza
 from examples import pubsub
 from examples import pydata
 from examples import styling
@@ -26,4 +27,5 @@ items = [
     ("examples/pitch.py", pitch.create()),
     ("examples/svg.py", svg.create()),
     ("examples/pydata.py", pydata.create()),
+    ("examples/pizza.py", pizza.create()),
 ]

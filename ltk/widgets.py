@@ -9,7 +9,8 @@ __all__ = [
     "Heading2", "Heading3", "Heading4", "OrderedList", "UnorderedList", "ListItem", "Span",
     "Tabs", "File", "DatePicker", "ColorPicker", "RadioGroup", "RadioButton", "Table", "TableRow",
     "TableHeader", "TableData", "VerticalSplitPane", "TextArea", "Code", "Image", "MenuBar", "Switch",
-    "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select", "Option", "Widget"
+    "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select", "Option", "Widget",
+    "Form", "FieldSet", "Legend",
 ]
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
@@ -853,6 +854,24 @@ class Select(Widget):
 
     def changed(self):
         self.handler(self.get_selected_index(), self.get_selected_option())
+
+
+class Form(Widget):
+    """ Wraps an HTML element of type <form> """
+    classes = [ "ltk-form" ]
+    tag = "form"
+
+
+class FieldSet(Widget):
+    """ Wraps an HTML element of type <fieldset> """
+    classes = [ "ltk-fieldset" ]
+    tag = "fieldset"
+
+
+class Legend(Text):
+    """ Wraps an HTML element of type <legend> """
+    classes = [ "ltk-legend" ]
+    tag = "legend"
 
 
 class Option(Text):
