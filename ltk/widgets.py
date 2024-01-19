@@ -378,6 +378,7 @@ class Input(Widget):
     def __init__(self, value, style=DEFAULT_CSS):
         Widget.__init__(self, style)
         self.element.val(value)
+        self.on("wheel", lambda event: None) # ensure Chrome handles wheel events
 
 
 class Checkbox(Widget):

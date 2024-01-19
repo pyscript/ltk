@@ -22,6 +22,12 @@ def create():
             ltk.Heading1("Dave's Pizza Place"),
             
             ltk.HBox(ltk.Label("Date:"), ltk.DatePicker()),
+
+            ltk.Break(),
+            ltk.VBox(
+                ltk.Label("Number of Pizzas:"), 
+                ltk.Input(1).attr("type", "number")
+            ),
             
             ltk.Break(),
             ltk.HBox(
