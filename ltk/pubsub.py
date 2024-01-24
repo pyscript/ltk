@@ -66,13 +66,17 @@ class _PubSub():
    
     def match(self, message, receiver, receiver_topic, handler):
         if message.topic == receiver_topic and message.sender != receiver:
+            handled = False
             if isinstance(handler, str):
-                workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
+                print("pubsub: match worker:", handler, message.topic, str(message.data)[:64])
+                handled = workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
             else:
+                print("pubsub: match locally:", handler, message.topic, str(message.data)[:64])
                 handler(message.data)
+                handled = True
             log = _log_topics.get(message.topic, _logger.info)
             log(f"[Pubsub] {json.dumps(['', message.sender, receiver, message.topic, str(message.data)[:32]])}")
-            return True
+            return handled
 
     def process_queue(self):
         for key, message in list(self.queue.items()):

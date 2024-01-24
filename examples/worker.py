@@ -5,6 +5,7 @@ ltk.find("#fan").append("Worker is running...")
 
 def handle_message(sender, topic, data):
     ltk.find("#fan").append(f"Worker fan: {data}")
+    return True
 
 subscribe = xworker.sync.subscribe
 publish = xworker.sync.publish
