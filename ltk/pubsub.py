@@ -101,6 +101,7 @@ class _PubSub():
         if show_publish:
             _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
         self.process_queue()
+        schedule(self.process_queue, 100)
 
     def subscribe(self, name, topic, handler):
         self.subscribers.append([name, topic, handler])
