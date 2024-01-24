@@ -80,24 +80,15 @@ class _PubSub():
 
     def process_queue(self):
         for key, message in list(self.queue.items()):
-            del self.queue[key] # remove the message from the queue
-            handled = False
-            for subscriber in self.subscribers:
-                if self.match(message, *subscriber):
-                    handled = True
-            if not handled:
-                self.queue[key] = message # put back the message onto the queue
-
-    def add_to_queue(self, message):
-        key = f"{_name}-{time.time()}"
-        print("pubsub: add to queue:", key, message.topic, str(message.data)[:64])
-        self.queue[key] = message
+            if any(self.match(message, *subscriber) for subscriber in self.subscribers):
+                del self.queue[key] # remove the message from the queue
 
     def publish(self, sender, receiver, topic, data):
-        self.add_to_queue(_Message(sender, receiver, topic, data))
+        key = f"{_name}-{time.time()}"
+        message = _Message(sender, receiver, topic, data)
+        self.queue[key] = message
         if show_publish:
             _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
-        self.process_queue()
         schedule(self.process_queue, 100)
 
     def subscribe(self, name, topic, handler):
