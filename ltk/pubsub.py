@@ -84,7 +84,10 @@ class _PubSub():
             if any(self.match(message, *subscriber) for subscriber in self.subscribers):
                 handled.append(key)
         for key in handled:
-            del self.queue[key] # remove the message from the queue
+            try:
+                del self.queue[key] # remove the message from the queue
+            except:
+                pass # already removed in another thread
 
     def publish(self, sender, receiver, topic, data):
         key = f"{_name}-{time.time()}"
