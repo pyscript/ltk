@@ -328,6 +328,9 @@ class Widget(object):
             self.names.add(name)
         return getattr(self.element, name)
 
+    def toJSON(self):
+        return f"[{self.__class__.__name__}]"
+
 
 
 class HBox(Widget):
