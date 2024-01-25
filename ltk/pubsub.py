@@ -68,10 +68,10 @@ class _PubSub():
         if message.topic == receiver_topic and message.sender != receiver:
             handled = False
             if isinstance(handler, str):
-                print("pubsub sync handle:", handler, message.topic, str(message.data)[:64])
+                print("[PUBSUB] sync handle:", handler, message.topic, str(message.data)[:64])
                 handled = workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
             else:
-                print("pubsub: match locally:", handler, message.topic, str(message.data)[:64])
+                print("[PUBSUB]: match locally:", handler, message.topic, str(message.data)[:64])
                 handler(message.data)
                 handled = True
             log = _log_topics.get(message.topic, _logger.info)
@@ -82,11 +82,11 @@ class _PubSub():
         handled = []
         for key, message in self.queue.items():
             if any(self.match(message, *subscriber) for subscriber in self.subscribers):
-                print("pubsub handled:", key)
+                print("[PUBSUB] handled:", key)
                 handled.append(key)
         for key in handled:
             try:
-                print("pubsub remove from queue:", key)
+                print("[PUBSUB] remove from queue:", key)
                 del self.queue[key] # remove the message from the queue
             except:
                 pass # already removed in another thread

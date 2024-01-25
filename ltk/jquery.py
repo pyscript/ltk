@@ -80,9 +80,11 @@ def to_py(jsobj):
             return str(jsobj)
 
 
-def schedule(python_function, key, timeout_seconds=0.1):
+def schedule(python_function, key, timeout_seconds=0):
     if not python_function:
         raise ValueError(f"schedule: Expecting a function, not {python_function}")
+    if not isinstance(key, str):
+        raise ValueError(f"schedule: key should be a string, not {type(key)}")
     if key in timers:
         window.clearTimeout(timers[key])
     timers[key] = window.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
