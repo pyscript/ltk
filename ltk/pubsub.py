@@ -68,7 +68,7 @@ class _PubSub():
         if message.topic == receiver_topic and message.sender != receiver:
             handled = False
             if isinstance(handler, str):
-                print("pubsub: match worker:", handler, message.topic, str(message.data)[:64])
+                print("sync handle:", handler, message.topic, str(message.data)[:64])
                 handled = workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
             else:
                 print("pubsub: match locally:", handler, message.topic, str(message.data)[:64])
@@ -99,6 +99,8 @@ class _PubSub():
 
     def subscribe(self, name, topic, handler):
         self.subscribers.append([name, topic, handler])
+        if isinstance(handler, str):
+            print("sync subscribe:", handler, name, topic)
         schedule(self.process_queue, "pubsub.queue.process")
 
 
