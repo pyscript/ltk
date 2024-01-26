@@ -1,24 +1,20 @@
+
 # LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import json
 import logging
-import sys
-import time
-
-from ltk import schedule
 
 """
-
 Implements a publish-subscribe facility.
 
 Note this is a standalone module, not importing anything from LTK.
 This allows its use in Workers, which may not want to include any UIs.
 
-A receiver registers for events using "subscribe".
-A sender broadcasts events using "publish".
+ - A receiver registers for events using `subscribe`.
+ - A sender broadcasts events using `publish`.
+ - Communication between the main UI and workers is done using the `xworker.sync`.
 
-Communication between the main UI and workers is done using the worker sync.
-
+See https://github.com/pyscript/polyscript/tree/main/docs#xworker
 """
 
 __all__ = [
@@ -37,6 +33,8 @@ TOPIC_REQUEST = "app.request"
 TOPIC_RESPONSE = "app.response"
 TOPIC_WORKER_RUN = "worker.run"
 TOPIC_WORKER_RESULT = "worker.result"
+TOPIC_WORKER_READY = "worker.ready"
+
 
 _logger = logging.getLogger('root')
 _log_topics = {
@@ -47,80 +45,40 @@ _log_topics = {
     "log.critical": _logger.critical,
 }
 
-_name = "pubsub_mpy" if "MicroPython" in sys.version else "pubsub_py"
-workers = {}
-start = time.time()
-show_publish = False
-
-class _Message():
-    def __init__(self, sender, receiver, topic, data):
-        self.sender = sender
-        self.receiver = receiver
-        self.topic = topic
-        self.data = data
 
 class _PubSub():
     def __init__(self):
         self.subscribers = []
-        self.queue = {}
+        self.workers = {}
    
-    def match(self, message, receiver, receiver_topic, handler):
-        if message.topic == receiver_topic and message.sender != receiver:
-            handled = False
-            if isinstance(handler, str):
-                print("[PUBSUB] sync handle:", message.topic, str(message.data)[:64])
-                handled = workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
-                print("[PUBSUB] sync handled:", handled, message.topic, str(message.data)[:64])
-            else:
-                print("[PUBSUB]: match locally:", handler, message.topic, str(message.data)[:64])
-                handler(message.data)
-                handled = True
-            log = _log_topics.get(message.topic, _logger.info)
-            log(f"[Pubsub] {json.dumps(['', message.sender, receiver, message.topic, str(message.data)[:32]])}")
-            return handled
-
-    def process_queue(self):
-        handled = []
-        for key, message in list(self.queue.items()):
-            if any(self.match(message, *subscriber) for subscriber in self.subscribers):
-                print("[PUBSUB] handled:", key)
-                handled.append(key)
-        for key in handled:
-            try:
-                print("[PUBSUB] remove from queue:", key)
-                del self.queue[key] # remove the message from the queue
-            except:
-                pass # already removed in another thread
-
     def publish(self, sender, receiver, topic, data):
-        print("[PUBSUB] publish", topic, str(data)[:32])
-        key = f"{_name}-{time.time()}"
-        message = _Message(sender, receiver, topic, data)
-        self.queue[key] = message
-        if show_publish:
-            _logger.info(f"[Pubsub] {json.dumps(['publish', sender, receiver, topic, str(data)[:32]])}")
-        schedule(self.process_queue, "pubsub.queue.process")
+        for subscriber, subscribed_topic, handler in self.subscribers:
+            if topic == subscribed_topic:
+                if isinstance(handler, str):
+                    self.workers[handler].sync.handler(sender, topic, json.dumps(data))
+                else:
+                    handler(data)
+            log = _log_topics.get(topic, _logger.info)
+            log(f"[Pubsub] {json.dumps(['', sender, receiver, topic, str(data)[:32]])}")
 
-    def subscribe(self, name, topic, handler):
-        self.subscribers.append([name, topic, handler])
-        if isinstance(handler, str):
-            print("sync subscribe:", handler, name, topic)
-        schedule(self.process_queue, "pubsub.queue.process")
+    def subscribe(self, receiver, topic, handler):
+        self.subscribers.append([receiver, topic, handler])
+
+    def worker_publish(self, sender, receiver, topic, data):
+        try:
+            data = json.loads(data)
+        except:
+            pass
+        self.publish(sender, receiver, topic, data)
+
+    def register_worker(self, name, worker):
+        self.workers[name] = worker
+        worker.sync.subscribe = self.subscribe
+        worker.sync.publish = self.worker_publish
 
 
-_messenger = _PubSub()
-subscribe = _messenger.subscribe
-publish = _messenger.publish
-    
-def worker_publish(sender, receiver, topic, data):
-    try:
-        data = json.loads(data)
-    except Exception as e:
-        _logger.error(f"Cannot publish message {receiver}|{topic} for worker {sender}. Error: {e}. Data={data}")
+_pubsub = _PubSub()
 
-    publish(sender, receiver, topic, data)
-
-def register_worker(name, worker):
-    workers[name] = worker
-    worker.sync.subscribe = subscribe
-    worker.sync.publish = worker_publish
+subscribe = _pubsub.subscribe
+publish = _pubsub.publish
+register_worker = _pubsub.register_worker
