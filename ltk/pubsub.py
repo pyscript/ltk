@@ -68,8 +68,9 @@ class _PubSub():
         if message.topic == receiver_topic and message.sender != receiver:
             handled = False
             if isinstance(handler, str):
-                print("[PUBSUB] sync handle:", handler, message.topic, str(message.data)[:64])
+                print("[PUBSUB] sync handle:", message.topic, str(message.data)[:64])
                 handled = workers[handler].sync.handler(message.sender, message.topic, json.dumps(message.data))
+                print("[PUBSUB] sync handled:", handled, message.topic, str(message.data)[:64])
             else:
                 print("[PUBSUB]: match locally:", handler, message.topic, str(message.data)[:64])
                 handler(message.data)
