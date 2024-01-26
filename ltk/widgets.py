@@ -329,7 +329,7 @@ class Widget(object):
         return getattr(self.element, name)
 
     def toJSON(self, *args):
-        return f"[{self.__class__.__name__}|{",".join(args)}]"
+        return f"[{self.__class__.__name__}|{','.join(args)}]"
 
 
 
