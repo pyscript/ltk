@@ -81,7 +81,7 @@ class _PubSub():
 
     def process_queue(self):
         handled = []
-        for key, message in self.queue.items():
+        for key, message in list(self.queue.items()):
             if any(self.match(message, *subscriber) for subscriber in self.subscribers):
                 print("[PUBSUB] handled:", key)
                 handled.append(key)
