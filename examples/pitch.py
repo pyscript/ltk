@@ -120,7 +120,7 @@ def go():
         ltk.schedule(run, "play next script section", 1.1)
 
     script[0]["tick"] = 0
-    ltk.schedule(run, 1)
+    ltk.schedule(run, "run", 1)
     ltk.find(".ltk-button").remove()
     ltk.find("#pitch-image-container").css("height", 600)
 
