@@ -27,9 +27,10 @@ class Logger(ltk.Div):
         self.log_ui = ltk.VBox(ltk.Div().height(28)).attr("id", "ltk-log-ui")
         self.sequence_ui = _SequenceDiagram()
         ltk.Div.__init__(self,
-            ltk.VerticalSplitPane(
+            ltk.HorizontalSplitPane(
                 self.sequence_ui,
                 self.log_ui,
+                "logger"
             )
         )
         self.element.resizable(ltk.to_js({ "handles": "n" }))
