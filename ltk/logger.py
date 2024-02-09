@@ -321,7 +321,6 @@ class _SequenceDiagram(ltk.HBox):
         self.calls.append(call)
         self.append(call.element)
         self.filter_messages()
-        self.set_width()
         ltk.schedule(lambda: self.changed(force=True), f"{self}.changed", 1.5)
 
     def clear(self):
