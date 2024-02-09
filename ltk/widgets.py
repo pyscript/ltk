@@ -326,7 +326,10 @@ class Widget(object):
     def __getattr__(self, name):
         if not name in self.names:
             self.names.add(name)
-        return getattr(self.element, name)
+        try:
+            return getattr(self.element, name)
+        except:
+            raise AttributeError(f"LTK widget {self} does not have attribute {name}")
 
     def toJSON(self, *args):
         return f"[{self.__class__.__name__}|{','.join(args)}]"
