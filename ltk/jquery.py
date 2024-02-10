@@ -66,14 +66,12 @@ def find_list(selector):
 
 def dumps(data):
     try:
-        class NoneEncoder(json.JSONEncoder):
-            def default(self, obj):
-                try:
-                    return json.JSONEncoder.default(self, obj)
-                except:
-                    return None
-
-        return json.dumps(data, enc=NoneEncoder)
+        def encode(obj):
+            try:
+                return obj.__class__.__name__
+            except:
+                return None
+        return json.dumps(data, default=encode)
     except Exception as e:
         print("dumps: ", e)
         return json.dumps(data)
