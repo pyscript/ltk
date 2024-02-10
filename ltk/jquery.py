@@ -74,7 +74,8 @@ def dumps(data):
                     return None
 
         return json.dumps(data, enc=NoneEncoder)
-    except:
+    except Exception as e:
+        print("dumps: ", e)
         return json.dumps(data)
 
 
