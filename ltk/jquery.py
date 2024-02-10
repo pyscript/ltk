@@ -64,10 +64,24 @@ def find_list(selector):
     return [ elements.eq(n) for n in range(elements.length) ]
 
 
+def dumps(data):
+    try:
+        class NoneEncoder(json.JSONEncoder):
+            def default(self, obj):
+                try:
+                    return json.JSONEncoder.default(self, obj)
+                except:
+                    return None
+
+        return json.dumps(data, enc=NoneEncoder)
+    except:
+        return json.dumps(data)
+
+
 def to_js(python_object):
     if python_object.__class__.__name__ == "jsobj":
         return python_object
-    return window.to_js(json.dumps(python_object))
+    return window.to_js(dumps(python_object))
 
 
 def to_py(jsobj):
@@ -99,7 +113,7 @@ def get(url, handler, kind="json"):
     @callback
     def success(response, *rest):
         data = response if isinstance(response, str) else to_py(response)
-        size = len(response) if data is response else len(json.dumps(data))
+        size = len(response) if data is response else len(dumps(data))
         window.console.log("[Network] GET OK", f"{get_time() - start:.2f}", toHuman(size), url)
         handler(data)
     @callback
@@ -121,11 +135,11 @@ def delete(url, handler):
 
 def post(url, payload, handler, kind="json"):
     start = get_time()
-    payload = window.encodeURIComponent(json.dumps(payload))
+    payload = window.encodeURIComponent(dumps(payload))
     @callback
     def success(response, *rest):
         data = response if isinstance(response, str) else to_py(response)
-        response_size = len(response) if data is response else len(json.dumps(data))
+        response_size = len(response) if data is response else len(dumps(data))
         size = f"{toHuman(len(payload))}/{toHuman(response_size)}"
         window.console.log("[Network] POST OK", f"{get_time() - start:.2f}", size, url)
         return handler(data)
