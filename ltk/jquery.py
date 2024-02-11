@@ -73,7 +73,6 @@ def dumps(data):
                 return None
         return json.dumps(data, default=encode)
     except Exception as e:
-        print("dumps: ", e)
         return json.dumps(data)
 
 
