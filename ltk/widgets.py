@@ -708,7 +708,7 @@ class VerticalSplitPane(VBox):
         )
         self.top, self.bottom, self.key = top, bottom, key
         if key:
-            schedule(self.load_height, key)
+            schedule(self.load_height, key, 0.2)
 
     def load_height(self):
         self.top.height(window.localStorage.getItem(f"vsp-height-{self.key}") or "50%")
@@ -741,7 +741,7 @@ class HorizontalSplitPane(HBox):
         )
         self.left, self.right, self.key = left, right, key
         if key:
-            schedule(self.load_width, key)
+            schedule(self.load_width, key, 0.2)
 
     def load_width(self):
         self.left.width(window.localStorage.getItem(f"vsp-width-{self.key}") or "50%")
