@@ -682,71 +682,79 @@ class TableData(Text):
     tag = "td"
 
 
-class VerticalSplitPane(VBox):
-    """ Lays out its child widgets vertically with a resize handle in the center """
-    classes = [ "ltk-vertical-split-pane", "ltk-vbox" ]
-
-    def resize(self):
-        self.bottom \
-            .height(self.height() - self.top.height() - 4) \
-            .trigger("resize")
-        if self.key:
-            window.localStorage.setItem(f"vsp-height-{self.key}", self.top.height())
-
-    def __init__(self, top, bottom, key=""):
-        """
-        Places <code>top</code> and <code>bottom</code> on top of each other.
-        """
-        VBox.__init__(
-             self,
-             top
-                .addClass("ltk-vertical-split-pane-top")
-                .resizable(to_js({"handles": "s"}))
-                .on("resize", proxy(lambda event, ui: self.resize())),
-             bottom
-                .addClass("ltk-vertical-split-pane-bottom")
-        )
-        self.top, self.bottom, self.key = top, bottom, key
-        if key:
-            schedule(self.load_height, key, 0.2)
-
-    def load_height(self):
-        self.top.height(window.localStorage.getItem(f"vsp-height-{self.key}") or "50%")
-        self.resize()
-
-
 class HorizontalSplitPane(HBox):
     """ Lays out its child widgets horizontally with a resize handle in the center """
     classes = [ "ltk-horizontal-split-pane", "ltk-hbox" ]
 
-    def resize(self):
-        self.right \
-            .width(self.width() - self.left.width() - 4) \
-            .trigger("resize")
+    def resize(self, *args):
+        position = self.middle.position().left
+        self.middle.css("left", 0)
+        self.left.width(position)
+        self.right.width(self.width() - self.left.width() - self.middle.width())
         if self.key:
-            window.localStorage.setItem(f"vsp-width-{self.key}", self.left.width())
+            window.localStorage.setItem(f"hsp-width-{self.key}", self.left.width())
 
     def __init__(self, left, right, key=""):
         """
         Places <code>left</code> and <code>right</code> next to each other.
         """
+        self.left, self.middle, self.right, self.key = left, Div(), right, key
         HBox.__init__(
              self,
-             left
-                .addClass("ltk-horizontal-split-pane-left")
-                .resizable(to_js({"handles": "e"}))
-                .on("resize", proxy(lambda event, ui: self.resize())),
-             right
+             self.left
+                .addClass("ltk-horizontal-split-pane-left"),
+             self.middle
+                .addClass("ltk-horizontal-split-pane-middle")
+                .draggable()
+                .draggable("option", "axis", "x")
+                .draggable("option", "stop", proxy(self.resize)),
+             self.right
                 .addClass("ltk-horizontal-split-pane-right")
         )
-        self.left, self.right, self.key = left, right, key
         if key:
-            schedule(self.load_width, key, 0.2)
+            schedule(self.load_position, key, 0.2)
 
-    def load_width(self):
-        self.left.width(window.localStorage.getItem(f"vsp-width-{self.key}") or "50%")
+    def load_position(self):
+        width = window.localStorage.getItem(f"hsp-width-{self.key}") or self.width() / 2
+        self.left.width(width)
+
+
+class VerticalSplitPane(VBox):
+    """ Lays out its child widgets vertically with a resize handle in the center """
+    classes = [ "ltk-vertical-split-pane", "ltk-vbox" ]
+
+    def resize(self, *args):
+        position = self.middle.position().top
+        self.middle.css("top", 0)
+        self.top.height(position)
+        self.bottom.height(self.height() - position - self.middle.height())
+        if self.key:
+            window.localStorage.setItem(f"vsp-position-{self.key}", position)
+
+    def __init__(self, top, bottom, key=""):
+        """
+        Places <code>top</code> and <code>bottom</code> below each other.
+        """
+        self.top, self.middle, self.bottom, self.key = top, Div(), bottom, key
+        HBox.__init__(
+             self,
+             self.top
+                .addClass("ltk-vertical-split-pane-top"),
+             self.middle
+                .addClass("ltk-vertical-split-pane-middle")
+                .draggable()
+                .draggable("option", "axis", "y")
+                .draggable("option", "stop", proxy(self.resize)),
+             self.bottom
+                .addClass("ltk-vertical-split-pane-bottom")
+        )
+        if key:
+            schedule(self.load_position, key, 0.2)
+
+    def load_position(self):
+        position = window.localStorage.getItem(f"vsp-position-{self.key}") or self.height() / 2
+        self.middle.css("top", position)
         self.resize()
-
 
 
 class TextArea(Text):

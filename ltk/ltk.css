@@ -523,50 +523,40 @@ body {
     z-index: 1000000;
 }
 
-.ltk-horizontal-split-pane {
+.ltk-horizontal-split-pane, .ltk-horizontal-split-pane-left, .ltk-horizontal-split-pane-right {
     overflow: hidden;
 }
 
-.ltk-horizontal-split-pane .ui-resizable-e {
+.ltk-horizontal-split-pane-left, .ltk-horizontal-split-pane-right {
+    width: 50%;
+}
+
+.ltk-horizontal-split-pane-middle {
+    width: 7px;
+    background-color: transparent;
+    z-index: 10000;
     cursor: ew-resize;
 }
 
-.ltk-horizontal-split-pane-left {
-    width: 50%;
-    overflow: hidden;
-    border: 0px solid #EEE;
-    border-right-width: 4px;
+.ltk-horizontal-split-pane-middle:hover {
+    background-color: #AAF;
 }
 
-.ltk-horizontal-split-pane-left:hover {
-    border-color: #AAF;
-}
-
-.ltk-horizontal-split-pane-right {
-    overflow: hidden;
-    width: 50%;
-}
-
-.ltk-vertical-split-pane {
+.ltk-vertical-split-pane, .ltk-vertical-split-pane-top, .ltk-vertical-split-pane-bottom {
     overflow: hidden;
 }
 
-.ltk-horizontal-split-pane .ui-resizable-s {
+.ltk-vertical-split-pane-top, .ltk-vertical-split-pane-bottom {
+    height: 50%;
+}
+
+.ltk-vertical-split-pane-middle {
+    height: 7px;
+    background-color: transparent;
+    z-index: 10000;
     cursor: ns-resize;
 }
 
-.ltk-vertical-split-pane-top {
-    height: 50%;
-    overflow: hidden;
-    border: 0px solid #EEE;
-    border-bottom-width: 4px;
-}
-
-.ltk-vertical-split-pane-top:hover {
-    border-color: #AAF;
-}
-
-.ltk-vertical-split-pane-bottom {
-    overflow: hidden;
-    height: 50%;
+.ltk-vertical-split-pane-middle:hover {
+    background-color: #AAF;
 }

@@ -50,7 +50,7 @@ def activate_tab(event, ui=None):
 tabs.activate(ltk.get_url_parameter("tab") or 0)
 
 ltk.find(window.document.body).append(
-    # ltk.Logger().element,
+    ltk.Logger().element,
     ltk.Div(
         tabs.css("margin-bottom", 24)
             .attr("id", "examples")
