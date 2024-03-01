@@ -711,12 +711,8 @@ class HorizontalSplitPane(HBox):
              self.right
                 .addClass("ltk-horizontal-split-pane-right")
         )
-        if key:
-            schedule(self.load_position, key, 0.2)
-
-    def load_position(self):
-        width = window.localStorage.getItem(f"hsp-width-{self.key}") or self.width() / 2
-        self.left.width(width)
+        self.on("resize", proxy(self.resize))
+        self.left.width(window.localStorage.getItem(f"hsp-width-{self.key}") or self.width() / 2)
 
 
 class VerticalSplitPane(VBox):
@@ -748,12 +744,8 @@ class VerticalSplitPane(VBox):
              self.bottom
                 .addClass("ltk-vertical-split-pane-bottom")
         )
-        if key:
-            schedule(self.load_position, key, 0.2)
-
-    def load_position(self):
-        position = window.localStorage.getItem(f"vsp-position-{self.key}") or self.height() / 2
-        self.middle.css("top", position)
+        self.on("resize", proxy(self.resize))
+        self.middle.css("top", window.localStorage.getItem(f"vsp-position-{self.key}") or self.height() / 2)
         self.resize()
 
 
