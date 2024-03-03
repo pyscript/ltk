@@ -690,7 +690,7 @@ class SplitPane(Div):
         self.layout(position - self.get_position(self))
 
     def restore(self):
-        self.layout(window.parseFloat(window.localStorage.getItem(self.key)) or 100)
+        self.layout(window.parseFloat(window.localStorage.getItem(self.key)) or self.get_size(self) / 2)
 
     def layout(self, size):
         self.set_size(self, self.get_size(self.parent()))
