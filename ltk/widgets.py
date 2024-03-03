@@ -718,7 +718,6 @@ class SplitPane(Div):
         )
         self.restore()
         ltk.schedule(self.restore, self.key)
-        self.on("resize", proxy(lambda *args: self.resize()))
 
 
 class HorizontalSplitPane(SplitPane):
