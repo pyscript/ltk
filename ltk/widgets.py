@@ -695,7 +695,7 @@ class SplitPane(Div):
     def layout(self, size):
         self.set_size(self, self.get_size(self.parent()))
         self.set_size(self.first, size)
-        self.set_size(self.last, self.get_size(self) - size)
+        self.set_size(self.last, self.get_size(self) - size - self.get_size(self.middle))
         self.set_position(self.middle, 0)
         window.localStorage.setItem(self.key, size)
 
@@ -718,6 +718,7 @@ class SplitPane(Div):
         )
         self.restore()
         ltk.schedule(self.restore, self.key)
+        window.addEventListener("resize", proxy(lambda *args: self.resize()))
 
 
 class HorizontalSplitPane(SplitPane):
