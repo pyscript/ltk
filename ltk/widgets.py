@@ -712,12 +712,13 @@ class SplitPane(Div):
                 .addClass(f"ltk-{self.direction}-split-pane-middle")
                 .draggable()
                 .draggable("option", "axis", self.axis)
-                .draggable("option", "stop", proxy(self.resize)),
+                .draggable("option", "stop", proxy(lambda *args: self.resize())),
              self.last
                 .addClass(f"ltk-{self.direction}-split-pane-last")
         )
+        self.restore()
         ltk.schedule(self.restore, self.key)
-        self.on("resize", proxy(lambda event: self.resize()))
+        self.on("resize", proxy(lambda *args: self.resize()))
 
 
 class HorizontalSplitPane(SplitPane):
