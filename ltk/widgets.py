@@ -685,7 +685,7 @@ class TableData(Text):
 class SplitPane(Div):
     """ Lays out its child widgets horizontally or vertically with a resize handle in the center """
 
-    def resize(self, *args):
+    def resize(self):
         position = self.get_position(self.middle)
         self.layout(position - self.get_position(self))
 
@@ -717,7 +717,7 @@ class SplitPane(Div):
                 .addClass(f"ltk-{self.direction}-split-pane-last")
         )
         ltk.schedule(self.restore, self.key)
-        self.on("resize", proxy(self.resize))
+        self.on("resize", proxy(lambda event: self.resize()))
 
 
 class HorizontalSplitPane(SplitPane):
