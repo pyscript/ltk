@@ -682,71 +682,90 @@ class TableData(Text):
     tag = "td"
 
 
-class HorizontalSplitPane(HBox):
+class SplitPane(Div):
+    """ Lays out its child widgets horizontally or vertically with a resize handle in the center """
+
+    def resize(self, *args):
+        position = self.get_position(self.middle)
+        self.layout(position - self.get_position(self))
+
+    def restore(self):
+        self.layout(window.parseFloat(window.localStorage.getItem(self.key)) or 100)
+
+    def layout(self, size):
+        self.set_size(self, self.get_size(self.parent()))
+        self.set_size(self.first, size)
+        self.set_size(self.last, self.get_size(self) - size)
+        self.set_position(self.middle, 0)
+        window.localStorage.setItem(self.key, size)
+
+    def __init__(self, first, last, key):
+        """
+        Places <code>first</code> and <code>last</code> next to each other.
+        """
+        self.first, self.middle, self.last, self.key = first, Div(), last, key
+        Div.__init__(
+             self,
+             self.first
+                .addClass(f"ltk-{self.direction}-split-pane-first"),
+             self.middle
+                .addClass(f"ltk-{self.direction}-split-pane-middle")
+                .draggable()
+                .draggable("option", "axis", self.axis)
+                .draggable("option", "stop", proxy(self.resize)),
+             self.last
+                .addClass(f"ltk-{self.direction}-split-pane-last")
+        )
+        ltk.schedule(self.restore, self.key)
+        self.on("resize", proxy(self.resize))
+
+
+class HorizontalSplitPane(SplitPane):
     """ Lays out its child widgets horizontally with a resize handle in the center """
     classes = [ "ltk-horizontal-split-pane", "ltk-hbox" ]
 
-    def resize(self, *args):
-        position = self.middle.position().left
-        self.middle.css("left", 0)
-        self.left.width(position)
-        self.right.width(self.width() - self.left.width() - self.middle.width())
-        if self.key:
-            window.localStorage.setItem(f"hsp-width-{self.key}", self.left.width())
+    def __init__(self, first, last, key):
+        self.first = "left"
+        self.last = "right"
+        self.direction = "horizontal"
+        self.axis = "x"
+        SplitPane.__init__(self, first, last, key)
 
-    def __init__(self, left, right, key=""):
-        """
-        Places <code>left</code> and <code>right</code> next to each other.
-        """
-        self.left, self.middle, self.right, self.key = left, Div(), right, key
-        HBox.__init__(
-             self,
-             self.left
-                .addClass("ltk-horizontal-split-pane-left"),
-             self.middle
-                .addClass("ltk-horizontal-split-pane-middle")
-                .draggable()
-                .draggable("option", "axis", "x")
-                .draggable("option", "stop", proxy(self.resize)),
-             self.right
-                .addClass("ltk-horizontal-split-pane-right")
-        )
-        self.on("resize", proxy(self.resize))
-        self.left.width(window.localStorage.getItem(f"hsp-width-{self.key}") or self.width() / 2)
+    def get_position(self, x):
+        return x.position().left
+
+    def set_position(self, x, value):
+        x.css("left", value)
+
+    def get_size(self, x):
+        return x.width()
+
+    def set_size(self, x, value):
+        x.width(value)
 
 
-class VerticalSplitPane(VBox):
+class VerticalSplitPane(SplitPane):
     """ Lays out its child widgets vertically with a resize handle in the center """
     classes = [ "ltk-vertical-split-pane", "ltk-vbox" ]
 
-    def resize(self, *args):
-        position = self.middle.position().top
-        self.middle.css("top", 0)
-        self.top.height(position)
-        self.bottom.height(self.height() - position - self.middle.height())
-        if self.key:
-            window.localStorage.setItem(f"vsp-position-{self.key}", position)
+    def __init__(self, first, last, key):
+        self.first = "top"
+        self.last = "bottom"
+        self.direction = "vertical"
+        self.axis = "y"
+        SplitPane.__init__(self, first, last, key)
 
-    def __init__(self, top, bottom, key=""):
-        """
-        Places <code>top</code> and <code>bottom</code> below each other.
-        """
-        self.top, self.middle, self.bottom, self.key = top, Div(), bottom, key
-        HBox.__init__(
-             self,
-             self.top
-                .addClass("ltk-vertical-split-pane-top"),
-             self.middle
-                .addClass("ltk-vertical-split-pane-middle")
-                .draggable()
-                .draggable("option", "axis", "y")
-                .draggable("option", "stop", proxy(self.resize)),
-             self.bottom
-                .addClass("ltk-vertical-split-pane-bottom")
-        )
-        self.on("resize", proxy(self.resize))
-        self.middle.css("top", window.localStorage.getItem(f"vsp-position-{self.key}") or self.height() / 2)
-        self.resize()
+    def get_position(self, x):
+        return x.position().top
+
+    def set_position(self, x, value):
+        x.css("top", value)
+
+    def get_size(self, x):
+        return x.height()
+
+    def set_size(self, x, value):
+        x.height(value)
 
 
 class TextArea(Text):

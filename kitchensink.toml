@@ -17,6 +17,7 @@ files = [
     "examples/tictactoe.css",
     "examples/pitch.py",
     "examples/pizza.py",
+    "examples/splits.py",
     "examples/styling.py",
     "examples/custom.py",
     "examples/pubsub.py",

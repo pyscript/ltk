@@ -523,11 +523,19 @@ body {
     z-index: 1000000;
 }
 
-.ltk-horizontal-split-pane, .ltk-horizontal-split-pane-left, .ltk-horizontal-split-pane-right {
+.ltk-horizontal-split-pane {
+    width: 100%;
+}
+
+.ltk-vertical-split-pane {
+    height: 100%;
+}
+
+.ltk-horizontal-split-pane, .ltk-horizontal-split-pane-first, .ltk-horizontal-split-pane-last {
     overflow: hidden;
 }
 
-.ltk-horizontal-split-pane-left, .ltk-horizontal-split-pane-right {
+.ltk-horizontal-split-pane-first, .ltk-horizontal-split-pane-last {
     width: 50%;
 }
 
@@ -542,11 +550,11 @@ body {
     background-color: #AAF;
 }
 
-.ltk-vertical-split-pane, .ltk-vertical-split-pane-top, .ltk-vertical-split-pane-bottom {
+.ltk-vertical-split-pane, .ltk-vertical-split-pane-first, .ltk-vertical-split-pane-last {
     overflow: hidden;
 }
 
-.ltk-vertical-split-pane-top, .ltk-vertical-split-pane-bottom {
+.ltk-vertical-split-pane-first, .ltk-vertical-split-pane-last {
     height: 50%;
 }
 

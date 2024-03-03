@@ -7,6 +7,7 @@ from examples import dom
 from examples import inputs
 from examples import pitch
 from examples import pizza
+from examples import splits
 from examples import pubsub
 from examples import pydata
 from examples import styling
@@ -28,4 +29,5 @@ items = [
     ("examples/svg.py", svg.create()),
     ("examples/pydata.py", pydata.create()),
     ("examples/pizza.py", pizza.create()),
+    ("examples/splits.py", splits.create()),
 ]
