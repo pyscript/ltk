@@ -523,20 +523,9 @@ body {
     z-index: 1000000;
 }
 
-.ltk-horizontal-split-pane {
-    width: 100%;
-}
-
-.ltk-vertical-split-pane {
-    height: 100%;
-}
-
-.ltk-horizontal-split-pane, .ltk-horizontal-split-pane-first, .ltk-horizontal-split-pane-last {
+.ltk-horizontal-split-pane, .ltk-horizontal-split-pane-first, .ltk-horizontal-split-pane-last
+.ltk-vertical-split-pane .ltk-vertical-split-pane-first, .ltk-vertical-split-pane-last {
     overflow: hidden;
-}
-
-.ltk-horizontal-split-pane-first, .ltk-horizontal-split-pane-last {
-    width: 50%;
 }
 
 .ltk-horizontal-split-pane-middle {
@@ -548,14 +537,6 @@ body {
 
 .ltk-horizontal-split-pane-middle:hover {
     background-color: #AAF;
-}
-
-.ltk-vertical-split-pane, .ltk-vertical-split-pane-first, .ltk-vertical-split-pane-last {
-    overflow: hidden;
-}
-
-.ltk-vertical-split-pane-first, .ltk-vertical-split-pane-last {
-    height: 50%;
 }
 
 .ltk-vertical-split-pane-middle {

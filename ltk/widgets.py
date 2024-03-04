@@ -686,24 +686,29 @@ class SplitPane(Div):
     """ Lays out its child widgets horizontally or vertically with a resize handle in the center """
 
     def resize(self):
-        position = self.get_position(self.middle)
-        self.layout(position - self.get_position(self))
+        position = self.get_position(self.middle) - self.get_position(self)
+        percentage = round(100 * position / self.get_size(self))
+        print("## resize", self.key, percentage)
+        self.layout(percentage)
 
     def restore(self):
-        self.layout(window.parseFloat(window.localStorage.getItem(self.key)) or self.get_size(self) / 2)
+        percentage = window.parseFloat(window.localStorage.getItem(self.key)) or 50
+        self.layout(percentage)
 
-    def layout(self, size):
-        self.set_size(self, self.get_size(self.parent()))
-        self.set_size(self.first, size)
-        self.set_size(self.last, self.get_size(self) - size - self.get_size(self.middle))
+    def layout(self, percentage):
+        self.set_size(self.first, f"{percentage}%")
+        self.set_size(self.last, f"{100 - percentage}%")
         self.set_position(self.middle, 0)
-        window.localStorage.setItem(self.key, size)
+        window.localStorage.setItem(self.key, percentage)
 
     def __init__(self, first, last, key):
         """
         Places <code>first</code> and <code>last</code> next to each other.
         """
-        self.first, self.middle, self.last, self.key = first, Div(), last, key
+        self.first = first
+        self.middle = Div()
+        self.last = last
+        self.key = f"{key}-perc"
         Div.__init__(
              self,
              self.first
@@ -717,7 +722,6 @@ class SplitPane(Div):
                 .addClass(f"ltk-{self.direction}-split-pane-last")
         )
         self.restore()
-        ltk.schedule(self.restore, self.key)
         window.addEventListener("resize", proxy(lambda *args: self.resize()))
 
 

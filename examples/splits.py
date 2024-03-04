@@ -18,6 +18,7 @@ def create():
             ),
             "demo-vertical-split"
         )
+        .css("height", 800)
         .css("font-size", 32)
         .attr("name", "Splits")
     )
