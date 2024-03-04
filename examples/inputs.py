@@ -62,8 +62,10 @@ def create():
         popup = ltk.Popup(
             ltk.VBox(
                 ltk.Text("This is a popup"),
-                ltk.Button("Close", lambda event: popup.close()),
-                ltk.Text("Click on Hello to close the button"),
+                ltk.Button("Close", lambda event: popup.close())
+                    .css("color", "white")
+                    .css("background", "red"),
+                ltk.Text("Click the red button or outside the popup to close it."),
             ).css("padding", 8)
         ).show(ltk.find("#popup"))
 
@@ -98,6 +100,11 @@ def create():
                 ltk.Checkbox(True).attr("id", "love").on("change", loveit),
             )
         ),
+        ltk.HBox(
+            ltk.Button("Open Dialog", open_dialog),
+            ltk.Span("&nbsp;" * 4),
+            ltk.Button("Open Popup", open_popup).attr("id", "popup"),
+        ),
         ltk.Switch("Python is great:", True).on("change", switched),
         ltk.File().on("change", change),
         ltk.ColorPicker().on("change", change),
@@ -108,8 +115,6 @@ def create():
         })
         .on("keydown", key_down)
         .on("change", change),
-        ltk.Button("Open Dialog", open_dialog),
-        ltk.Button("Open Popup", open_popup).attr("id", "popup"),
     ]
 
     def get_widgets():
