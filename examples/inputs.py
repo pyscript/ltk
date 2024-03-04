@@ -57,6 +57,16 @@ def create():
             ltk.Text("This is a dialog")
         ).dialog()
 
+    @ltk.callback
+    def open_popup(event):
+        popup = ltk.Popup(
+            ltk.VBox(
+                ltk.Text("This is a popup"),
+                ltk.Button("Close", lambda event: popup.close()),
+                ltk.Text("Click on Hello to close the button"),
+            ).css("padding", 8)
+        ).show(ltk.find("#popup"))
+
     widgets = [
         ltk.VBox(
             ltk.Text("Choose your favorite theme:"),
@@ -99,7 +109,7 @@ def create():
         .on("keydown", key_down)
         .on("change", change),
         ltk.Button("Open Dialog", open_dialog),
-
+        ltk.Button("Open Popup", open_popup).attr("id", "popup"),
     ]
 
     def get_widgets():
@@ -119,6 +129,7 @@ def create():
             }
         )
         .height(708)
+        .attr("id", "inputs")
         .attr("name", "Inputs")
     )
 

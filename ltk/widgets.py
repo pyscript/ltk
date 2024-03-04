@@ -862,12 +862,7 @@ class Menu(Widget):
 
 class Popup(Widget):
     """ Wraps an HTML element of type div that is positioned on top of all other widgets """
-    classes = [ "popup" ]
-
-
-class MenuPopup(Popup):
-    """ Creates a menu that is a popup """
-    classes = [ "ltk-menupopup" ]
+    classes = [ "ltk-popup" ]
 
     def show(self, element):
         _close_all_menus()
@@ -876,8 +871,19 @@ class MenuPopup(Popup):
             .appendTo(jQuery(window.document.body))
             .css("top", element.offset().top + 28)
             .css("left", min(element.offset().left + 2, jQuery(window.document.body).width() - self.width() - 12))
-            .addClass("ltk-menupopup-open")
         )
+        ltk.schedule(proxy(lambda: self.css("display", "block")), "ltk-menupopup")
+        window.console.log("Show popup", self.element[0])
+        return self
+
+    def close(self):
+        self.css("display", "none")
+
+
+class MenuPopup(Popup):
+    """ Creates a menu that is a popup """
+    classes = [ "ltk-menupopup" ]
+
 
 
 class MenuItem(Widget):
@@ -960,6 +966,7 @@ def _close_all_menus(event=None):
     if event and jQuery(event.target).hasClass("ltk-menulabel"):
         return
     find(".ltk-menupopup-open").removeClass("ltk-menupopup-open")
+    find(".ltk-menupopup, .ltk-popup").css("display", "none")
 
 jQuery(window.document.body).on("click", proxy(_close_all_menus))
 

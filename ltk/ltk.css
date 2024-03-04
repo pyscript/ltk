@@ -125,7 +125,7 @@
     background-color: #e8ebee;
 }
 
-.ltk-menupopup {
+.ltk-popup, .ltk-menupopup {
     display: none;
     position: absolute;
     top: 32px;
