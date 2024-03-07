@@ -10,7 +10,7 @@ __all__ = [
     "Tabs", "File", "DatePicker", "ColorPicker", "RadioGroup", "RadioButton", "Table", "TableRow",
     "TableHeader", "TableData", "HorizontalSplitPane", "VerticalSplitPane", "TextArea", "Code",
     "Image", "MenuBar", "Switch", "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select",
-    "Option", "Widget", "Form", "FieldSet", "Legend",
+    "Option", "Widget", "Form", "FieldSet", "Legend", "Tutorial", "Step",
 ]
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
@@ -963,6 +963,70 @@ class Option(Text):
     """ Wraps an HTML element of type <option> """
     classes = [ "ltk-option" ]
     tag = "option"
+
+
+class Step(Div):
+    classes = [ "ltk-bubble" ]
+
+    def __init__(self, widget, content):
+        Div.__init__(self, content)
+        self.content = content
+        self.widget = widget
+        self.css("font-family", "Arial")
+        self.css("position", "absolute")
+        self.css("top", -1000)
+        self.css("left", -1000)
+        self.css("background", "lightyellow")
+        self.css("border", "5px solid gray")
+        self.css("overflow", "hidden")
+        self.css("border-radius", 15)
+        self.css("padding", 5)
+        self.appendTo(ltk.find("body"))
+        self.width = self.width()
+        self.height = self.height()
+        self.draggable()
+
+    def show(self):
+        self.css("width", 0)
+        self.css("height", 0)
+        self.css("top", self.widget.offset().top)
+        self.css("left", self.widget.offset().left + self.widget.width() + 28)
+        self.animate(ltk.to_js({
+            "width": self.width + 5,
+            "height": self.height,
+        }))
+
+    def hide(self):
+        self.animate(ltk.to_js({
+            "width": 0,
+            "height": 0,
+        }), 250, ltk.proxy(lambda: self.remove()))
+
+class Tutorial():
+    tag = None
+    def __init__(self, steps):
+        self.steps = steps
+        self.index = 0
+        self.current = None
+        self.steps = steps
+
+    def run(self):
+        self.index = 0
+        self.show()
+        
+    def next(self):
+        if self.current:
+            self.current.hide()
+        self.index += 1
+        if self.index < len(self.steps):
+            self.show()
+
+    def show(self):
+        selector, event, content = self.steps[self.index]
+        widget = ltk.find(selector)
+        self.current = Step(widget, content)
+        self.current.show()
+        widget.on(event, ltk.proxy(lambda *args: self.next()))
 
 
 def _close_all_menus(event=None):
