@@ -453,6 +453,7 @@
     width: 3px;
     height: 3px;
     background: blue;
+    z-index: 10000;
 }
 
 body {
