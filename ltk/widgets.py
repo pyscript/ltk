@@ -112,7 +112,10 @@ class Widget(object):
                 If value is None, this gets the value as a string. 
                 Otherwise, it sets the value, which needs to be a string.
         """
-        return self.element.attr(name, value) if value != None else self.element.attr(name)
+        try:
+            return self.element.attr(name, value) if value != None else self.element.attr(name)
+        except:
+            raise ValueError(f"Widget <{self}> does not have attribute {name}")
 
     def prop(self, name, value=None):
         """

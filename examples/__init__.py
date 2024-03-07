@@ -14,6 +14,7 @@ from examples import styling
 from examples import svg
 from examples import table
 from examples import tictactoe
+from examples import tutorial
 
 items = [
     ("examples/styling.py", styling.create()),
@@ -30,4 +31,5 @@ items = [
     ("examples/pydata.py", pydata.create()),
     ("examples/pizza.py", pizza.create()),
     ("examples/splits.py", splits.create()),
+    ("examples/tutorial.py", tutorial.create()),
 ]

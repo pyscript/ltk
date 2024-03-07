@@ -23,4 +23,5 @@ files = [
     "examples/pubsub.py",
     "examples/table.py",
     "examples/svg.py",
+    "examples/tutorial.py",
 ]

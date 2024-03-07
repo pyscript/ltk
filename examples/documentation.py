@@ -55,5 +55,5 @@ def create():
         )
         .css("max-height", 800)
         .css("overflow-y", "scroll")
-        .attr("name", "Documentation")
+        .attr("name", "Docs")
     )
