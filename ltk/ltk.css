@@ -434,6 +434,19 @@
     z-index: 100000;
 }
 
+.ltk-bubble {
+    font-family: Arial;
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+    background: lightyellow;
+    border: 5px solid gray;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 10px;
+    z-index: 10000;
+}
+
 body {
     margin: 0;
     font-family: var(--ltk-body-font-family);

@@ -972,15 +972,6 @@ class Step(Div):
         Div.__init__(self, content)
         self.content = content
         self.widget = widget
-        self.css("font-family", "Arial")
-        self.css("position", "absolute")
-        self.css("top", -1000)
-        self.css("left", -1000)
-        self.css("background", "lightyellow")
-        self.css("border", "5px solid gray")
-        self.css("overflow", "hidden")
-        self.css("border-radius", 15)
-        self.css("padding", 5)
         self.appendTo(ltk.find("body"))
         self.width = self.width()
         self.height = self.height()
@@ -1001,6 +992,7 @@ class Step(Div):
             "width": 0,
             "height": 0,
         }), 250, ltk.proxy(lambda: self.remove()))
+
 
 class Tutorial():
     tag = None
