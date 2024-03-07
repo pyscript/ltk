@@ -691,7 +691,6 @@ class SplitPane(Div):
     def resize(self):
         position = self.get_position(self.middle) - self.get_position(self)
         percentage = round(100 * position / self.get_size(self))
-        print("## resize", self.key, percentage)
         self.layout(percentage)
 
     def restore(self):
@@ -966,7 +965,7 @@ class Option(Text):
 
 
 class Step(Div):
-    classes = [ "ltk-bubble" ]
+    classes = [ "ltk-step" ]
 
     def __init__(self, widget, content):
         Div.__init__(self, content)
@@ -978,17 +977,57 @@ class Step(Div):
         self.draggable()
 
     def show(self):
+        left = self.widget.offset().left + self.widget.outerWidth() + 28
+        top = self.widget.offset().top
+        self.content.css("visibility", "hidden")
         self.css("width", 0)
         self.css("height", 0)
-        self.css("top", self.widget.offset().top)
-        self.css("left", self.widget.offset().left + self.widget.width() + 28)
+        self.css("left", f"{left + self.width / 2}px")
+        self.css("top", f"{top + self.height / 2}px")
         self.animate(ltk.to_js({
+            "opacity": 1,
+            "left": left,
+            "top": top,
             "width": self.width + 5,
             "height": self.height,
-        }))
+        }), 250, ltk.proxy(lambda: self.content.css("visibility", "visible")))
+        self.add_marker()
+
+    def add_marker(self):
+        ltk.find("body").append(ltk.Div()
+            .addClass("ltk-step-marker")
+            .css("left", self.widget.offset().left)
+            .css("top", self.widget.offset().top - 2)
+            .css("width", self.widget.outerWidth())
+        )
+        ltk.find("body").append(ltk.Div()
+            .addClass("ltk-step-marker")
+            .css("left", self.widget.offset().left)
+            .css("top", self.widget.offset().top + self.widget.outerHeight())
+            .css("width", self.widget.outerWidth())
+        )
+        ltk.find("body").append(ltk.Div()
+            .addClass("ltk-step-marker")
+            .css("left", self.widget.offset().left - 2)
+            .css("top", self.widget.offset().top - 2)
+            .css("height", self.widget.outerHeight() + 4)
+        )
+        ltk.find("body").append(ltk.Div()
+            .addClass("ltk-step-marker")
+            .css("left", self.widget.offset().left + self.widget.outerWidth())
+            .css("top", self.widget.offset().top - 2)
+            .css("height", self.widget.outerHeight() + 4)
+        )
 
     def hide(self):
+        ltk.find(".ltk-step-marker").remove()
+        left = self.widget.offset().left + self.widget.outerWidth() + self.width / 2 + 28
+        top = self.widget.offset().top + self.height / 2
+        self.content.css("visibility", "hidden")
         self.animate(ltk.to_js({
+            "opacity": 0,
+            "left": left,
+            "top": top,
             "width": 0,
             "height": 0,
         }), 250, ltk.proxy(lambda: self.remove()))
@@ -996,6 +1035,7 @@ class Step(Div):
 
 class Tutorial():
     tag = None
+
     def __init__(self, steps):
         self.steps = steps
         self.index = 0
@@ -1013,12 +1053,17 @@ class Tutorial():
         if self.index < len(self.steps):
             self.show()
 
+    def event(self, index):
+        if index == self.index:
+            self.next()
+
     def show(self):
         selector, event, content = self.steps[self.index]
         widget = ltk.find(selector)
         self.current = Step(widget, content)
         self.current.show()
-        widget.on(event, ltk.proxy(lambda *args: self.next()))
+        index = self.index
+        widget.on(event, ltk.proxy(lambda *args: self.event(index)))
 
 
 def _close_all_menus(event=None):

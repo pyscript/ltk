@@ -434,7 +434,7 @@
     z-index: 100000;
 }
 
-.ltk-bubble {
+.ltk-step {
     font-family: Arial;
     position: absolute;
     top: -1000px;
@@ -444,7 +444,15 @@
     border-radius: 15px;
     overflow: hidden;
     padding: 10px;
+    opacity: 0;
     z-index: 10000;
+}
+
+.ltk-step-marker {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: blue;
 }
 
 body {
