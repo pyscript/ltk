@@ -974,7 +974,6 @@ class Step(Div):
         self.appendTo(ltk.find("body"))
         self.width = self.width()
         self.height = self.height()
-        self.draggable()
 
     def show(self):
         left = self.widget.offset().left + self.widget.outerWidth() + 28
@@ -990,33 +989,40 @@ class Step(Div):
             "top": top,
             "width": self.width + 5,
             "height": self.height,
-        }), 250, ltk.proxy(lambda: self.content.css("visibility", "visible")))
-        self.add_marker()
+        }), 250, ltk.proxy(lambda: self.add_markers()))
 
-    def add_marker(self):
+    def add_markers(self):
+        self.content.css("visibility", "visible")
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
             .css("left", self.widget.offset().left)
-            .css("top", self.widget.offset().top - 2)
+            .css("top", self.widget.offset().top)
             .css("width", self.widget.outerWidth())
         )
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
             .css("left", self.widget.offset().left)
-            .css("top", self.widget.offset().top + self.widget.outerHeight())
+            .css("top", self.widget.offset().top + self.widget.outerHeight() - 3)
             .css("width", self.widget.outerWidth())
         )
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
             .css("left", self.widget.offset().left - 2)
-            .css("top", self.widget.offset().top - 2)
-            .css("height", self.widget.outerHeight() + 4)
+            .css("top", self.widget.offset().top)
+            .css("height", self.widget.outerHeight() + 2)
         )
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
-            .css("left", self.widget.offset().left + self.widget.outerWidth())
-            .css("top", self.widget.offset().top - 2)
-            .css("height", self.widget.outerHeight() + 4)
+            .css("left", self.widget.offset().left + self.widget.outerWidth() - 3)
+            .css("top", self.widget.offset().top)
+            .css("height", self.widget.outerHeight() + 2)
+        )
+        ltk.find("body").append(ltk.Div()
+            .addClass("ltk-step-marker")
+            .css("left", self.widget.offset().left + self.widget.outerWidth() - 3)
+            .css("top", self.widget.offset().top + 12)
+            .css("width", 32)
+            .css("height", 7)
         )
 
     def hide(self):

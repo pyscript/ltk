@@ -450,9 +450,9 @@
 
 .ltk-step-marker {
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background: blue;
+    width: 5px;
+    height: 5px;
+    background: gray;
     z-index: 10000;
 }
 
