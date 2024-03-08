@@ -444,6 +444,7 @@
     border-radius: 15px;
     overflow: hidden;
     padding: 10px;
+    padding-top: 15px;
     opacity: 0;
     z-index: 10000;
 }
@@ -454,6 +455,30 @@
     height: 5px;
     background: gray;
     z-index: 10000;
+}
+
+.ltk-step-buttons {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    visibility: hidden;
+}
+
+.ltk-step:hover .ltk-step-buttons {
+    visibility: visible;
+}
+
+.ltk-step-buttons .ltk-text {
+    height: 12px;
+    width: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 8px;
+    color: rgb(3, 3, 129);
+}
+
+.ltk-step-buttons .ltk-text:hover {
+    font-weight: bold;
 }
 
 body {

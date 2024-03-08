@@ -967,8 +967,8 @@ class Option(Text):
 class Step(Div):
     classes = [ "ltk-step" ]
 
-    def __init__(self, widget, content):
-        Div.__init__(self, content)
+    def __init__(self, widget, buttons, content):
+        Div.__init__(self, buttons, content)
         self.content = content
         self.widget = widget
         self.appendTo(ltk.find("body"))
@@ -1052,6 +1052,17 @@ class Tutorial():
         self.index = 0
         self.show()
         
+    def close(self):
+        ltk.find(".ltk-step").remove()
+        ltk.find(".ltk-step-marker").remove()
+
+    def previous(self):
+        if self.current:
+            self.current.hide()
+        if self.index > 0:
+            self.index -= 1
+            self.show() 
+
     def next(self):
         if self.current:
             self.current.hide()
@@ -1065,8 +1076,13 @@ class Tutorial():
 
     def show(self):
         selector, event, content = self.steps[self.index]
+        buttons = ltk.HBox(
+            ltk.Text("⟸").on("click", ltk.proxy(lambda *args: self.previous())),
+            ltk.Text("⟹").on("click", ltk.proxy(lambda *args: self.next())),
+            ltk.Text("x").on("click", ltk.proxy(lambda *args: self.close())),
+        ).addClass("ltk-step-buttons")
         widget = ltk.find(selector)
-        self.current = Step(widget, content)
+        self.current = Step(widget, buttons, content)
         self.current.show()
         index = self.index
         widget.on(event, ltk.proxy(lambda *args: self.event(index)))
