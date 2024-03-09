@@ -690,8 +690,10 @@ class SplitPane(Div):
 
     def resize(self):
         position = self.get_position(self.middle) - self.get_position(self)
-        percentage = round(100 * position / self.get_size(self))
-        self.layout(percentage)
+        size = self.get_size(self)
+        if size:
+            percentage = round(100 * position / size)
+            self.layout(percentage)
 
     def restore(self):
         percentage = window.parseFloat(window.localStorage.getItem(self.key)) or 50
