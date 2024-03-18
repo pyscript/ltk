@@ -976,7 +976,15 @@ class Step(Div):
         self.appendTo(ltk.find("body"))
         self.width = self.width()
         self.height = self.height()
-        self.last_offset = (self.widget.offset().left, self.widget.offset().top)
+        self.last_dimensions = self.get_widget_dimensions()
+
+    def get_widget_dimensions(self):
+        return (
+            self.widget.offset().left,
+            self.widget.offset().top,
+            self.widget.width(),
+            self.widget.height(),
+        )
 
     def show(self):
         self.content.css("visibility", "hidden")
@@ -1000,13 +1008,13 @@ class Step(Div):
         }), 250, ltk.proxy(lambda: self.add_markers()))
 
     def fix(self):
-        new_offset = (self.widget.offset().left, self.widget.offset().top)
-        if new_offset != self.last_offset:
+        dimensions = self.get_widget_dimensions()
+        if dimensions != self.last_dimensions:
             self.content.css("visibility", "hidden")
             self.css("visibility", "hidden")
             find(".ltk-step-marker").remove()
             schedule(self.show, f"fix {id(self)}", 1)
-            self.last_offset = new_offset
+            self.last_dimensions = dimensions
 
     def add_markers(self):
         self.content.css("visibility", "visible")
