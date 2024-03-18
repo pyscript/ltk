@@ -10,7 +10,7 @@ import sys
 
 __all__ = [
     "jQuery", "parse_int", "parse_float", "local_storage", "find", "create", "find_list", "to_js",
-    "to_py", "schedule", "repeat", "get", "delete", "get_time", "post", "async_proxy", "observe",
+    "to_py", "schedule", "repeat", "cancel", "get", "delete", "get_time", "post", "async_proxy", "observe",
     "proxy", "get_url_parameter", "set_url_parameter", "push_state", "inject_script", "inject_css",
     "callback",
 ]
@@ -99,11 +99,24 @@ def schedule(python_function, key, timeout_seconds=0):
         raise ValueError(f"schedule: key should be a string, not {type(key)}")
     if key in timers:
         window.clearTimeout(timers[key])
+        del timers[key]
     timers[key] = window.setTimeout(proxy(python_function), int(timeout_seconds * 1000))
 
 
-def repeat(python_function, timeout_seconds=1):
-    window.setInterval(proxy(python_function), int(timeout_seconds * 1000))
+def repeat(python_function, key, timeout_seconds=1):
+    if key in timers:
+        window.clearInterval(timers[key])
+        del timers[key]
+    timers[key] = window.setInterval(proxy(python_function), int(timeout_seconds * 1000))
+
+
+def cancel(key):
+    if key in timers:
+        try: 
+            window.clearTimeout(timers[key])
+        except:
+            window.clearInterval(timers[key])
+        del timers[key]
 
 
 def get(url, handler, kind="json"):

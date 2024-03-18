@@ -185,7 +185,7 @@ class Logger(ltk.Div):
                 lines = py_error.text().strip().split("\n")
                 self._add(logging.ERROR, f"{lines[-1]}: {py_error.text()}")
                 py_error.remove()
-        ltk.repeat(find_errors, 1)
+        ltk.repeat(find_errors, "find errors", 1)
 
     def _console_log(self, *args, **argv):
         try:
