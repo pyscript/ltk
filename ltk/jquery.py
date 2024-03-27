@@ -3,7 +3,6 @@
 import json
 from pyscript import document # type: ignore
 from pyscript import window # type: ignore
-import os
 import time
 import sys
 
@@ -15,7 +14,7 @@ __all__ = [
 ]
     
 def is_micro_python():
-    return not hasattr(time, "time")
+    return "Clang" not in sys.version
 
 def _fix_time_on_micropython():
     if is_micro_python():
