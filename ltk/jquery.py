@@ -176,11 +176,11 @@ def observe(element, handler):
 def proxy(function):
     if not function:
         return None
-    if is_micro_python():
-        return function
-    else:
+    try:
         import pyodide # type:ignore
         return pyodide.ffi.create_proxy(function)
+    except:
+        return function
 
 
 def get_url_parameter(key):
