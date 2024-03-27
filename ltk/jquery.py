@@ -1,7 +1,6 @@
 # LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import json
-import pyodide # type: ignore
 from pyscript import document # type: ignore
 from pyscript import window # type: ignore
 import os
@@ -164,12 +163,12 @@ def post(url, payload, handler, kind="json"):
 def async_proxy(function):
     async def call_function(*args):
         return await function(*args)
-    return pyodide.ffi.create_proxy(call_function)
+    return proxy(call_function)
 
 
 def observe(element, handler):
     config = window.eval("_={ attributes: true, childList: true, subtree: true };")
-    callback = pyodide.ffi.create_proxy(lambda *args: handler(element))
+    callback = proxy(lambda *args: handler(element))
     observer = window.MutationObserver.new(callback)
     observer.observe(element[0], config)
 
@@ -177,7 +176,11 @@ def observe(element, handler):
 def proxy(function):
     if not function:
         return None
-    return pyodide.ffi.create_proxy(function) if not is_micro_python() else function
+    if is_micro_python():
+        return function
+    else:
+        import pyodide # type:ignore
+        return pyodide.ffi.create_proxy(function)
 
 
 def get_url_parameter(key):
