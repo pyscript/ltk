@@ -2,6 +2,7 @@
 
 from pyscript import window # type: ignore
 from ltk.jquery import *
+import logging
 
 __all__ = [
     "HBox", "Div", "VBox", "Container", "Card", "Preformatted", "Text", "Input", "Checkbox",
@@ -18,6 +19,7 @@ DEFAULT_CSS = {}
 shortcuts = {}
 timers = {}
 
+logger = logging.getLogger("root")
 
 class Widget(object):
     """Base class for LTK widgets."""
@@ -1101,6 +1103,7 @@ class Tutorial():
             self.next()
 
     def show(self):
+        logger.info(f"[Tutorial] Run step {self.index + 1} of {len(self.steps)}")
         selector, event, content = self.steps[self.index]
         buttons = ltk.HBox(
             ltk.Text("⟸").on("click", ltk.proxy(lambda *args: self.previous())),
