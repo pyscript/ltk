@@ -178,9 +178,20 @@ LTK is covered under the Apache License:
 
 ## Upload new version to PyPi
 
-First build the package into a source distribution and a Python wheel:
+If you never ran setuptools, twine, etc, on your machine do this:
 ```console
 python3 -m pip install --user --upgrade setuptools wheel twine build
+```
+
+To make a build, first increment the version in `pyproject.toml`:
+```python
+[project]
+name = "pyscript-ltk"
+version = "0.1.22"
+```
+
+Then build the package into a source distribution and a Python wheel:
+```console
 python3 -m build
 ```
 
@@ -198,3 +209,5 @@ Finally, if the pypi test upload appears to work fine, run:
 ```console
 twine upload dist/*
 ```
+
+If you get an error that a certain version already exists, check the contents of the `dist` folder.
