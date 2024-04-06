@@ -872,7 +872,6 @@ class Popup(Widget):
 
     def show(self, element):
         _close_all_menus()
-        find("#main").css("opacity", 0.3)
         (self
             .appendTo(jQuery(window.document.body))
             .css("top", element.offset().top + 28)
