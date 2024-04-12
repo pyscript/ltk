@@ -48,7 +48,7 @@ class Preformatted(Widget):
     tag = "pre"
 ```
 
-## Creating a UI
+## Creating a UI 
 
 To create a UI, elements are constructed declaratively:
 
