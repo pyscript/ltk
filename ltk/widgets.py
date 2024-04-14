@@ -993,6 +993,8 @@ class Step(Div):
         repeat(lambda: self.fix(), f"render widget {id(self)}", 0.1)
 
     def render(self):
+        if not getattr(self.widget, "is")(":visible"):
+            return
         self.css("visibility", "visible")
         left = self.widget.offset().left + self.widget.outerWidth() + 28
         top = self.widget.offset().top
