@@ -692,20 +692,21 @@ class SplitPane(Div):
 
     def resize(self):
         position = self.get_position(self.middle) - self.get_position(self)
-        size = self.get_size(self)
-        if size:
-            percentage = round(100 * position / size)
-            self.layout(percentage)
+        self.layout(position / self.get_size(self))
 
     def restore(self):
-        percentage = window.parseFloat(window.localStorage.getItem(self.key)) or 50
-        self.layout(percentage)
+        ratio = float(window.localStorage.getItem(self.key)) or 0.5
+        self.layout(ratio)
 
-    def layout(self, percentage):
-        self.set_size(self.first, f"{percentage}%")
-        self.set_size(self.last, f"{100 - percentage}%")
-        self.set_position(self.middle, 0)
-        window.localStorage.setItem(self.key, percentage)
+    def layout(self, ratio):
+        size = self.get_size(self)
+        if size <= 1:
+            schedule(lambda: self.layout(ratio), f"layout-{self.key}")
+        else:
+            self.set_size(self.first, f"{ratio * size}")
+            self.set_size(self.last, f"{(1.0 - ratio) * size}")
+            self.set_position(self.middle, 0)
+            window.localStorage.setItem(self.key, f"{ratio}")
 
     def __init__(self, first, last, key):
         """
@@ -714,7 +715,7 @@ class SplitPane(Div):
         self.first = first
         self.middle = Div()
         self.last = last
-        self.key = f"{key}-perc"
+        self.key = f"split-{key}"
         Div.__init__(
              self,
              self.first
@@ -749,7 +750,7 @@ class HorizontalSplitPane(SplitPane):
         x.css("left", value)
 
     def get_size(self, x):
-        return x.width()
+        return max(1, x.width())
 
     def set_size(self, x, value):
         x.width(value)
@@ -773,7 +774,7 @@ class VerticalSplitPane(SplitPane):
         x.css("top", value)
 
     def get_size(self, x):
-        return x.height()
+        return max(1, x.height())
 
     def set_size(self, x, value):
         x.height(value)
