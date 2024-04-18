@@ -695,7 +695,10 @@ class SplitPane(Div):
         self.layout(position / self.get_size(self))
 
     def restore(self):
-        ratio = float(window.localStorage.getItem(self.key)) or 0.5
+        try:
+            ratio = float(window.localStorage.getItem(self.key))
+        except:
+            ratio = 0.5
         self.layout(ratio)
 
     def layout(self, ratio):
