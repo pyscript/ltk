@@ -703,13 +703,12 @@ class SplitPane(Div):
 
     def layout(self, ratio):
         size = self.get_size(self)
+        self.set_size(self.first, f"{ratio * size}")
+        self.set_size(self.last, f"{(1.0 - ratio) * size}")
+        self.set_position(self.middle, 0)
+        window.localStorage.setItem(self.key, f"{ratio}")
         if size <= 1:
             schedule(lambda: self.layout(ratio), f"layout-{self.key}")
-        else:
-            self.set_size(self.first, f"{ratio * size}")
-            self.set_size(self.last, f"{(1.0 - ratio) * size}")
-            self.set_position(self.middle, 0)
-            window.localStorage.setItem(self.key, f"{ratio}")
 
     def __init__(self, first, last, key):
         """
