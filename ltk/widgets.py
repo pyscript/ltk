@@ -574,6 +574,7 @@ class Tabs(Widget):
             self.add_tab(tab)
         self._handle_css(tabs)
         self.tabs()
+        self.on("tabsactivate", proxy(lambda *args: self.find(".ltk-split-pane").trigger("layout")))
 
     def add_tab(self, tab):
         tab_id = f"{self.name}-{self.labels.children().length}"
@@ -692,23 +693,22 @@ class SplitPane(Div):
 
     def resize(self):
         position = self.get_position(self.middle) - self.get_position(self)
-        self.layout(position / self.get_size(self))
+        self.ratio = position / self.get_size(self)
+        self.layout()
 
     def restore(self):
         try:
-            ratio = float(window.localStorage.getItem(self.key))
+            self.ratio = float(window.localStorage.getItem(self.key))
         except:
-            ratio = 0.5
-        self.layout(ratio)
+            self.ratio = 0.5
+        self.layout()
 
-    def layout(self, ratio):
+    def layout(self):
         size = self.get_size(self)
-        self.set_size(self.first, f"{ratio * size}")
-        self.set_size(self.last, f"{(1.0 - ratio) * size}")
+        self.set_size(self.first, f"{self.ratio * size}")
+        self.set_size(self.last, f"{(1.0 - self.ratio) * size}")
         self.set_position(self.middle, 0)
-        window.localStorage.setItem(self.key, f"{ratio}")
-        if size <= 1:
-            schedule(lambda: self.layout(ratio), f"layout-{self.key}")
+        window.localStorage.setItem(self.key, f"{self.ratio}")
 
     def __init__(self, first, last, key):
         """
@@ -730,8 +730,11 @@ class SplitPane(Div):
              self.last
                 .addClass(f"ltk-{self.direction}-split-pane-last")
         )
+        self.addClass(f"ltk-split-pane")
         self.restore()
-        window.addEventListener("resize", proxy(lambda *args: self.resize()))
+        self.on("layout", proxy(lambda *args: self.layout()))
+        schedule(self.layout, f"layout-{self.key}")
+        window.addEventListener("resize", proxy(lambda *args: self.layout()))
 
 
 class HorizontalSplitPane(SplitPane):
