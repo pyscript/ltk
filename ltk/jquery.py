@@ -35,13 +35,11 @@ timers = {}
 
 
 def find(selector):
-    is_element = not isinstance(selector, str)
-    is_body = selector == "body"
-    is_selector = isinstance(selector, str) and (selector.startswith(".") or selector.startswith("#"))
-    is_html = isinstance(selector, str) and selector.startswith("<")
-    if not is_element and not is_body and not is_selector:
+    is_html = isinstance(selector, str) and selector.strip().startswith("<")
+    has_newline = isinstance(selector, str) and "\n" in selector
+    if has_newline or is_html:
         try:
-            error = f"A jQuery selector should start with '.' or '#', not '{selector}'"
+            error = f"Unexpect jQuery selector '{selector}'"
             if is_html:
                 error += ". To generate HTML, use ltk.create(...)"
             print(f"Error: {error}")
