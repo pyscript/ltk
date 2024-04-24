@@ -89,7 +89,7 @@
 
 .ltk-input {
     border: 1px solid #e1e1e1;
-    width: 36px;
+    min-width: 36px;
     height: 28px;
 }
 
