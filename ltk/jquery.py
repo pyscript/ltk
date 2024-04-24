@@ -39,10 +39,10 @@ def find(selector):
     has_newline = isinstance(selector, str) and "\n" in selector
     if has_newline or is_html:
         try:
-            error = f"Unexpect jQuery selector '{selector}'"
+            warning = f"Unexpect jQuery selector '{selector}'"
             if is_html:
-                error += ". To generate HTML, use ltk.create(...)"
-            print(f"Error: {error}")
+                warning += ". To generate HTML, use ltk.create(...)"
+            print(f"Warning: {warning}")
             import traceback
             traceback.print_stack()
         except:
@@ -54,8 +54,8 @@ def create(html):
     html = html.strip()
     if not html or html[0] != "<":
         try:
-            error = f"A jQuery html fragment should start with '<', not '{html}'"
-            print(f"Error: {error}")
+            warning = f"A jQuery html fragment should start with '<', not '{html}'"
+            print(f"Warning: {warning}")
             import traceback
             traceback.print_stack()
         except:
