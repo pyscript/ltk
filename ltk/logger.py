@@ -13,6 +13,7 @@ class Logger(ltk.Div):
     classes = [ "ltk-log-list" ]
     level = logging.INFO
     messages = []
+    callback_count = 0
     icons = { 
         logging.CRITICAL : '💥',
         logging.ERROR    : '🔥️',
@@ -123,6 +124,9 @@ class Logger(ltk.Div):
         try:
             message = " ".join(map(str, args))
             if message.startswith("js_callable_proxy"):
+                self.callback_count += 1
+                if self.callback_count % 1000 == 0:
+                    print(f"{self.callback_count} Python functions called by jQuery: {message}")
                 return
             self.messages.append(message)
             ltk.find(".ltk-log-header").after(

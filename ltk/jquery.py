@@ -28,12 +28,42 @@ def _fix_time_on_micropython():
 
 
 jQuery = window.jQuery
-find = jQuery
-create = jQuery
 parse_int = window.parseInt
 parse_float = window.parseFloat
 local_storage = window.localStorage
 timers = {}
+
+
+def find(selector):
+    is_element = not isinstance(selector, str)
+    is_body = selector == "body"
+    is_selector = isinstance(selector, str) and (selector.startswith(".") or selector.startswith("#"))
+    is_html = isinstance(selector, str) and selector.startswith("<")
+    if not is_element and not is_body and not is_selector:
+        try:
+            error = f"A jQuery selector should start with '.' or '#', not '{selector}'"
+            if is_html:
+                error += ". To generate HTML, use ltk.create(...)"
+            print(f"Error: {error}")
+            import traceback
+            traceback.print_stack()
+        except:
+            pass
+    return jQuery(selector)
+
+
+def create(html):
+    html = html.strip()
+    if not html or html[0] != "<":
+        try:
+            error = f"A jQuery html fragment should start with '<', not '{html}'"
+            print(f"Error: {error}")
+            import traceback
+            traceback.print_stack()
+        except:
+            pass
+    return jQuery(html)
+
 
 KB = 1024
 MB = KB * KB
