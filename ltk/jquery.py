@@ -85,8 +85,8 @@ def get_time():
     return window.get_time() / 1000
 
 
-def find_list(selector):
-    elements = jQuery(selector)
+def find_list(selector, parent=None):
+    elements = parent.find(selector) if parent else jQuery(selector)
     return [ elements.eq(n) for n in range(elements.length) ]
 
 
