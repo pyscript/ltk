@@ -1028,36 +1028,41 @@ class Step(Div):
 
     def add_markers(self):
         self.content.css("visibility", "visible")
+        # the top part
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
             .css("left", self.widget.offset().left)
             .css("top", self.widget.offset().top)
-            .css("width", self.widget.outerWidth())
+            .css("width", self.widget.outerWidth() + 1)
         )
+        # the bottom part
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
             .css("left", self.widget.offset().left)
-            .css("top", self.widget.offset().top + self.widget.outerHeight() - 3)
-            .css("width", self.widget.outerWidth())
+            .css("top", self.widget.offset().top + self.widget.outerHeight() - 2)
+            .css("width", self.widget.outerWidth() + 1)
         )
+        # the left part
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
-            .css("left", self.widget.offset().left - 2)
+            .css("left", self.widget.offset().left)
             .css("top", self.widget.offset().top)
-            .css("height", self.widget.outerHeight() + 2)
+            .css("height", self.widget.outerHeight())
         )
+        # the right part
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
-            .css("left", self.widget.offset().left + self.widget.outerWidth() - 3)
+            .css("left", self.widget.offset().left + self.widget.outerWidth() - 1)
             .css("top", self.widget.offset().top)
-            .css("height", self.widget.outerHeight() + 2)
+            .css("height", self.widget.outerHeight())
         )
+        # the connector
         ltk.find("body").append(ltk.Div()
             .addClass("ltk-step-marker")
-            .css("left", self.widget.offset().left + self.widget.outerWidth() - 3)
+            .css("left", self.widget.offset().left + self.widget.outerWidth() - 1)
             .css("top", self.widget.offset().top + 12)
             .css("width", 32)
-            .css("height", 7)
+            .css("height", 3)
         )
 
     def hide(self):

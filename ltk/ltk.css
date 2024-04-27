@@ -440,7 +440,7 @@
     top: -1000px;
     left: -1000px;
     background: lightyellow;
-    border: 5px solid gray;
+    border: 3px solid orange;
     border-radius: 15px;
     overflow: hidden;
     padding: 10px;
@@ -452,9 +452,9 @@
 
 .ltk-step-marker {
     position: absolute;
-    width: 5px;
-    height: 5px;
-    background: gray;
+    width: 3px;
+    height: 3px;
+    background: orange;
     z-index: 10000;
 }
 
