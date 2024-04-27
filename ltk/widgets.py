@@ -705,8 +705,9 @@ class SplitPane(Div):
 
     def layout(self):
         size = self.get_size(self)
-        self.set_size(self.first, f"{self.ratio * size}")
-        self.set_size(self.last, f"{(1.0 - self.ratio) * size}")
+        middle = self.get_size(self.middle)
+        self.set_size(self.first, f"{self.ratio * size + middle}")
+        self.set_size(self.last, f"{(1.0 - self.ratio) * size - middle}")
         self.set_position(self.middle, 0)
         window.localStorage.setItem(self.key, f"{self.ratio}")
 
