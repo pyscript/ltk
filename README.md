@@ -154,7 +154,7 @@ See the [LTK kitchensink](https://pyscript.github.io/ltk/) or explore the `examp
 
 ## Applications built using LTK
 
-- PySheets (more details soon)
+- [PySheets](https://pysheets.app)
 
 ## License
 
