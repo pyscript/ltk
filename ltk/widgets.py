@@ -2,7 +2,10 @@
 
 from pyscript import window # type: ignore
 from ltk.jquery import *
+import itertools
+import json
 import logging
+import math
 
 __all__ = [
     "HBox", "Div", "VBox", "Container", "Card", "Preformatted", "Text", "Input", "Checkbox",
@@ -83,8 +86,6 @@ class Widget(object):
             else:
                 result.append(child)
         return result
-
-    names = set()
 
     def css(self, property, value=None):
         """
@@ -329,8 +330,6 @@ class Widget(object):
         return self.element.animate(properties, duration, easing, proxy(complete))
 
     def __getattr__(self, name):
-        if not name in self.names:
-            self.names.add(name)
         try:
             return getattr(self.element, name)
         except:
@@ -1129,6 +1128,52 @@ class Tutorial():
         index = self.index
         widget.on(event, ltk.proxy(lambda *args: self.event(index)))
 
+
+class Canvas(Widget):
+    classes = [ "ltk-canvas" ]
+    tag = "canvas"
+
+    def __init__(self, style=DEFAULT_CSS) -> None:
+        self._context = None
+        Widget.__init__(self, style)
+
+    def __getattr__(self, name):
+        try:
+            return getattr(self.element, name)
+        except:
+            try:
+                return getattr(self.context, name)
+            except:
+                raise AttributeError(f"LTK widget {self} does not have attribute {name}")
+ 
+    def __setattr__(self, name, value):
+        if name != "_context" and self._context and hasattr(self._context, name):
+            setattr(self._context, name, value)
+        elif name != "_context" and hasattr(self.element, name):
+            setattr(self.element, name, value)
+        else:
+            super().__setattr__(name, value)
+ 
+    @property
+    def context(self):
+        if self._context == None:
+            window.console.log("Create context", self.element, self.element[0])
+            self._context = self.element[0].getContext("2d")
+        return self._context
+
+    def rects(self, rects):
+        return window.canvasRects(self.context, json.dumps(list(rects)))
+
+    def fill_rects(self, rects):
+        return window.canvasFillRects(self.context, json.dumps(list(rects)))
+
+    def lines(self, lines, width, color):
+        return window.canvasDrawLines(self.context, width, color, json.dumps(list(lines)))
+
+    def texts(self, texts, font):
+        self.set_font(font)
+        return window.canvasDrawTexts(self.context, json.dumps(list(texts)))
+       
 
 def _close_all_menus(event=None):
     if event and jQuery(event.target).hasClass("ltk-menulabel"):

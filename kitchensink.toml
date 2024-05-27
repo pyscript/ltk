@@ -9,6 +9,7 @@ files = [
     "ltk/ltk.css",
     "examples/__init__.py",
     "examples/app.py",
+    "examples/canvas.py",
     "examples/documentation.py",
     "examples/dom.py",
     "examples/inputs.py",

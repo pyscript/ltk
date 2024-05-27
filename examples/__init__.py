@@ -1,6 +1,7 @@
 # LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 from examples import app
+from examples import canvas
 from examples import custom
 from examples import documentation
 from examples import dom
@@ -28,7 +29,7 @@ items = [
     ("examples/documentation.py", documentation.create()),
     ("examples/pitch.py", pitch.create()),
     ("examples/svg.py", svg.create()),
-    ("examples/pydata.py", pydata.create()),
+    ("examples/canvas.py", canvas.create()),
     ("examples/pizza.py", pizza.create()),
     ("examples/splits.py", splits.create()),
     ("examples/tutorial.py", tutorial.create()),
