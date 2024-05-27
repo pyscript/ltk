@@ -14,7 +14,7 @@ __all__ = [
     "Tabs", "File", "DatePicker", "ColorPicker", "RadioGroup", "RadioButton", "Table", "TableRow",
     "TableHeader", "TableData", "HorizontalSplitPane", "VerticalSplitPane", "TextArea", "Code",
     "Image", "MenuBar", "Switch", "MenuLabel", "Menu", "Popup", "MenuPopup", "MenuItem", "Select",
-    "Option", "Widget", "Form", "FieldSet", "Legend", "Tutorial", "Step",
+    "Option", "Widget", "Form", "FieldSet", "Legend", "Tutorial", "Step", "Canvas",
 ]
 
 BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
