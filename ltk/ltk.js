@@ -87,57 +87,34 @@
         $.ajax({ url, type: "DELETE", success}).fail(error)
     }
 
-    window.canvasRects = (context, coordinatesJson) => {
-        const coordinates = JSON.parse(coordinatesJson)
-        context.beginPath()
-        for (var n = 0; n < coordinates.length; n += 5) {
-            x = coordinates[n]
-            y = coordinates[n + 1]
-            w = coordinates[n + 2]
-            h = coordinates[n + 3]
-            context.rect(x, y, w, h)
-        }
-    }
-
-    window.canvasFillRects = (context, coordinatesJson) => {
-        const coordinates = JSON.parse(coordinatesJson)
-        context.beginPath()
-        for (var n = 0; n < coordinates.length; n += 5) {
-            x = coordinates[n]
-            y = coordinates[n + 1]
-            w = coordinates[n + 2]
-            h = coordinates[n + 3]
-            context.fillStyle = coordinates[n + 4]
-            context.fillRect(x, y, w, h)
-        }
-    }
-
-    window.canvasDrawTexts = (context, coordinatesJson) => {
-        const coordinates = JSON.parse(coordinatesJson)
-        context.beginPath()
-        context.strokeStyle = "red"
-        for (var n = 0; n < coordinates.length; n += 5) {
-            x = coordinates[n]
-            y = coordinates[n + 1]
-            text = coordinates[n + 2]
-            color = coordinates[n + 3]
-            w = coordinates[n + 4]
-            context.fillStyle = color
-            context.fillText(text, x, y, w)
-        }
-    }
-
-    window.canvasDrawLines = (context, lineWidth, strokeStyle, coordinatesJson) => {
-        const coordinates = JSON.parse(coordinatesJson)
-        context.lineWidth = lineWidth
-        context.strokeStyle = strokeStyle
-        for (var n = 0; n < coordinates.length; n += 4) {
+    window.canvas = {
+        line: (context, x1, y1, x2, y2) => {
             context.beginPath()
-            context.moveTo(coordinates[n], coordinates[n + 1])
-            context.lineTo(coordinates[n + 2], coordinates[n + 3])
+            context.moveTo(x1, y1)
+            context.lineTo(x2, y2)
             context.stroke()
+        },
+        rect: (context, x, y, w, h) => {
+            context.beginPath()
+            context.rect(x, y, w, h)
+            context.stroke()
+        },
+        text: (context, x, y, text) => {
+            context.beginPath()
+            context.strokeText(x, y, text)
+            context.stroke()
+        },
+        circle: (context, x, y, radius) => {
+            context.beginPath()
+            context.arc(x, y, radius, 0, 2 * Math.PI)
+            context.stroke()
+        },
+        fillCircle: (context, x, y, radius) => {
+            context.beginPath()
+            context.arc(x, y, radius, 0, 2 * Math.PI)
+            context.fill()
         }
-    }
+    };
 
     $.fn.isInViewport = function() {
         const offset = $(this).offset();

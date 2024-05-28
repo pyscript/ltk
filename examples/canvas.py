@@ -10,12 +10,19 @@ def create():
     colors = ["black", "red", "white", "blue", "green", "yellow", "purple", "teal", "orange"]
 
     def mousemove(event):
-        canvas.fillStyle = random.choice(colors)
-        canvas.fillRect(event.offsetX, event.offsetY, 50, 50)
+        canvas.fill_style = random.choice(colors)
+        canvas.fill_rect(event.offsetX, event.offsetY, 50, 50)
+
+        canvas.fill_style = random.choice(colors)
+        canvas.fill_circle(event.offsetX + 25, event.offsetY + 25, 25)
+
+        canvas.stroke_style = "black"
+        canvas.rect(event.offsetX + 8, event.offsetY + 8, 34, 34)
+        canvas.circle(event.offsetX + 25, event.offsetY + 25, 12)
 
     return (
         ltk.VBox(
-            ltk.Heading2("This is a Canvas. Move the mouse draw squares."),
+            ltk.Heading2("This is a Canvas. Move the mouse to draw."),
             canvas
                 .attr("id", "pink-canvas") \
                 .on("mousemove", ltk.proxy(mousemove)) \

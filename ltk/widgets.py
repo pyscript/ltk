@@ -1135,6 +1135,9 @@ class Canvas(Widget):
 
     def __init__(self, style=DEFAULT_CSS) -> None:
         self._context = None
+        self._font = None
+        self._fill_style = None
+        self._stroke_style = None
         Widget.__init__(self, style)
 
     def __getattr__(self, name):
@@ -1160,19 +1163,57 @@ class Canvas(Widget):
             self._context = self.element[0].getContext("2d")
         return self._context
 
-    def rects(self, rects):
-        return window.canvasRects(self.context, json.dumps(list(rects)))
+    @property
+    def stroke_style(self):
+        return self._stroke_style
+            
+    @stroke_style.setter
+    def stroke_style(self, value):
+        if self._stroke_style != value:
+            self._stroke_style = value
+            self.context.strokeStyle = value
+    
+    @property
+    def fill_style(self):
+        return self._fill_style
+            
+    @fill_style.setter
+    def fill_style(self, value):
+        if self._fill_style != value:
+            self._fill_style = value
+            self.context.fillStyle = value
+    
+    @property
+    def font(self):
+        return self._font
+            
+    @font.setter
+    def font(self, value):
+        if self._font != value:
+            self._font = value
+            self.context.font = value
+    
+    def line(self, x1, y1, x2, y2):
+        window.canvas.line(self.context, x1, y1, x2, y2)
 
-    def fill_rects(self, rects):
-        return window.canvasFillRects(self.context, json.dumps(list(rects)))
+    def text(self, x, y, text):
+        window.canvas.text(self.context, x, y, text)
 
-    def lines(self, lines, width, color):
-        return window.canvasDrawLines(self.context, width, color, json.dumps(list(lines)))
+    def fill_text(self, x, y, text):
+        self.context.fillText(x, y, text)
 
-    def texts(self, texts, font):
-        self.set_font(font)
-        return window.canvasDrawTexts(self.context, json.dumps(list(texts)))
-       
+    def rect(self, x, y, w, h):
+        window.canvas.rect(self.context, x, y, w, h)
+
+    def fill_rect(self, x, y, w, h):
+        self.context.fillRect(x, y, w, h)
+
+    def circle(self, x, y, radius):
+        window.canvas.circle(self.context, x, y, radius)
+
+    def fill_circle(self, x, y, radius):
+        window.canvas.fillCircle(self.context, x, y, radius)
+
 
 def _close_all_menus(event=None):
     if event and jQuery(event.target).hasClass("ltk-menulabel"):
