@@ -1157,7 +1157,6 @@ class Canvas(Widget):
     @property
     def context(self):
         if self._context == None:
-            window.console.log("Create context", self.element, self.element[0])
             self._context = self.element[0].getContext("2d")
         return self._context
 
