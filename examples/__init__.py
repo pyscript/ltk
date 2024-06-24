@@ -3,14 +3,13 @@
 from examples import app
 from examples import canvas
 from examples import custom
-from examples import documentation
+from examples import editor
 from examples import dom
 from examples import inputs
 from examples import pitch
 from examples import pizza
 from examples import splits
 from examples import pubsub
-from examples import pydata
 from examples import styling
 from examples import svg
 from examples import table
@@ -26,7 +25,7 @@ items = [
     ("examples/custom.py", custom.create()),
     ("examples/app.py", app.create()),
     ("examples/pubsub.py", pubsub.create()),
-    ("examples/documentation.py", documentation.create()),
+    ("examples/editor.py", editor.create()),
     ("examples/pitch.py", pitch.create()),
     ("examples/svg.py", svg.create()),
     ("examples/canvas.py", canvas.create()),

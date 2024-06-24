@@ -732,6 +732,7 @@ class SplitPane(Div):
         )
         self.addClass(f"ltk-split-pane")
         self.restore()
+        self.layout()
         self.on("layout", proxy(lambda *args: self.layout()))
         schedule(self.layout, f"layout-{self.key}")
         window.addEventListener("resize", proxy(lambda *args: self.layout()))
