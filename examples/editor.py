@@ -29,7 +29,6 @@ def create():
     editor = Editor(source)
 
     def show_output():
-        print(editor.text())
         eval(editor.text()).appendTo(
             ltk.find("#editor-output")
                 .empty()
