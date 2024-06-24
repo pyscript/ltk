@@ -4,23 +4,24 @@ import ltk
 
 source = """
 ltk.VBox(
-    # edit this text and see what happens
-
     ltk.HBox(
-        ltk.Span("Edit the text").css("margin", 12),
-        ltk.Span("In the editor below"),
+        ltk.Span("Edit the text in"),
+        ltk.Span("the editor below")
+            .css("margin", 12),
     )
     .css("height", 40)
     .css("background", "lightblue")
     .css("border", "1px solid gray"),
 
     ltk.HBox(
-        ltk.Span("This UI will update live").css("margin", 12),
-        ltk.Span("With every character you type!").css("margin-top", 24),
+        ltk.Span("This UI will update live")
+            .css("margin", 12),
+        ltk.Span("With every character you type!")
+            .css("margin-top", 24),
     )
     .css("height", 80)
     .css("background", "lightyellow")
-    .css("border", "1px solid gray"),
+    .css("border", "2px solid red"),
 )
 """.strip()
 
