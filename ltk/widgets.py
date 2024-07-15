@@ -432,7 +432,7 @@ class Switch(HBox):
         id = f"edit-switch-{get_time()}"
         HBox.__init__(self, 
             Div(label).addClass("ltk-switch-label"),
-            Checkbox(True).attr("id", id).addClass("ltk-switch-checkbox").on("change", toggle_edit),
+            Checkbox(checked).attr("id", id).addClass("ltk-switch-checkbox").on("change", toggle_edit),
             Label("").attr("value", "edit:").attr("for", id).addClass("ltk-switch"),
         )
 
