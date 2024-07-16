@@ -1226,7 +1226,10 @@ jQuery(window.document.body).on("click", proxy(_close_all_menus))
 
 def _handle_shortcuts():
     def handle_keydown(event):
-        shortcut = f"{'Cmd+' if event.metaKey else ''}{event.key.upper() if event.key else ''}"
+        try:
+            shortcut = f"{'Cmd+' if event.metaKey else ''}{event.key.upper()}"
+        except:
+            shortcut = ""
         if shortcut in shortcuts:
             event.preventDefault()
             shortcuts[shortcut].select(event)
