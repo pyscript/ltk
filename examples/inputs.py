@@ -17,7 +17,6 @@ def create():
             .css("text-align", "left")
         logger.info(text)
 
-    @ltk.callback
     def choose_theme(index, option):
         theme = option.text()
         ltk.inject_css(f"https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/{theme}/jquery-ui.css")
