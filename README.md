@@ -5,7 +5,6 @@ For examples see:
 
  - The [LTK kitchensink](https://pyscript.github.io/ltk/) for a live demo of all the widgets.
  - Why use LTK? See the [pitch](https://pyscript.github.io/ltk/?tab=9), written with LTK, of course.
- - The [docs rendered using LTK](https://pyscript.github.io/ltk/?runtime=py&tab=8).
  - A personal website, [chrislaffra.com](https://chrislaffra.com), which uses a number of animations, svg, styling, and timers to render a visual resume.
  - An animated [Holiday card](https://laffra.pyscriptapps.com/merry-christmas/latest/) where PyScript logo tree ornaments are animated using Python code in the browser using LTK.
    
