@@ -1083,13 +1083,17 @@ class Step(Div):
 class Tutorial():
     tag = None
 
-    def __init__(self, steps):
+    def __init__(self, steps, initial_action=None, final_action=None):
         self.steps = steps
         self.index = 0
         self.current = None
         self.steps = steps
+        self.initial_action = initial_action
+        self.final_action = final_action
 
     def run(self):
+        if self.initial_action:
+            eval(self.initial_action)
         self.index = 0
         self.show()
         
@@ -1110,6 +1114,10 @@ class Tutorial():
         self.index += 1
         if self.index < len(self.steps):
             self.show()
+        if self.index == len(self.steps)-1:
+            self.show()
+            if self.final_action:
+                 eval(self.final_action)
 
     def event(self, index):
         if index == self.index:
