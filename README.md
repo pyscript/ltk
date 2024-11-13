@@ -1,5 +1,5 @@
 # ltk
-LTK is a little toolkit for writing UIs in PyScript. For an explanation of PyScript and LTK, see [YouTube](https://www.youtube.com/watch?v=5nseG-iU62g&list=PLGVZCDnMOq0qkbJjIfppGO44yhDV2i4gR&index=6).
+LTK is a little toolkit for writing web UIs in PyScript. For an explanation of PyScript and LTK, see [YouTube](https://www.youtube.com/watch?v=5nseG-iU62g&list=PLGVZCDnMOq0qkbJjIfppGO44yhDV2i4gR&index=6).
 
 For examples see:
 
