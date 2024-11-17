@@ -17,7 +17,6 @@ from examples import table
 from examples import tictactoe
 
 items = [
-    ("examples/mvc.py", mvc.create()),
     ("examples/styling.py", styling.create()),
     ("examples/dom.py", dom.create()),
     ("examples/inputs.py", inputs.create()),
@@ -32,4 +31,5 @@ items = [
     ("examples/canvas.py", canvas.create()),
     ("examples/pizza.py", pizza.create()),
     ("examples/splits.py", splits.create()),
+    ("examples/mvc.py", mvc.create()),
 ]
