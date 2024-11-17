@@ -3,9 +3,10 @@
 from examples import app
 from examples import canvas
 from examples import custom
-from examples import editor
 from examples import dom
+from examples import editor
 from examples import inputs
+from examples import mvc
 from examples import pitch
 from examples import pizza
 from examples import splits
@@ -14,9 +15,9 @@ from examples import styling
 from examples import svg
 from examples import table
 from examples import tictactoe
-from examples import tutorial
 
 items = [
+    ("examples/mvc.py", mvc.create()),
     ("examples/styling.py", styling.create()),
     ("examples/dom.py", dom.create()),
     ("examples/inputs.py", inputs.create()),
@@ -31,5 +32,4 @@ items = [
     ("examples/canvas.py", canvas.create()),
     ("examples/pizza.py", pizza.create()),
     ("examples/splits.py", splits.create()),
-    ("examples/tutorial.py", tutorial.create()),
 ]

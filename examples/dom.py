@@ -11,10 +11,9 @@ def create():
         return color
 
     def new_text():
-        return ltk.Text(f"Text created at {ltk.get_time()}s", {
-            "color": "white",
-            "background-color": get_color(),
-        })
+        return ltk.Text(f"Text created at {ltk.get_time()}s") \
+            .css("color", "white") \
+            .css("background-color", get_color())
 
     def append(event):
         # the base class for LTK Widgets sends all methods it does not
@@ -22,24 +21,24 @@ def create():
         # call below. As jQuery does not know anything about LTK, it expects 
         # a list of other jQuery elements to be passed to it. Therefore, we 
         # append the widget's element, not the widget itself.
-        ltk.find("#dom-texts").append(new_text().element)
+        ltk.find("#dom-texts").append(new_text())
 
     def append_to(event):
         new_text().appendTo(ltk.find("#dom-texts"))
 
     def prepend(event):
-        ltk.find("#dom-texts").prepend(new_text().element)
+        ltk.find("#dom-texts").prepend(new_text())
 
     def after(event):
-        ltk.find("#dom-texts .ltk-text").eq(0).after(new_text().element)
+        ltk.find("#dom-texts .ltk-text").eq(0).after(new_text())
 
     def before(event):
-        ltk.find("#dom-texts .ltk-text").eq(1).before(new_text().element)
+        ltk.find("#dom-texts .ltk-text").eq(1).before(new_text())
 
     def append_two(event):
         ltk.find("#dom-texts").append(
-            new_text().element,
-            new_text().element,
+            new_text(),
+            new_text(),
         )
 
     def append_html(event):

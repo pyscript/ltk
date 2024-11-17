@@ -31,5 +31,3 @@ function startTime() {
 
 setupRuntime()
 setupToggle()
-
-pyodide.setDebug(true)

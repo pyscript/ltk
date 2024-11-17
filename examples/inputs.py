@@ -35,18 +35,18 @@ def create():
 
     @ltk.callback
     def change(event):
-        element = ltk.jQuery(event.target)
+        element = ltk.find(event.target)
         kind = element.prop("type")
         feedback(f"Changed {kind}: {element.val()}")
 
     @ltk.callback
     def switched(event):
-        element = ltk.jQuery(event.target)
+        element = ltk.find(event.target)
         feedback(f"Changed switch: {element.prop('checked')}")
 
     @ltk.callback
     def set_runtime(event):
-        chosen = ltk.jQuery(event.target).attr("value")
+        chosen = ltk.find(event.target).attr("value")
         if chosen != runtime:
             window.setSearchParameter("runtime", chosen)
 

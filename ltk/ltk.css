@@ -159,6 +159,7 @@
     padding: 0;
     height: 24px;
     margin-left: 4px;
+    text-align: center;
 }
 
 .ltk-menuitem-label {
@@ -462,11 +463,6 @@
     position: absolute;
     top: -7px;
     right: -7px;
-    visibility: hidden;
-}
-
-.ltk-step:hover .ltk-step-buttons {
-    visibility: visible;
 }
 
 .ltk-step-buttons .ltk-text {

@@ -14,8 +14,8 @@ def create():
     @ltk.callback
     def enter(event):
         ltk.find(".tictactoe-inside").removeClass("tictactoe-inside")
-        if not ltk.jQuery(event.target).text():
-            ltk.jQuery(event.target).addClass("tictactoe-inside")
+        if not ltk.find(event.target).text():
+            ltk.find(event.target).addClass("tictactoe-inside")
 
     return (
         ltk.VBox(

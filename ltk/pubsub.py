@@ -1,9 +1,6 @@
 
 # LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
-import json
-import logging
-
 """
 Implements a publish-subscribe facility.
 
@@ -16,6 +13,9 @@ This allows its use in Workers, which may not want to include any UIs.
 
 See https://github.com/pyscript/polyscript/tree/main/docs#xworker
 """
+
+import json
+import logging
 
 __all__ = [
     "TOPIC_CRITICAL", "TOPIC_INFO", "TOPIC_DEBUG", "TOPIC_ERROR", "TOPIC_WARNING", "TOPIC_CRITICAL",
