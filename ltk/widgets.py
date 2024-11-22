@@ -49,6 +49,7 @@ class Widget(object):
                 .append(*self._flatten(args))
         )
         self._handle_css(args)
+        args = self._flatten(args)
 
     def _handle_css(self, args):
         """Apply CSS styles passed in the args to the widget.
@@ -364,7 +365,7 @@ class Widget(object):
         try:
             return getattr(self.element, name)
         except Exception as e:
-            raise AttributeError(f"ltk.{self.__class__.__name__} does not have attribute {name}") from e
+            raise AttributeError(f"Widget {self.__class__.__name__} does not have attribute {name}") from e
 
     def toJSON(self, *args): # pylint: disable=invalid-name
         """ Return a JSON representation of the widget """
@@ -737,7 +738,8 @@ class Link(Text):
     tag = "a"
 
     def __init__(self, href, *items):
-        Text.__init__(self, *items)
+        Text.__init__(self)
+        self.append(*items)
         self.attr("href", href)
         self.attr("target", "_blank")
 
@@ -941,13 +943,13 @@ class TableRow(Widget):
     tag = "tr"
 
 
-class TableHeader(Text):
+class TableHeader(Widget):
     """ Wraps an HTML element of type <th> """
     classes = [ "ltk-th" ]
     tag = "th"
 
 
-class TableData(Text):
+class TableData(Widget):
     """ Wraps an HTML element of type <td> """
     classes = [ "ltk-td" ]
     tag = "td"
@@ -1218,6 +1220,7 @@ class Select(Widget):
 
     def __init__(self, options, selected, handler=None, style=None):
         Widget.__init__(self, [Option(text) for text in options], style)
+        assert isinstance(options, list), f"Select: Expected options to be a list, not {type(options)}"
         self.options = options
         self.handler = handler
         self.set_value(selected)
@@ -1393,7 +1396,7 @@ class Canvas(Widget):
             try:
                 return getattr(self.context, name)
             except: # pylint: disable=bare-except
-                error = f"LTK widget {self} does not have attribute {name}"
+                error = f"Widget {self} does not have attribute {name}"
                 raise AttributeError(error) # pylint: disable=raise-missing-from
 
     def __setattr__(self, name, value):
