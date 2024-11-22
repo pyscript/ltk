@@ -20,7 +20,7 @@ items = [
     ("examples/styling.py", styling.create()),
     ("examples/dom.py", dom.create()),
     ("examples/inputs.py", inputs.create()),
-    ("examples/tictactoe.py", tictactoe.create()),
+    ("examples/mvc.py", mvc.create()),
     ("examples/table.py", table.create()),
     ("examples/custom.py", custom.create()),
     ("examples/app.py", app.create()),
@@ -31,5 +31,5 @@ items = [
     ("examples/canvas.py", canvas.create()),
     ("examples/pizza.py", pizza.create()),
     ("examples/splits.py", splits.create()),
-    ("examples/mvc.py", mvc.create()),
+    ("examples/tictactoe.py", tictactoe.create()),
 ]

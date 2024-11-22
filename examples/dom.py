@@ -1,4 +1,4 @@
-# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2024 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
 
@@ -96,16 +96,15 @@ def create():
     return (
         ltk.VBox(
             ltk.Heading1("Dynamic DOM Operations"),
-            ltk.Text("We're using the following jQuery APIs: ",
-                ltk.Link("https://api.jquery.com/append", "append"),
-                ltk.Link("https://api.jquery.com/appendTo", "appendTo"),
-                ltk.Link("https://api.jquery.com/prepend", "prepend"),
-                ltk.Link("https://api.jquery.com/eq", "eq"),
-                ltk.Link("https://api.jquery.com/after", "after"),
-                ltk.Link("https://api.jquery.com/before", "before"),
-                ltk.Link("https://api.jquery.com/css", "css"),
-                ltk.Link("https://api.jquery.com/remove", "remove."),
-            ),
+            ltk.Text("We're using the following jQuery APIs: "),
+            ltk.Link("https://api.jquery.com/append", "append"),
+            ltk.Link("https://api.jquery.com/appendTo", "appendTo"),
+            ltk.Link("https://api.jquery.com/prepend", "prepend"),
+            ltk.Link("https://api.jquery.com/eq", "eq"),
+            ltk.Link("https://api.jquery.com/after", "after"),
+            ltk.Link("https://api.jquery.com/before", "before"),
+            ltk.Link("https://api.jquery.com/css", "css"),
+            ltk.Link("https://api.jquery.com/remove", "remove."),
             ltk.Container(
                 ltk.Button("Append", append),
                 ltk.Button("AppendTo", append_to),

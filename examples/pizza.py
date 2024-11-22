@@ -1,6 +1,11 @@
-# LTK - Copyright 2023 - All Rights Reserved - chrislaffra.com - See LICENSE 
+# LTK - Copyright 2024 - All Rights Reserved - chrislaffra.com - See LICENSE 
 
 import ltk
+
+class Order(ltk.Model):
+    pizza_type: str = "Cheese"
+    specialties: str = "None"
+    toppings: str = "None"
 
 def create():
 
