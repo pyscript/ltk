@@ -676,7 +676,7 @@ class Switch(HBox):
             self.element.prop("checked", checked)
 
         self.checkbox = Checkbox(checked)
-        element_id = f"edit-switch-{get_time()}"
+        element_id = f"edit-switch-{id(self)}"
         HBox.__init__(self,
             Div(label)
                 .addClass("ltk-switch-label"),
