@@ -460,7 +460,7 @@ class Model():
     def encode(self):
         """ Encode the model as JSON """
         return json.dumps({
-            name: value.get()
+            name: value.get_value()
             for name, value in self.__dict__.items()
             if isinstance(value, ModelAttribute)
         })
