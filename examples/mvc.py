@@ -24,8 +24,7 @@ class Product(ltk.Model):
             - Delivery: {DELIVERY_OPTIONS[self.delivery]}
         """
 
-product = Product()
-product.count = 60
+product = Product(count=60)
 
 def create():
     form = ltk.VBox(

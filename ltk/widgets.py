@@ -436,7 +436,7 @@ class Model():
         for name, value in kwargs.items():
             if not name in fields:
                 raise ValueError(f"Argument '{name}' not found in {fields} for {self.__class__.__name__}")
-            object.__setattr__(self, name, value)
+            getattr(self, name).set_value(value)
 
     def __setattr__(self, name: str, value):
         if hasattr(self, name) and isinstance(getattr(self, name), ModelAttribute):
