@@ -423,12 +423,20 @@ class Text(Widget):
 class Model():
     """ A model that can be bound to a widget """
 
-    def __init__(self):
-        for name, value in self.__class__.__dict__.items():
-            if not name.startswith("__") and not callable(value):
-                object.__setattr__(self, name,
-                    ModelAttribute(self, name, getattr(self.__class__, name))
-                )
+    def __init__(self, **kwargs):
+        fields = [
+            name
+            for name,value in self.__class__.__dict__.items()
+            if not name.startswith("__") and not callable(value)
+        ]
+        for name in fields:
+            object.__setattr__(self, name,
+                ModelAttribute(self, name, getattr(self.__class__, name))
+            )
+        for name, value in kwargs.items():
+            if not name in fields:
+                raise ValueError(f"Argument '{name}' not found in {fields} for {self.__class__.__name__}")
+            object.__setattr__(self, name, value)
 
     def __setattr__(self, name: str, value):
         if hasattr(self, name) and isinstance(getattr(self, name), ModelAttribute):
@@ -460,22 +468,29 @@ class Model():
     def changed(self, name, value):
         """ Called when an attribute of the model has changed """
 
+    def __repr__(self):
+        fields = ', '.join(
+            f'{name}={repr(value)}'
+            for name, value in self.__dict__.items()
+            if not name.startswith("_") and not callable(value)
+        )
+        return f"{self.__class__.__name__}({fields})"
 
 class LocalStorageModel(Model):
     """ A model that is stored in the browser's local storage """
 
     __store = window.localStorage
 
-    def __init__(self, key=None):
+    def __init__(self, _key=None, **kwargs):
         Model.__init__(self)
-        key = key or f"{self.__class__.__name__}-{get_time()}"
-        self.decode(self.__store.getItem(key))
-        self.key = key
+        _key = _key or f"{self.__class__.__name__}-{get_time()}"
+        self.decode(self.__store.getItem(_key))
+        self._key = _key
 
     def changed(self, name, value):
         """ Called when an attribute of the model has changed """
-        if hasattr(self, "key"):
-            self.__store.setItem(self.key, self.encode())
+        if hasattr(self, "_key"):
+            self.__store.setItem(self._key, self.encode())
 
     @classmethod
     def load(cls):
