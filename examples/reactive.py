@@ -67,19 +67,19 @@ def create():
     )
     return (
         ltk.VBox(
-            ltk.Heading2("LTK Model-View Demo"),
+            ltk.Heading2("Reactive LTK Demo"),
             form
                 .css("border", "2px solid green")
                 .css("padding", 12)
                 .css("font-size", 24)
-                .attr("name", "MVC"),
+                .attr("name", "Reactive"),
             ltk.Button("Buy Hammers", order_hammers)
                 .css("margin-top", 24)
                 .css("border-radius", 8)
             .css("padding", 12)
         )
-        .attr("id", "mvc")
-        .attr("name", "MVC")
+        .attr("id", "reactive")
+        .attr("name", "Reactive")
     )
 
 def order_hammers(event):

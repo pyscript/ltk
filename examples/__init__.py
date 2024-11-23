@@ -6,7 +6,7 @@ from examples import custom
 from examples import dom
 from examples import editor
 from examples import inputs
-from examples import mvc
+from examples import reactive
 from examples import pitch
 from examples import pizza
 from examples import splits
@@ -20,7 +20,7 @@ items = [
     ("examples/styling.py", styling.create()),
     ("examples/dom.py", dom.create()),
     ("examples/inputs.py", inputs.create()),
-    ("examples/mvc.py", mvc.create()),
+    ("examples/reactive.py", reactive.create()),
     ("examples/table.py", table.create()),
     ("examples/custom.py", custom.create()),
     ("examples/app.py", app.create()),
