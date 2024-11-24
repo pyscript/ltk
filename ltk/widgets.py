@@ -95,7 +95,7 @@ class Widget(object):
         if self.DEBUG:
             print(self.__class__.__name__, *args)
 
-    def _bind(self, attribute):
+    def bind(self, attribute):
         """ Establish a binding between this Widget and a model """
         def set_model_value(_=None):
             attribute.set_value(self.get_value())
@@ -104,13 +104,14 @@ class Widget(object):
             self.set_value(attribute.get_value())
 
         set_widget_value()
+        self.addClass(f"ltk-model-{attribute.model.__class__.__name__.lower()}-{attribute.name}")
         attribute.listeners.append(set_widget_value)
         self.on("change", proxy(lambda event: schedule(set_model_value, f"set model {self}")))
 
     def set_value(self, value):
         """ Set the value of the widget. """
         if isinstance(value, ModelAttribute):
-            self._bind(value)
+            self.bind(value)
         else:
             self._set_value(value)
 
