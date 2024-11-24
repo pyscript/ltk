@@ -222,7 +222,7 @@ def post(url, payload, handler, kind="json", headers=None):
     The handler function is called with the response data.
     """
     start = get_time()
-    payload = window.encodeURIComponent(dumps(payload))
+    payload = dumps(payload) if isinstance(payload, str) and kind == "json" else payload
     @callback
     def success(response, *rest): # pylint: disable=unused-argument
         data = response if isinstance(response, str) else to_py(response)
