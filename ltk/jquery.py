@@ -222,22 +222,28 @@ def post(url, payload, handler, kind="json", headers=None):
     The handler function is called with the response data.
     """
     start = get_time()
-    payload = dumps(payload) if isinstance(payload, str) and kind == "json" else payload
+    if kind == "json" and isinstance(payload, dict):
+        payload = json.dumps(payload)
+    if isinstance(headers, dict):
+        headers = to_js(headers)
+
     @callback
-    def success(response, *rest): # pylint: disable=unused-argument
+    def post_success(response, *rest): # pylint: disable=unused-argument
         data = response if isinstance(response, str) else to_py(response)
         response_size = len(response) if data is response else len(dumps(data))
         size = f"{to_human(len(payload))}/{to_human(response_size)}"
         window.console.log("[Network] POST OK", f"{get_time() - start:.2f}", size, url)
         return handler(data)
+
     @callback
-    def error(request, text_status, error_thrown):
+    def post_error(request, text_status, error_thrown):
         window.console.error(
             "[Network] POST ERROR", f"{get_time() - start:.2f}",
             request.status, text_status, repr(error_thrown), url
         )
         return handler(f'{{"Error": "{error_thrown}"}}')
-    window.ltk_post(url, payload, success, kind, error, headers)
+
+    window.ltk_post(url, payload, post_success, kind, post_error, headers)
 
 
 def async_proxy(function):
