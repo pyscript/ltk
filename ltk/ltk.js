@@ -87,7 +87,7 @@
         if (headers) {
             $.ajax({ url, type: "POST", data, dataType, headers }).done(success).fail(error)
         } else {
-            $.post(url, payload, success, dataType).fail(error)
+            $.post(url, data, success, dataType).fail(error)
         }
     }
 
