@@ -177,7 +177,7 @@ def cancel(key):
         del timers[key]
 
 
-def get(url, handler, kind="json"):
+def get(url, handler, kind="json", headers=None):
     """
     Performs an asynchronous GET request to the given URL.
     The handler function is called with the response data.
@@ -196,7 +196,7 @@ def get(url, handler, kind="json"):
             request.status, repr(text_status), url
         )
         return handler(f'{{"Network error for {url}": "{text_status}"}}')
-    window.ltk_get(url, success, kind, error)
+    window.ltk_get(url, success, kind, error, headers)
 
 
 def delete(url, handler):
@@ -216,7 +216,7 @@ def delete(url, handler):
     return window.ltk_delete(url, success, error)
 
 
-def post(url, payload, handler, kind="json"):
+def post(url, payload, handler, kind="json", headers=None):
     """
     Performs an asynchronous POST request to the given URL, passing the given payload.
     The handler function is called with the response data.
@@ -237,7 +237,7 @@ def post(url, payload, handler, kind="json"):
             request.status, text_status, repr(error_thrown), url
         )
         return handler(f'{{"Error": "{error_thrown}"}}')
-    window.ltk_post(url, payload, success, kind, error)
+    window.ltk_post(url, payload, success, kind, error, headers)
 
 
 def async_proxy(function):

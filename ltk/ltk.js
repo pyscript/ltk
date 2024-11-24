@@ -75,12 +75,20 @@
         tableCell(table, column, row).text(value)
     }
 
-    window.ltk_get = (url, success, kind, error) => {
-        $.get(url, success, kind).fail(error)
+    window.ltk_get = (url, success, dataType, error, headers) => {
+        if (headers) {
+            $.ajax({ url, dataType, headers }).done(success).fail(error)
+        } else {
+            $.get(url, success, dataType).fail(error)
+        }
     }
 
-    window.ltk_post = (url, payload, success, kind, error) => {
-        $.post(url, payload, success, kind).fail(error)
+    window.ltk_post = (url, data, success, dataType, error, headers) => {
+        if (headers) {
+            $.ajax({ url, type: "POST", data, dataType, headers }).done(success).fail(error)
+        } else {
+            $.post(url, payload, success, dataType).fail(error)
+        }
     }
 
     window.ltk_delete = (url, success, error) => {
