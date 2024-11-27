@@ -582,6 +582,15 @@ class ModelAttribute():
     def __trunc__(self):            return math.trunc(self.value)       # pylint: disable=multiple-statements
     def __floor__(self):            return math.floor(self.value)       # pylint: disable=multiple-statements
     def __ceil__(self):             return math.ceil(self.value)        # pylint: disable=multiple-statements
+    
+    def __eq__(self, value):        return self.value == value          # pylint: disable=multiple-statements
+    def __ne__(self, value):        return self.value != value          # pylint: disable=multiple-statements
+    def __hash__(self):             return hash(self.value)             # pylint: disable=multiple-statements
+
+    def __lt__(self, value):        return self.value < value           # pylint: disable=multiple-statements
+    def __gt__(self, value):        return self.value > value           # pylint: disable=multiple-statements
+    def __le__(self, value):        return self.value <= value          # pylint: disable=multiple-statements
+    def __ge__(self, value):        return self.value >= value          # pylint: disable=multiple-statements
 
     def __repr__(self):
         return f'"{self.value}"' if isinstance(self.value, str) else repr(self.value)
