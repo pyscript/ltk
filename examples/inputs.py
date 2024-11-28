@@ -40,6 +40,10 @@ def create():
         feedback(f"Changed {kind}: {element.val()}")
 
     @ltk.callback
+    def loaded_file(file, content):
+        feedback(f"{file.name}: {content[:20]}...")
+
+    @ltk.callback
     def switched(event):
         element = ltk.find(event.target)
         feedback(f"Changed switch: {element.prop('checked')}")
@@ -105,7 +109,7 @@ def create():
             ltk.Button("Open Popup", open_popup).attr("id", "popup"),
         ),
         ltk.Switch("Python is great:", True).on("change", switched),
-        ltk.File().on("change", change),
+        ltk.File(loaded_file),
         ltk.ColorPicker().on("change", change),
         ltk.DatePicker().on("change", change),
         ltk.Input("This is an input. Change me!", {

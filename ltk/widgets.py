@@ -889,9 +889,19 @@ class File(Widget):
     classes = [ "ltk-file" ]
     tag = "input"
 
-    def __init__(self, style=None):
+    def __init__(self, handler=None, kind="Text", style=None):
         Widget.__init__(self, style or DEFAULT_CSS)
         self.element.attr("type", "file")
+        self.handler = handler
+        self.kind = kind
+        self.on("change", proxy(lambda event: self.get_file(event.target.files.item(0))))
+
+    def get_file(self, file):
+        """ Get the value of the file """
+        # see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+        reader = window.FileReader.new()
+        reader.onload = proxy(lambda event: self.handler(file, event.target.result))
+        getattr(reader, f"readAs{self.kind}")(file)
 
 
 class DatePicker(Widget):
