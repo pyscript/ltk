@@ -41,7 +41,8 @@ def create():
 
     @ltk.callback
     def loaded_file(file, content):
-        feedback(f"{file.name}: {content[:20]}...")
+        feedback(f"Loaded '{file.name}': {file.size:,} bytes.")
+        ltk.File.download(file.name, content)
 
     @ltk.callback
     def switched(event):
@@ -73,6 +74,10 @@ def create():
         ).show(ltk.find("#popup"))
 
     widgets = [
+        ltk.HBox(
+            ltk.Text("Load a file:").css("margin-right", 8),
+            ltk.File(loaded_file),
+        ),
         ltk.VBox(
             ltk.Text("Choose your favorite theme:"),
             ltk.Select(themes, 0, choose_theme),
@@ -109,7 +114,6 @@ def create():
             ltk.Button("Open Popup", open_popup).attr("id", "popup"),
         ),
         ltk.Switch("Python is great:", True).on("change", switched),
-        ltk.File(loaded_file),
         ltk.ColorPicker().on("change", change),
         ltk.DatePicker().on("change", change),
         ltk.Input("This is an input. Change me!", {

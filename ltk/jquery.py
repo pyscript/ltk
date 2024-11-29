@@ -139,6 +139,20 @@ def to_py(jsobj):
             return str(jsobj)
 
 
+class object_url(): # pylint: disable=invalid-name
+    """
+    Create a temporary Object URL for the given content.
+    """
+    def __init__(self, content, content_type="text/plain"):
+        self.url = window.URL.createObjectURL(window.Blob.new([content]), content_type)
+
+    def __enter__(self):
+        return self.url
+
+    def __exit__(self, *args):
+        window.URL.revokeObjectURL(self.url)
+
+
 def schedule(python_function, key, timeout_seconds=0):
     """
     Schedules the given Python function to run after the given timeout.

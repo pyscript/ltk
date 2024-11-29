@@ -8,10 +8,12 @@ import json
 import logging
 import math
 
+from ltk.jquery import callback
 from ltk.jquery import find
 from ltk.jquery import get_time
 from ltk.jquery import inject_css
 from ltk.jquery import inject_script
+from ltk.jquery import object_url
 from ltk.jquery import proxy
 from ltk.jquery import schedule
 from ltk.jquery import to_js
@@ -889,19 +891,30 @@ class File(Widget):
     classes = [ "ltk-file" ]
     tag = "input"
 
-    def __init__(self, handler=None, kind="Text", style=None):
+    def __init__(self, handler=None, style=None):
         Widget.__init__(self, style or DEFAULT_CSS)
         self.element.attr("type", "file")
-        self.handler = handler
-        self.kind = kind
-        self.on("change", proxy(lambda event: self.get_file(event.target.files.item(0))))
 
-    def get_file(self, file):
-        """ Get the value of the file """
-        # see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
-        reader = window.FileReader.new()
-        reader.onload = proxy(lambda event: self.handler(file, event.target.result))
-        getattr(reader, f"readAs{self.kind}")(file)
+        @callback
+        def _handle_content(event):
+            # see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+            file = event.target.files.item(0)
+            reader = window.FileReader.new()
+            reader.onload = proxy(lambda event: handler(file, event.target.result))
+            if file.type == "text/plain":
+                reader.readAsText(file)
+            else:
+                reader.readAsArrayBuffer(file)
+
+        self.on("change", _handle_content)
+
+    @classmethod
+    def download(cls, filename, content, content_type="text/plain"):
+        """
+        Downloads a file from the client's browser.
+        """
+        with object_url(content, content_type) as url:
+            Link(url).attr("download", filename)[0].click()
 
 
 class DatePicker(Widget):
