@@ -901,6 +901,8 @@ class File(Widget):
 
         @callback
         def _handle_content(event):
+            if not handler:
+                return
             # see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
             file = event.target.files.item(0)
             reader = window.FileReader.new()
