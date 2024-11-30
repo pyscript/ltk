@@ -6,7 +6,7 @@ from pyscript import window # type: ignore
 
 search = window.URLSearchParams.new(window.location.search)
 runtime = search.get("runtime") or "mpy"
-
+jQuery = window.jQuery
 logger = logging.getLogger()
 
 
@@ -75,7 +75,7 @@ def create():
 
     widgets = [
         ltk.HBox(
-            ltk.Text("Load a file:").css("margin-right", 8),
+            ltk.Div("Load a file:").css("margin-right", 8),
             ltk.File(loaded_file),
         ),
         ltk.VBox(

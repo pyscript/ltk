@@ -86,7 +86,7 @@ class Widget(object):
                 result.extend(self._flatten(child))
             elif isinstance(child, list):
                 result.extend(self._flatten(child))
-            elif isinstance(child, float):
+            elif isinstance(child, (int, float, bool)):
                 result.append(str(child))
             else:
                 result.append(child)
