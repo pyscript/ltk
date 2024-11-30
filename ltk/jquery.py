@@ -18,7 +18,7 @@ __all__ = [
     "parse_int", "parse_float", "local_storage", "find", "create", "find_list", "to_js",
     "to_py", "schedule", "repeat", "cancel", "get", "delete", "get_time", "post", "async_proxy",
     "observe", "proxy", "get_url_parameter", "set_url_parameter", "push_state", "inject_script",
-    "inject_css", "callback",
+    "inject_css", "callback", "jQuery",
 ]
 
 
@@ -41,6 +41,7 @@ parse_int = window.parseInt
 parse_float = window.parseFloat
 local_storage = window.localStorage
 timers = {}
+jQuery = window.jQuery
 
 
 def find(selector):

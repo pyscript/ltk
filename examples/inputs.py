@@ -6,7 +6,6 @@ from pyscript import window # type: ignore
 
 search = window.URLSearchParams.new(window.location.search)
 runtime = search.get("runtime") or "mpy"
-jQuery = window.jQuery
 logger = logging.getLogger()
 
 
