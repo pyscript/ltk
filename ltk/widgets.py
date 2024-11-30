@@ -119,7 +119,7 @@ class Widget(object):
 
     def _set_value(self, value):
         """ To be overridden by subclasses. """
-        self.element.text(value)
+        self.element.html(value)
 
     def get_value(self):
         """ Get the value of the widget. """
@@ -127,7 +127,7 @@ class Widget(object):
     
     def _get_value(self):
         """ To be overridden by subclasses. """
-        return self.element.text()
+        return self.element.html()
 
     def css(self, prop, value=None):
         """
@@ -417,10 +417,10 @@ class Text(Widget):
         self.set_value(value)
 
     def _get_value(self):
-        return self.element.text()
+        return self.element.html()
 
     def _set_value(self, value):
-        return self.element.text(value)
+        return self.element.html(value)
 
 
 class Model():
@@ -730,14 +730,14 @@ class Label(Widget):
         self.set_value(label)
 
     def _get_value(self):
-        return self.element.text()
+        return self.element.html()
 
     def _set_value(self, value):
         if self.input_widget:
             element = self.input_widget.element if isinstance(self.input_widget, Widget) else self.input_widget
             self.element.empty().append(element, value)
         else:
-            self.element.text(value)
+            self.element.html(value)
 
 
 class Button(Widget):
@@ -755,7 +755,7 @@ class Button(Widget):
             style:dict [optional] CSS values to set on the element
         """
         Widget.__init__(self, style or DEFAULT_CSS)
-        self.element.text(label)
+        self.element.html(label)
         self.on("click", proxy(click))
 
 
@@ -1179,7 +1179,7 @@ class MenuLabel(Widget):
 
     def __init__(self, label, style=None):
         Widget.__init__(self, style or DEFAULT_CSS)
-        self.element.text(label)
+        self.element.html(label)
 
 
 class Menu(Widget):
@@ -1299,6 +1299,7 @@ class Select(Widget):
             self.set_selected_index(self.options.index(value))
         except ValueError as e:
             raise ValueError(f"Invalid value {value} for options {self.options}") from e
+
     def _get_value(self):
         return self.get_selected_index()
 

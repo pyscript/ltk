@@ -75,7 +75,7 @@ def create():
 
     widgets = [
         ltk.HBox(
-            ltk.Div("Load a file:").css("margin-right", 8),
+            ltk.Label("Load a file:").css("margin-right", 8),
             ltk.File(loaded_file),
         ),
         ltk.VBox(
