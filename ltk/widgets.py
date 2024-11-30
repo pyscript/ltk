@@ -494,6 +494,10 @@ class LocalStorageModel(Model):
         """ Called when an attribute of the model has changed """
         if hasattr(self, "_key"):
             self.__store.setItem(self._key, self.encode())
+    
+    def remove(self):
+        """ Remove the model from local storage """
+        self.__store.removeItem(self._key)
 
     @classmethod
     def load(cls):
