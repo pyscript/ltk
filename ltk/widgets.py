@@ -47,14 +47,8 @@ class Inspector(object):
         self.right = create("<div>").addClass("ltk-highlight-right").appendTo("body")
         self.details = create("<div>").addClass("ltk-highlight-details").appendTo("body")
 
-    def enabled(self):
-        """ Returns true if the highlight is enabled """
-        return hasattr(window, "createConsoleOverride")
-            
     def show(self, widget):
         """ Show the highlight """
-        if not self.enabled():
-            return
         top = widget.offset().top
         left = widget.offset().left
         width = widget.outerWidth()
