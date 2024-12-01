@@ -1,0 +1,3 @@
+import kitchensink
+
+kitchensink.load()

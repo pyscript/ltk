@@ -134,4 +134,7 @@
         return elementBottom > viewportTop && elementTop < viewportBottom;
     };
 
+    // change the following to your own development root location
+    window.development_location = "C:/Users/laffr/dev/ltk";
+
 })()

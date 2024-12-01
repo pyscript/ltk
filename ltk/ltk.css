@@ -13,6 +13,37 @@
     display: none;
 }
 
+.ltk-highlight-left, .ltk-highlight-right, .ltk-highlight-bottom, .ltk-highlight-top {
+    display: none;
+    position: absolute;
+    z-index: 100000000;
+    background-color: red;
+    width: 2px;
+    height: 2px;
+}
+
+.ltk-highlight-details {
+    display: none;
+    position: absolute;
+    z-index: 100000000;
+    background-color: red;
+    border: 1px solid white;
+    color: white;
+    padding: 0 8px;
+    height: fit-content;
+    width: fit-content;
+    min-height: 24px;
+}
+
+.ltk-highlight-details a {
+    color: white;
+}
+
+.ltk-highlight-details ul {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 .ltk-hbox {
     display: flex;
     flex-direction: row;

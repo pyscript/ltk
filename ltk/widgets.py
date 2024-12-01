@@ -7,8 +7,10 @@ LTK - Copyright 2024 - All Rights Reserved - chrislaffra.com - See LICENSE
 import json
 import logging
 import math
+import inspect
 
 from ltk.jquery import callback
+from ltk.jquery import create
 from ltk.jquery import find
 from ltk.jquery import get_time
 from ltk.jquery import inject_css
@@ -23,8 +25,96 @@ BROWSER_SHORTCUTS = [ "Cmd+N","Cmd+T","Cmd+W", "Cmd+Q" ]
 DEFAULT_CSS = {}
 shortcuts = {}
 timers = {}
+INSPECT_IGNORE_ATTRIBUTES = set([
+    "jquery",
+    "element",
+    "length",
+    "DEBUG",
+    "instances",
+    "INSPECT",
+    "highlighted",
+])
 
 logger = logging.getLogger("root")
+    
+class Inspector(object):
+    """ Highlights a widget """
+
+    def __init__(self):
+        self.top = create("<div>").addClass("ltk-highlight-top").appendTo("body")
+        self.left = create("<div>").addClass("ltk-highlight-left").appendTo("body")
+        self.bottom = create("<div>").addClass("ltk-highlight-bottom").appendTo("body")
+        self.right = create("<div>").addClass("ltk-highlight-right").appendTo("body")
+        self.details = create("<div>").addClass("ltk-highlight-details").appendTo("body")
+
+    def enabled(self):
+        """ Returns true if the highlight is enabled """
+        return hasattr(window, "createConsoleOverride")
+            
+    def show(self, widget):
+        """ Show the highlight """
+        if not self.enabled():
+            return
+        top = widget.offset().top
+        left = widget.offset().left
+        width = widget.outerWidth()
+        height = widget.outerHeight()
+        self.top.css("display", "block").css("top", top).css("left", left).width(width)
+        self.left.css("display", "block").css("left", left).css("top", top).height(height)
+        self.bottom.css("display", "block").css("top", top + height - 2).css("left", left) \
+            .width(width)
+        self.right.css("display", "block").css("left", left + width - 2).css("top", top) \
+            .height(height)
+        self.details.css("display", "block").css("left", left + width).css("top", top) \
+            .html(f"""
+                A widget of type {widget.__class__.__name__}<ul>
+                <li>{widget.__class__.__doc__.replace("<", "&lt;")}
+                {self.get_attrs(widget)}
+                <li>{self.get_creation_link(widget)}
+                <li>{widget.children().length} children
+            """)
+
+    def hide(self):
+        """ Hide the highlight """
+        self.top.css("display", "none")
+        self.left.css("display", "none")
+        self.bottom.css("display", "none")
+        self.right.css("display", "none")
+        self.details.css("display", "none")
+
+    def get_attrs(self, widget):
+        """ Show the attributes of a widget """
+        result = []
+        for name, value in widget.__dict__.items():
+            if name.startswith("_") or name in INSPECT_IGNORE_ATTRIBUTES:
+                continue
+            value = str(value)
+            if "<bound" in value or "<JsProxy" in value:
+                continue
+            result.append(f"{name} = {value}")
+        return ("<li>" if result else "") + "<li>".join(result)
+
+    def get_creation_link(self, widget):
+        """ Show where the widget was created """
+        caller = widget._caller # pylint: disable=protected-access
+        if caller is None:
+            return "Run with PyOdide to show where this widget was created"
+        home = window.development_location
+        filename = caller.f_code.co_filename.replace("/home/pyodide/", "")
+        lineno = caller.f_lineno
+        abspath = f"{home}/{filename}"
+        url = f"vscode://file:/{abspath}:{lineno}"
+        return f"<a href={url}>{filename}:{lineno}</a>"
+
+    @classmethod
+    def get_caller(cls):
+        """ Get the first caller that is not in widgets.py """
+        frame = inspect.currentframe()
+        while frame:
+            if not "ltk/widgets.py" in frame.f_code.co_filename:
+                return frame
+            frame = frame.f_back
+
 
 class Widget(object):
     """Base class for LTK widgets."""
@@ -34,6 +124,10 @@ class Widget(object):
     tag = "div"
 
     DEBUG = True
+    INSPECT = True
+
+    _inspector = Inspector() if INSPECT else None
+
 
     def __init__(self, *args):
         """
@@ -51,7 +145,17 @@ class Widget(object):
                 .append(*self._flatten(args))
         )
         self._handle_css(args)
-        args = self._flatten(args)
+        if Widget.INSPECT:
+            self.on("mousemove", proxy(lambda event: self._on_mousemove(event)))
+            self._caller = Inspector.get_caller()
+
+    def _on_mousemove(self, event):
+        """Handle mousemove event."""
+        if event.shiftKey and event.ctrlKey:
+            Widget._inspector.show(self)
+            event.stopPropagation()
+        else:
+            Widget._inspector.hide()
 
     def _handle_css(self, args):
         """Apply CSS styles passed in the args to the widget.

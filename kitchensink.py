@@ -59,4 +59,5 @@ ltk.find(window.document.body).append(
     .css("margin", "auto")
 )
 
-logger.info("Kitchensink Ready")
+def load():
+    logger.info("Kitchensink Ready")

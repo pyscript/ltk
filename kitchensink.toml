@@ -7,6 +7,7 @@ files = [
     "ltk/logger.py",
     "ltk/ltk.js",
     "ltk/ltk.css",
+    "kitchensink.py",
     "examples/__init__.py",
     "examples/app.py",
     "examples/canvas.py",
