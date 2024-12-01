@@ -18,25 +18,32 @@
     position: absolute;
     z-index: 100000000;
     background-color: red;
-    width: 2px;
-    height: 2px;
+    width: 3px;
+    height: 3px;
 }
 
 .ltk-highlight-details {
     display: none;
     position: absolute;
     z-index: 100000000;
-    background-color: red;
-    border: 1px solid white;
-    color: white;
+    background-color: pink;
+    border: 3px solid red;
+    color: black;
     padding: 0 8px;
     height: fit-content;
     width: fit-content;
     min-height: 24px;
 }
 
+.ltk-highlight-details tt {
+    color: black;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 0 4px;
+}
+
 .ltk-highlight-details a {
-    color: white;
+    color: rgb(76, 112, 255)
 }
 
 .ltk-highlight-details ul {

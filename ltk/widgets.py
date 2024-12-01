@@ -59,14 +59,17 @@ class Inspector(object):
             .width(width)
         self.right.css("display", "block").css("left", left + width - 2).css("top", top) \
             .height(height)
-        self.details.css("display", "block").css("left", left + width).css("top", top) \
+        self.details.css("display", "block") \
             .html(f"""
-                A widget of type {widget.__class__.__name__}<ul>
+                An LTK Python widget of class <tt>{widget.__class__.__name__}</tt><ul>
                 <li>{widget.__class__.__doc__.replace("<", "&lt;")}
                 {self.get_attrs(widget)}
                 <li>{self.get_creation_link(widget)}
                 <li>{widget.children().length} children
             """)
+        details_left = max(0, left - self.details.outerWidth() + 2) \
+             if left + width > find("body").width() * 3 / 4 else left + width - 2
+        self.details.css("left", details_left).css("top", top)
 
     def hide(self):
         """ Hide the highlight """
@@ -98,7 +101,7 @@ class Inspector(object):
         lineno = caller.f_lineno
         abspath = f"{home}/{filename}"
         url = f"vscode://file:/{abspath}:{lineno}"
-        return f"<a href={url}>{filename}:{lineno}</a>"
+        return f"Created at: <a href={url}>{filename}:{lineno}</a>"
 
     @classmethod
     def get_caller(cls):
