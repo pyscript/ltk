@@ -113,6 +113,10 @@ class Inspector(object):
             frame = frame.f_back
 
 
+widgets = {}
+window.getWidget = proxy(lambda element: widgets[element.attr("ltk_id")])
+
+
 class Widget(object):
     """Base class for LTK widgets."""
     classes = []
@@ -141,8 +145,9 @@ class Widget(object):
                 .addClass(" ".join(self.classes))
                 .append(*self._flatten(args))
         )
-        window.ltk_widgets[id(self)] = self
-        self.attr("ltk_id", id(self))
+        widgets[str(id(self))] = self
+        self.attr("ltk_id", str(id(self)))
+        window.console.log("add widget", self.element, self.attr("ltk_id"))
         self._handle_css(args)
         if Widget.INSPECT:
             self.on("mousemove", proxy(lambda event: self._on_mousemove(event)))

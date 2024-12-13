@@ -134,10 +134,12 @@
         return elementBottom > viewportTop && elementTop < viewportBottom;
     };
 
-    window.ltk_widgets = {};
+    window.getWidget = function(id) {
+        return undefined;
+    };
 
     $.fn.widget = function() {
-        return window.ltk_widgets[$(this).attr("ltk_id")];
+        return window.getWidget($(this))
     };
 
     // change the following to your own development root location
