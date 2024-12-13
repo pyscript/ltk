@@ -141,6 +141,8 @@ class Widget(object):
                 .addClass(" ".join(self.classes))
                 .append(*self._flatten(args))
         )
+        window.ltk_widgets[id(self)] = self
+        self.attr("ltk_id", id(self))
         self._handle_css(args)
         if Widget.INSPECT:
             self.on("mousemove", proxy(lambda event: self._on_mousemove(event)))

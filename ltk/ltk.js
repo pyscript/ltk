@@ -134,6 +134,12 @@
         return elementBottom > viewportTop && elementTop < viewportBottom;
     };
 
+    window.ltk_widgets = {};
+
+    $.fn.widget = function() {
+        return window.ltk_widgets[$(this).attr("ltk_id")];
+    };
+
     // change the following to your own development root location
     window.development_location = "C:/Users/laffr/dev/ltk";
 
