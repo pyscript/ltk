@@ -147,7 +147,6 @@ class Widget(object):
         )
         widgets[str(id(self))] = self
         self.attr("ltk_id", str(id(self)))
-        window.console.log("add widget", self.element, self.attr("ltk_id"))
         self._handle_css(args)
         if Widget.INSPECT:
             self.on("mousemove", proxy(lambda event: self._on_mousemove(event)))
