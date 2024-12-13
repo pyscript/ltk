@@ -1,12 +1,15 @@
 # ltk
 LTK is a little toolkit for writing web UIs in PyScript. For an explanation of PyScript and LTK, see [YouTube](https://www.youtube.com/watch?v=5nseG-iU62g&list=PLGVZCDnMOq0qkbJjIfppGO44yhDV2i4gR&index=6).
 
-For examples see:
+For examples, see:
 
  - The [LTK kitchensink](https://pyscript.github.io/ltk/) for a live demo of all the widgets.
- - Why use LTK? See the [pitch](https://pyscript.github.io/ltk/?tab=9), written with LTK, of course.
- - A personal website, [chrislaffra.com](https://chrislaffra.com), which uses a number of animations, svg, styling, and timers to render a visual resume.
+ - A [Todo App](https://github.com/laffra/todo) that showcase declarative UIs using Reactive LTK.
+ - A [Slides Player](https://github.com/laffra/slides) that downloads a Google Slides presentation and shows it with LTK.
+ - Why use LTK? See the [pitch](https://pyscript.github.io/ltk/?tab=9), written with LTK.
+ - A personal website, [chrislaffra.com](https://chrislaffra.com), that uses several animations, SVG, styling, and timers to render a visual resume.
  - An animated [Holiday card](https://laffra.pyscriptapps.com/merry-christmas/latest/) where PyScript logo tree ornaments are animated using Python code in the browser using LTK.
+ - [PySheets](https://pysheets.app), a spreadsheet written in Python, using LTK.
    
 LTK is implemented as a declarative Python library and leverages `jQuery` for DOM operations.
 
