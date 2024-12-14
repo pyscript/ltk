@@ -1467,6 +1467,7 @@ class Step(Div):
         self.appendTo(find("body"))
         self.css(to_js({
             "visibility": "visible",
+            "position": "absolute",
             "opacity": 1,
             "left": self.widget.offset().left + self.widget.outerWidth() + 100,
             "top": self.widget.offset().top,

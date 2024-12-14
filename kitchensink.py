@@ -61,3 +61,4 @@ ltk.find(window.document.body).append(
 
 def load():
     logger.info("Kitchensink Ready")
+

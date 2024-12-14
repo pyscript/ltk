@@ -124,6 +124,22 @@
         }
     };
 
+    window.addArrow = (from, to, label) => {
+        try {
+            const start = from[0];
+            const end = to[0];
+            if (start && end) {
+                return $(new LeaderLine(start, end, {
+                    dash: { },
+                    size: 3,
+                    middleLabel: LeaderLine.pathLabel(label || "")
+                })).appendTo($("body"));
+            }
+        } catch(e) {
+            // ignore
+        }
+    }
+
     $.fn.isInViewport = function() {
         const offset = $(this).offset();
         if (!offset) return true
