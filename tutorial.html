@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LTK on MicroPython</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.10.2/core.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.3/leader-line.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+</head>
+<body>
+    <py-config>
+        [files]
+        "ltk/jquery.py" = "ltk/jquery.py"
+        "ltk/widgets.py" = "ltk/widgets.py"
+        "ltk/pubsub.py" = "ltk/pubsub.py"
+        "ltk/__init__.py" = "ltk/__init__.py"
+        "ltk/logger.py" = "ltk/logger.py"
+        "ltk/ltk.js" = "ltk/ltk.js"
+        "ltk/ltk.css" = "ltk/ltk.css"
+    </py-config>
+
+    <script type="py">
+import ltk
+
+def show_tutorial():
+    print("show tutorial")
+    try:
+        ltk.Tutorial([
+            (
+                "#show-button",
+                "click",
+                ltk.Preformatted("This is an LTK Tutorial").css("font-size", "2em"),
+            )
+        ]).run()
+    except Exception as e:
+        print(e)
+    
+(
+    ltk.VBox(
+        ltk.Text("Tutorial Demo"),
+        ltk.Button("Show the tutorial", lambda event: show_tutorial())
+            .attr("id", "show-button")
+    )
+    .appendTo(ltk.window.document.body)
+)
+    </script>
+  
+</body>
+</html>

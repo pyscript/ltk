@@ -1450,13 +1450,10 @@ class Step(Div):
         Div.__init__(self, buttons, content)
         self.content = content
         self.widget = widget
-        self.draggable({
-            "drag": proxy(lambda *args: (
-                find(".leader-line").remove(),
-                schedule(self.show_arrow, "ltk-step-draw-arrow", 0.1)
-            )),
-        })
-
+        self.draggable()
+        self.draggable("option", "drag", proxy(lambda *args: (
+            schedule(self.show_arrow, "ltk-step-draw-arrow")
+        )))
         self.on("mouseenter", proxy(lambda event: self.show_arrow()))
 
     def show(self):
