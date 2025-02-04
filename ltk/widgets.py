@@ -645,6 +645,7 @@ class ModelAttribute():
         self.model.changed(self.name, self.value)
         for listener in self.listeners:
             listener(self)
+        return self.value
 
     def __int__(self): return int(self.value)         # pylint: disable=multiple-statements
     def __bool__(self): return bool(self.value)        # pylint: disable=multiple-statements
@@ -685,19 +686,19 @@ class ModelAttribute():
     def __rrshift__(self, value):    return value >> self.value      # pylint: disable=multiple-statements
     def __rlshift__(self, value):    return value << self.value      # pylint: disable=multiple-statements
 
-    def __iadd__(self, value):       self.value += value        # pylint: disable=multiple-statements
-    def __isub__(self, value):       self.value -= value        # pylint: disable=multiple-statements
-    def __imul__(self, value):       self.value *= value        # pylint: disable=multiple-statements
-    def __itruediv__(self, value):   self.value /= value        # pylint: disable=multiple-statements
-    def __imod__(self, value):       self.value %= value        # pylint: disable=multiple-statements
-    def __ifloordiv__(self, value):  self.value //= value       # pylint: disable=multiple-statements
-    def __ipow__(self, value):       self.value **= value       # pylint: disable=multiple-statements
-    def __imatmul__(self, value):    self.value @= value        # pylint: disable=multiple-statements
-    def __iand__(self, value):       self.value &= value        # pylint: disable=multiple-statements
-    def __ior__(self, value):        self.value |= value        # pylint: disable=multiple-statements
-    def __ixor__(self, value):       self.value ^= value        # pylint: disable=multiple-statements
-    def __irshift__(self, value):    self.value >>= value       # pylint: disable=multiple-statements
-    def __ilshift__(self, value):    self.value <<= value       # pylint: disable=multiple-statements
+    def __iadd__(self, value):       return self.set_value(self.value + value)        # pylint: disable=multiple-statements
+    def __isub__(self, value):       return self.set_value(self.value - value)        # pylint: disable=multiple-statements
+    def __imul__(self, value):       return self.set_value(self.value * value)        # pylint: disable=multiple-statements
+    def __itruediv__(self, value):   return self.set_value(self.value / value)        # pylint: disable=multiple-statements
+    def __imod__(self, value):       return self.set_value(self.value % value)        # pylint: disable=multiple-statements
+    def __ifloordiv__(self, value):  return self.set_value(self.value // value)       # pylint: disable=multiple-statements
+    def __ipow__(self, value):       return self.set_value(self.value ** value)       # pylint: disable=multiple-statements
+    def __imatmul__(self, value):    return self.set_value(self.value @ value)        # pylint: disable=multiple-statements
+    def __iand__(self, value):       return self.set_value(self.value & value)        # pylint: disable=multiple-statements
+    def __ior__(self, value):        return self.set_value(self.value | value)        # pylint: disable=multiple-statements
+    def __ixor__(self, value):       return self.set_value(self.value ^ value)        # pylint: disable=multiple-statements
+    def __irshift__(self, value):    return self.set_value(self.value >> value)       # pylint: disable=multiple-statements
+    def __ilshift__(self, value):    return self.set_value(self.value << value)       # pylint: disable=multiple-statements
 
     def __divmod__(self, value):    return divmod(self.value, value)    # pylint: disable=multiple-statements
     def __rdivmod__(self, value):   return divmod(value, self.value)    # pylint: disable=multiple-statements

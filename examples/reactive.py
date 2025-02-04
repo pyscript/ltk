@@ -27,6 +27,9 @@ class Product(ltk.Model):
 product1 = Product(name="Wrench", delivery=0)
 product2 = Product(name="Drill", count=6, price=500, service=False)
 
+def increment_count(event):
+    product1.count += 10
+
 def order_hammers(event):
     product2.name = "Hammer"
     product2.count = 10
@@ -36,7 +39,6 @@ def order_hammers(event):
     product2.service = False
 
 def create_form(name, product):
-    print("Create form for", product)
     return ltk.VBox(
         ltk.Label(name),
         row(
@@ -86,12 +88,16 @@ def create():
                 .css("padding", 12)
                 .css("margin-bottom", 12)
                 .css("font-size", 24),
-            create_form("Product 1", product2)
+            create_form("Product 2", product2)
                 .css("border", "2px solid green")
                 .css("padding", 12)
                 .css("font-size", 24)
                 .attr("name", "Reactive"),
             ltk.Button("Set Product 2 to Hammer", order_hammers)
+                .css("margin-top", 24)
+                .css("border-radius", 8)
+                .css("padding", 12),
+            ltk.Button("Increment Product 1 count", increment_count)
                 .css("margin-top", 24)
                 .css("border-radius", 8)
                 .css("padding", 12),
