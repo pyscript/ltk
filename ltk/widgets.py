@@ -549,15 +549,24 @@ class Model():
             getattr(self, name).set_value(value)
 
     def __setattr__(self, name: str, value):
-        if hasattr(self, name) and isinstance(getattr(self, name), ModelAttribute):
-            attribute = getattr(self, name)
-            attribute.set_value(value)
+        try:
+            if hasattr(self, name) and isinstance(getattr(self, name), ModelAttribute):
+                attribute = getattr(self, name)
+                attribute.set_value(value)
+                try:
+                    self.changed(name, value)
+                except Exception as e: #  pylint: disable=broad-except
+                    print(e)
+            else:
+                object.__setattr__(self, name, value)
+        except Exception as e: # pylint: disable=broad-except
+            print("Cannot set attribute", name, value, self, e)
             try:
-                self.changed(name, value)
-            except Exception as e: #  pylint: disable=broad-except
-                print(e)
-        else:
-            object.__setattr__(self, name, value)
+                import traceback
+                traceback.print_exc()
+            except:
+                pass
+            raise e
 
     def decode(self, json_encoding: str):
         """ Decode the JSON encoding of the model """
@@ -626,7 +635,10 @@ class ModelAttribute():
 
     def set_value(self, value):
         """ Set the value of the attribute """
-        typed_value = type(self.value)(value)
+        try:
+            typed_value = type(self.value)(value)
+        except:
+            typed_value = value
         if typed_value == self.value:
             return
         self.value = typed_value
