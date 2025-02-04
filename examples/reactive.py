@@ -28,6 +28,12 @@ product1 = Product(name="Wrench", delivery=0)
 product2 = Product(name="Drill", count=6, price=500, service=False)
 
 def increment_count(event):
+    # Increment the default value on the class.
+    # This does nothing for existing product instances, such as product1 and product2.
+    # Future instance will use the new default value.
+    Product.count += 10
+
+    # This is what you really want to do. Increment the instance's count.
     product1.count += 10
 
 def order_hammers(event):
