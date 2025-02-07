@@ -153,6 +153,19 @@
     window.getWidget = function(id) {
         return undefined;
     };
+    
+    window.getStyle = function(node) {
+        const result = {};
+        const div = $(`<${node[0].tagName}>`).appendTo("body");
+        const default_styles = window.getComputedStyle(div[0])
+        const widget_styles = window.getComputedStyle(node[0])
+        for (let prop in widget_styles) {
+            if (widget_styles[prop] !== default_styles[prop]) {
+                result[prop] = widget_styles[prop];
+            }
+        }
+        return result;
+    }
 
     $.fn.widget = function() {
         return window.getWidget($(this))

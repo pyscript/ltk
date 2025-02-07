@@ -31,7 +31,10 @@
     color: black;
     padding: 0 8px;
     height: fit-content;
-    width: fit-content;
+    max-width: 600px;
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: scroll;
     min-height: 24px;
 }
 
