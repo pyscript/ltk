@@ -65,9 +65,9 @@ class Inspector(object):
                 <li>{widget.__class__.__doc__.replace("<", "&lt;")}
                 {self.get_attrs(widget)}
                 {self.get_classes(widget)}
+                <li>id = {widget.attr("id")}
                 <li>{self.get_creation_link(widget)}
                 <li>{widget.children().length} children
-                {self.get_css(widget)}
             """)
         details_left = max(0, left - self.details.outerWidth() + 2) \
              if left + width > find("body").width() * 3 / 4 else left + width - 2
@@ -81,19 +81,9 @@ class Inspector(object):
         self.right.css("display", "none")
         self.details.css("display", "none")
 
-    def get_css(self, widget):
-        """ Show the CSS of a widget """
-        js_styles = window.getStyle(widget.element)
-        return "<li> css:<pre style='font-size: 12px;'>" + window.JSON.stringify(js_styles, None, 4) + "</pre>"
-
     def get_classes(self, widget):
         """ Show the classes of a widget """
-        result = []
-        for name, value in widget.__class__.__dict__.items():
-            if name.startswith("_") or name in INSPECT_IGNORE_ATTRIBUTES:
-                continue
-            result.append(f"{name} = {value}")
-        return ("<li>" if result else "") + "<li>".join(result)
+        return f"<li>classes = [{', '.join(widget.element[0].classList.toString().split())}]<//li>"
 
     def get_attrs(self, widget):
         """ Show the attributes of a widget """
