@@ -724,6 +724,9 @@ class ModelAttribute():
     def __le__(self, value):        return self.value <= value          # pylint: disable=multiple-statements
     def __ge__(self, value):        return self.value >= value          # pylint: disable=multiple-statements
 
+    def __iter__(self):
+        return iter(self.value)
+
     def __repr__(self):
         return f'"{self.value}"' if isinstance(self.value, str) else repr(self.value)
 
