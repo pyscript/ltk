@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyscript-ltk"
-version = "0.2.25"
+version = "0.2.26"
 description = "A little toolkit for writing UIs in PyScript"
 readme = "README.md"
 authors = [{ name = "Chris Laffra", email = "chris@chrislaffra.com" }]
