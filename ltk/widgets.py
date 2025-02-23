@@ -1425,8 +1425,10 @@ class Select(Widget):
         self.handler(self.get_selected_index(), self.get_selected_option())
     
     def _set_value(self, value):
-        if isinstance(value, int):
-            value = self.options[value]
+        try:
+            value = self.options[int(value)]
+        except (ValueError, IndexError):
+            pass
         try:
             self.set_selected_index(self.options.index(value))
         except ValueError as e:
