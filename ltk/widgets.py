@@ -726,6 +726,22 @@ class ModelAttribute():
 
     def __iter__(self):
         return iter(self.value)
+    
+    def __getitem__(self, key):
+        if isinstance(self.value, (list, dict)):
+            return self.value[key]
+        else:
+            raise TypeError(f"'{type(self.value).__name__}' object does not support item access")
+        
+    def __setitem__(self, key, value):
+        if isinstance(self.value, (list, dict)):
+            self.value[key] = value
+            self.model.changed(self.name, self.value)
+            for listener in self.listeners:
+                listener(self)
+        else:
+            raise TypeError(f"'{type(self.value).__name__}' object does not support item assignment")
+
 
     def __repr__(self):
         return f'"{self.value}"' if isinstance(self.value, str) else repr(self.value)
