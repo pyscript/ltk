@@ -709,7 +709,7 @@ class ModelAttribute():
     def __divmod__(self, value):    return divmod(self.value, value)    # pylint: disable=multiple-statements
     def __rdivmod__(self, value):   return divmod(value, self.value)    # pylint: disable=multiple-statements
     def __abs__(self):              return abs(self.value)              # pylint: disable=multiple-statements
-    def __index__(self):            return self.value                   # pylint: disable=multiple-statements
+    def __index__(self):            return int(self.value)              # pylint: disable=multiple-statements
     def __round__(self ):           return round(self.value)            # pylint: disable=multiple-statements
     def __trunc__(self):            return math.trunc(self.value)       # pylint: disable=multiple-statements
     def __floor__(self):            return math.floor(self.value)       # pylint: disable=multiple-statements
