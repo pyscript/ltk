@@ -212,4 +212,9 @@ Finally, if the pypi test upload appears to work fine, run:
 twine upload dist/*
 ```
 
+Or, as a one-liner:
+```console
+rm dist/* && python3 -m build && twine upload dist/*
+```
+
 If you get an error that a certain version already exists, check the contents of the `dist` folder.
