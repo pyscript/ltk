@@ -658,7 +658,7 @@ class ModelAttribute():
         try:
             return getattr(self.value, name)
         except Exception as e:
-            raise AttributeError(f"Model attribute {self.__class__.__name__} does not have attribute {name}") from e
+            raise AttributeError(f"Model attribute {self.model.__class__.__name__}.{self.name} of type {type(self.value)} does not have attribute {name}") from e
 
     def __int__(self): return int(self.value)         # pylint: disable=multiple-statements
     def __bool__(self): return bool(self.value)        # pylint: disable=multiple-statements
