@@ -643,7 +643,7 @@ class ModelAttribute():
         """ Set the value of the attribute """
         try:
             typed_value = type(self.value)(value)
-        except:
+        except Exception: # pylint: disable=broad-except
             typed_value = value
         if typed_value == self.value:
             return
@@ -652,6 +652,13 @@ class ModelAttribute():
         for listener in self.listeners:
             listener(self)
         return self.value
+
+    def __getattr__(self, name):
+        # handle calls to list.push or similar apis on the attribute.
+        try:
+            return getattr(self.value, name)
+        except Exception as e:
+            raise AttributeError(f"Model attribute {self.__class__.__name__} does not have attribute {name}") from e
 
     def __int__(self): return int(self.value)         # pylint: disable=multiple-statements
     def __bool__(self): return bool(self.value)        # pylint: disable=multiple-statements
