@@ -649,13 +649,18 @@ class ModelAttribute():
             return
         self.value = typed_value
         self.model.changed(self.name, self.value)
+        self.notify()
+        return self.value
+
+    def notify(self):
+        """ Notify listeners of the change """
         for listener in self.listeners:
             listener(self)
-        return self.value
 
     def __getattr__(self, name):
         # handle calls to list.push or similar apis on the attribute.
         try:
+            schedule(self.notify, f"ltk-model-nofity-{id(self)}") # assume there was a side effect
             return getattr(self.value, name)
         except Exception as e:
             raise AttributeError(f"Model attribute {self.model.__class__.__name__}.{self.name} of type {type(self.value)} does not have attribute {name}") from e
@@ -744,8 +749,7 @@ class ModelAttribute():
         if isinstance(self.value, (list, dict)):
             self.value[key] = value
             self.model.changed(self.name, self.value)
-            for listener in self.listeners:
-                listener(self)
+            self.notify()
         else:
             raise TypeError(f"'{type(self.value).__name__}' object does not support item assignment")
 
