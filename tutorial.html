@@ -4,10 +4,11 @@
     <title>LTK on MicroPython</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
+    <script src="mini-coi.js"></script>
+
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.2/core.css">
     <script type="module" src="https://pyscript.net/releases/2024.10.2/core.js"></script>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.3/leader-line.min.js"></script>
@@ -40,7 +41,7 @@ def show_tutorial():
         ]).run()
     except Exception as e:
         print(e)
-    
+
 (
     ltk.VBox(
         ltk.Text("Tutorial Demo"),
@@ -50,6 +51,6 @@ def show_tutorial():
     .appendTo(ltk.window.document.body)
 )
     </script>
-  
+
 </body>
 </html>

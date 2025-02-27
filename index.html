@@ -8,37 +8,7 @@
         <meta charset="UTF-8">
         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-
-        <script>
-            /*! coi-serviceworker v0.1.7 - Guido Zuidhof and contributors, licensed under MIT */
-            /*! mini-coi - Andrea Giammarchi and contributors, licensed under MIT */
-            (({ document: d, navigator: { serviceWorker: s } }) => {
-              if (d) {
-                const { currentScript: c } = d;
-                s.register(c.src, { scope: c.getAttribute('scope') || '.' }).then(r => {
-                  r.addEventListener('updatefound', () => location.reload());
-                  if (r.active && !s.controller) location.reload();
-                });
-              }
-              else {
-                addEventListener('install', () => skipWaiting());
-                addEventListener('activate', e => e.waitUntil(clients.claim()));
-                addEventListener('fetch', e => {
-                  const { request: r } = e;
-                  if (r.cache === 'only-if-cached' && r.mode !== 'same-origin') return;
-                  e.respondWith(fetch(r).then(r => {
-                    const { body, status, statusText } = r;
-                    if (!status || status > 399) return r;
-                    const h = new Headers(r.headers);
-                    h.set('Cross-Origin-Opener-Policy', 'same-origin');
-                    h.set('Cross-Origin-Embedder-Policy', 'require-corp');
-                    h.set('Cross-Origin-Resource-Policy', 'cross-origin');
-                    return new Response(body, { status, statusText, headers: h });
-                  }));
-                });
-              }
-            })(self);
-        </script>
+        <script src="mini-coi.js"></script>
 
         <!-- Import PyScript - see kitchensink.js for activation -->
         <script type="module" src="https://pyscript.net/releases/2024.10.2/core.js"></script>
@@ -48,7 +18,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css"/>
-        
+
         <!-- Codemirror Interactive Editor -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
@@ -56,7 +26,7 @@
 
         <!-- Import for drawing arrows -->
         <script defer src="leader-line.min.js"></script>
-    
+
         <!-- Import Styles for the kitchensink demo -->
         <link rel="stylesheet" href="kitchensink.css">
     </head>
