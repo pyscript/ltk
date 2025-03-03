@@ -159,6 +159,12 @@
         return window.getWidget($(this))
     };
 
+    $.fn.toString = function() {
+        const tag = this.prop("tagName");
+        return `jQuery[${tag}, "${this.prop('outerHTML')}"]`;
+    };
+
+
     // change the following to your own development root location
     window.development_location = "C:/Users/laffr/dev/ltk";
 
