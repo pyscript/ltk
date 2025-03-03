@@ -459,7 +459,7 @@ class Widget(object):
                 is always triggered when it reaches the selected element.
             handler:function A Python function that is called when the event happens.
         """
-        return self.element.on(events, selector, data, handler)
+        return self.element.on(events, selector, data, proxy(handler))
 
     def animate(self, properties, duration=400, easing="swing", complete=None):
         """
@@ -624,7 +624,10 @@ class LocalStorageModel(Model):
     @classmethod
     def load(cls):
         """ Load all models of this type from local storage """
-        return [ cls(key) for key in window.Object.keys(cls.__store)]
+        return [
+            cls(key) for key in window.Object.keys(cls.__store)
+            if key.startswith(cls.__name__)
+        ]
 
 
 class ModelAttribute():
