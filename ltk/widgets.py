@@ -515,6 +515,12 @@ class Card(Container):
     classes = [ "ltk-card" ]
 
 
+class DataList(ltk.Widget):
+    """ Wraps an HTML element of type <datalist> """
+    classes = [ "ltk-datalist" ]
+    tag = "datalist"
+
+
 class Preformatted(Widget):
     """ Wraps an HTML element of type <pre> """
     classes = [ "ltk-pre" ]
