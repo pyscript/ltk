@@ -515,7 +515,7 @@ class Card(Container):
     classes = [ "ltk-card" ]
 
 
-class DataList(ltk.Widget):
+class DataList(Widget):
     """ Wraps an HTML element of type <datalist> """
     classes = [ "ltk-datalist" ]
     tag = "datalist"
