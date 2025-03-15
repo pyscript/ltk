@@ -1671,7 +1671,7 @@ class Canvas(Widget):
 
     def fill_text(self, x, y, text):
         """ Fills a text on the canvas """
-        self.context.fillText(x, y, text)
+        self.context.fillText(text, x, y)
 
     def rect(self, x, y, w, h):
         """ Draws a rectangle on the canvas """

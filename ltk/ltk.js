@@ -109,7 +109,7 @@
         },
         text: (context, x, y, text) => {
             context.beginPath()
-            context.strokeText(x, y, text)
+            context.strokeText(text, x, y)
             context.stroke()
         },
         circle: (context, x, y, radius) => {
