@@ -4,6 +4,7 @@ LTK is a little toolkit for writing web UIs in PyScript. For an explanation of P
 For examples, see:
 
  - The [LTK kitchensink](https://pyscript.github.io/ltk/) for a live demo of all the widgets.
+ - [Lifesaver.coach](https://lifesaver.coach/), a modern, responsive app written in LTK.
  - [PyAlgoViz](https://github.com/laffra/pyalgoviz-pyscript) using MicroPython, PyOdide, and Reactive LTK.
  - A [Todo App](https://github.com/laffra/todo) that showcases declarative UIs using Reactive LTK and calling OpenAI.
  - A [Slides Player](https://github.com/laffra/slides) that downloads a Google Slides presentation and shows it with LTK.
