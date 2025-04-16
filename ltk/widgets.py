@@ -846,14 +846,14 @@ class RangeSlider(Widget):
             "values": values,
             "orientation": "horizontal" if horizontal else "vertical",
         }))
-        self.set_values(values)
+        self.set_value(values)
         self.on("slidechange", proxy(lambda *args: self.trigger("change")))
 
-    def _set_values(self, values):
-        if values != self._get_values():
+    def _set_value(self, values):
+        if values != self._get_value():
             self.element.slider("values", values)
 
-    def _get_values(self):
+    def _get_value(self):
         return self.element.slider("values")
 
 class Switch(HBox):
