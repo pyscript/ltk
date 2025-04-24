@@ -833,28 +833,28 @@ class Slider(Widget):
     def _get_value(self):
         return self.element.slider("value")
 
-class RangeSlider(Widget):
+class MinMaxSlider(Widget):
     """ Wraps a jQuery range slider widget """
-    classes = [ "ltk-range-slider" ]
+    classes = [ "ltk-minmax-slider" ]
 
     def __init__(self, values, min_value=0, max_value=10, horizontal=True, style=None):
         Widget.__init__(self, style or DEFAULT_CSS)
         self.element.slider(to_js({
-            "range": True,
             "min": min_value,
             "max": max_value,
             "values": values,
             "orientation": "horizontal" if horizontal else "vertical",
+            "range": True
         }))
         self.set_value(values)
         self.on("slidechange", proxy(lambda *args: self.trigger("change")))
 
     def _set_value(self, values):
         if values != self._get_value():
-            self.element.slider("values", values)
+            self.element.slider("option", "values", to_js(values))
 
     def _get_value(self):
-        return self.element.slider("values")
+        return self.element.slider("option", "values")
 
 class Switch(HBox):
     """ A checkbox with special styling to resemble a switch/toggle """
