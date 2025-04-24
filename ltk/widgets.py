@@ -626,7 +626,7 @@ class LocalStorageModel(Model):
         """ Load all models of this type from local storage """
         return [
             cls(key) for key in window.Object.keys(cls.__store)
-            if key.startswith(cls.__name__)
+            if key.startswith(f"{cls.__name__}-")
         ]
 
 
